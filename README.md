@@ -113,23 +113,7 @@ The system consists of the following modules:
 
 ## Project Structure
 
-```text
-AI-Startup-Idea-Validator/
-│
-├── backend/
-│   ├── agents/
-│   ├── orchestration/
-│   ├── schemas/
-│   └── main.py
-│
-├── tests/
-│
-├── requirements.txt
-├── .env.example
-├── .gitignore
-├── LICENSE
-└── README.md
-````
+
 
 ---
 
@@ -216,5 +200,3 @@ This project is licensed under the **MIT License**.
   Built with AI, Multi-Agent Intelligence, and Startup Innovation
 </p>
 ```
-
-This version is cleaner and more professional for a technical GitHub repository.
