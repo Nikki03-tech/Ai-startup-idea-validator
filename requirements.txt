@@ -1,1 +1,3 @@
-
+deepagents
+langchain-google-genai
+python-dotenv
