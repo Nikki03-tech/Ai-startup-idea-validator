@@ -1,6 +1,3 @@
-Yes. Here is your **same README content with all emojis removed and the text-based diagrams removed**. I have kept the structure and wording professional.
-
-````markdown
 # AI Startup Idea Validator
 
 > **Validate your startup idea before investing significant time and resources.**
