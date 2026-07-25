@@ -1,0 +1,2 @@
+# Competitor Agent System Prompt
+
