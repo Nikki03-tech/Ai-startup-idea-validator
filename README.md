@@ -62,9 +62,38 @@ The system includes:
 - Conversational Startup Advisor
 
 A central orchestration layer coordinates the execution of these specialized agents and manages the flow of information between them.
-
-<img width="1536" height="1024" alt="AI  startup Idea validator" src="https://github.com/user-attachments/assets/f52f206d-1ae5-4eca-932d-e3d2f7f42250" />
-
+```
+text
+```
+                User / UI
+                    |
+                    v
+            Startup Idea Input
+                    |
+                    v
+             Idea Extraction
+                    |
+                    v
+              Orchestrator
+                    |
+    -----------------------------------------
+    |       |        |       |      |       |
+    v       v        v       v      v       v
+  Web    Market  Competitor SWOT  MVP     GTM
+ Search  Analysis Analysis  Risk Agent  Strategy
+  Agent    Agent    Agent   Agent        Agent
+    |       |        |       |      |       |
+    -----------------------------------------
+                    |
+                    v
+              Report Agent
+                    |
+                    v
+         Conversational Advisor
+                    |
+                    v
+             Final Validation
+                 Report
 
 ---
 
