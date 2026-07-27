@@ -63,6 +63,9 @@ The system includes:
 
 A central orchestration layer coordinates the execution of these specialized agents and manages the flow of information between them.
 
+<img width="1536" height="1024" alt="AI  startup Idea validator" src="https://github.com/user-attachments/assets/f52f206d-1ae5-4eca-932d-e3d2f7f42250" />
+
+
 ---
 
 ## Project Modules
