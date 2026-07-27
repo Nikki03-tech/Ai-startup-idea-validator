@@ -115,7 +115,84 @@ The system consists of the following modules:
 ---
 
 ## Project Structure
-
+ai-startup-validator/
+│
+├── app/
+│   ├── __init__.py
+│   ├── main.py                    # FastAPI/CLI entry point
+│   ├── config.py                  # API keys, model configuration, environment variables
+│   └── orchestrator.py            # Deep Agents orchestrator and execution flow
+│
+├── agents/
+│   ├── __init__.py
+│   ├── idea_extraction_agent.py   # Extracts structured information from startup idea
+│   ├── web_search_agent.py        # Retrieves live market and competitor data
+│   ├── market_analysis_agent.py   # Market size, trends, demand, customer segments
+│   ├── competitor_agent.py        # Competitor discovery and comparison
+│   ├── swot_risk_agent.py         # SWOT analysis and execution risk assessment
+│   ├── mvp_recommendation_agent.py# Prioritized MVP feature recommendations
+│   ├── gtm_strategy_agent.py      # Positioning, channels, and acquisition strategy
+│   ├── report_agent.py            # Generates the final validation report
+│   └── conversational_advisor.py  # Follow-up Q&A over the validation report
+│
+├── tools/
+│   ├── __init__.py
+│   ├── web_search_tool.py         # Tavily/SerpAPI search wrapper
+│   ├── file_tools.py              # File and report utilities
+│   ├── planning_tool.py           # Planning and task tracking utilities
+│   └── retrieval_utils.py         # Deduplication, ranking, and search result processing
+│
+├── state/
+│   ├── __init__.py
+│   ├── schema.py                  # Pydantic models for structured data
+│   └── memory.py                  # Shared context passed between agents
+│
+├── prompts/
+│   ├── system_orchestrator.md
+│   ├── idea_extraction_agent.md
+│   ├── web_search_agent.md
+│   ├── market_analysis_agent.md
+│   ├── competitor_agent.md
+│   ├── swot_risk_agent.md
+│   ├── mvp_agent.md
+│   ├── gtm_agent.md
+│   └── report_agent.md
+│
+├── pipeline/
+│   ├── __init__.py
+│   ├── graph.py                  # Agent workflow graph definition
+│   └── context_passer.py         # Handles context transfer between agents
+│
+├── ui/
+│   ├── streamlit_app.py           # Streamlit frontend
+│   └── components/
+│       ├── idea_input.py          # Startup idea input interface
+│       └── report_viewer.py       # Validation report display
+│
+├── reports/
+│   └── generated/                 # Generated validation reports
+│
+├── tests/
+│   ├── test_idea_extraction_agent.py
+│   ├── test_web_search_agent.py
+│   ├── test_market_agent.py
+│   ├── test_competitor_agent.py
+│   ├── test_swot_agent.py
+│   ├── test_mvp_agent.py
+│   ├── test_pipeline_e2e.py
+│   └── sample_ideas.json
+│
+├── docs/
+│   ├── architecture.md
+│   ├── agent_roles.md
+│   ├── model_comparison.md
+│   └── final_report.md
+│
+├── requirements.txt
+├── .env.example
+├── .gitignore
+├── LICENSE
+└── README.md
 
 
 ---
