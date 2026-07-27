@@ -115,37 +115,38 @@ The system consists of the following modules:
 ---
 
 ## Project Structure
+```text
 ai-startup-validator/
 │
 ├── app/
 │   ├── __init__.py
-│   ├── main.py                    # FastAPI/CLI entry point
-│   ├── config.py                  # API keys, model configuration, environment variables
-│   └── orchestrator.py            # Deep Agents orchestrator and execution flow
+│   ├── main.py
+│   ├── config.py
+│   └── orchestrator.py
 │
 ├── agents/
 │   ├── __init__.py
-│   ├── idea_extraction_agent.py   # Extracts structured information from startup idea
-│   ├── web_search_agent.py        # Retrieves live market and competitor data
-│   ├── market_analysis_agent.py   # Market size, trends, demand, customer segments
-│   ├── competitor_agent.py        # Competitor discovery and comparison
-│   ├── swot_risk_agent.py         # SWOT analysis and execution risk assessment
-│   ├── mvp_recommendation_agent.py# Prioritized MVP feature recommendations
-│   ├── gtm_strategy_agent.py      # Positioning, channels, and acquisition strategy
-│   ├── report_agent.py            # Generates the final validation report
-│   └── conversational_advisor.py  # Follow-up Q&A over the validation report
+│   ├── idea_extraction_agent.py
+│   ├── web_search_agent.py
+│   ├── market_analysis_agent.py
+│   ├── competitor_agent.py
+│   ├── swot_risk_agent.py
+│   ├── mvp_recommendation_agent.py
+│   ├── gtm_strategy_agent.py
+│   ├── report_agent.py
+│   └── conversational_advisor.py
 │
 ├── tools/
 │   ├── __init__.py
-│   ├── web_search_tool.py         # Tavily/SerpAPI search wrapper
-│   ├── file_tools.py              # File and report utilities
-│   ├── planning_tool.py           # Planning and task tracking utilities
-│   └── retrieval_utils.py         # Deduplication, ranking, and search result processing
+│   ├── web_search_tool.py
+│   ├── file_tools.py
+│   ├── planning_tool.py
+│   └── retrieval_utils.py
 │
 ├── state/
 │   ├── __init__.py
-│   ├── schema.py                  # Pydantic models for structured data
-│   └── memory.py                  # Shared context passed between agents
+│   ├── schema.py
+│   └── memory.py
 │
 ├── prompts/
 │   ├── system_orchestrator.md
@@ -160,17 +161,17 @@ ai-startup-validator/
 │
 ├── pipeline/
 │   ├── __init__.py
-│   ├── graph.py                  # Agent workflow graph definition
-│   └── context_passer.py         # Handles context transfer between agents
+│   ├── graph.py
+│   └── context_passer.py
 │
 ├── ui/
-│   ├── streamlit_app.py           # Streamlit frontend
+│   ├── streamlit_app.py
 │   └── components/
-│       ├── idea_input.py          # Startup idea input interface
-│       └── report_viewer.py       # Validation report display
+│       ├── idea_input.py
+│       └── report_viewer.py
 │
 ├── reports/
-│   └── generated/                 # Generated validation reports
+│   └── generated/
 │
 ├── tests/
 │   ├── test_idea_extraction_agent.py
@@ -193,9 +194,10 @@ ai-startup-validator/
 ├── .gitignore
 ├── LICENSE
 └── README.md
+```
 
 
----
+
 
 ## Development Roadmap
 
