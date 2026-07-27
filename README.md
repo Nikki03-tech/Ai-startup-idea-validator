@@ -202,4 +202,3 @@ This project is licensed under the **MIT License**.
 <p align="center">
   Built with AI, Multi-Agent Intelligence, and Startup Innovation
 </p>
-```
