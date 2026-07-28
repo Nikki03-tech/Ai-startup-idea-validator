@@ -62,40 +62,6 @@ The system includes:
 - Conversational Startup Advisor
 
 A central orchestration layer coordinates the execution of these specialized agents and manages the flow of information between them.
-```
-text
-```
-                User / UI
-                    |
-                    v
-            Startup Idea Input
-                    |
-                    v
-             Idea Extraction
-                    |
-                    v
-              Orchestrator
-                    |
-    -----------------------------------------
-    |       |        |       |      |       |
-    v       v        v       v      v       v
-  Web    Market  Competitor SWOT  MVP     GTM
- Search  Analysis Analysis  Risk Agent  Strategy
-  Agent    Agent    Agent   Agent        Agent
-    |       |        |       |      |       |
-    -----------------------------------------
-                    |
-                    v
-              Report Agent
-                    |
-                    v
-         Conversational Advisor
-                    |
-                    v
-             Final Validation
-                 Report
-
----
 
 ## Project Modules
 
