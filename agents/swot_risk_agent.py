@@ -21,7 +21,6 @@ Output:
     "message": ""
 }
 """
-
 from pathlib import Path
 
 
@@ -32,7 +31,9 @@ class SWOTRiskAgent:
         prompt_path = Path("prompts/swot_risk_agent.md")
 
         if prompt_path.exists():
-            self.system_prompt = prompt_path.read_text(encoding="utf-8")
+            self.system_prompt = prompt_path.read_text(
+                encoding="utf-8"
+            )
         else:
             self.system_prompt = ""
 
@@ -40,15 +41,25 @@ class SWOTRiskAgent:
 
         try:
 
-            startup_idea = shared_memory.get("startup_idea", "")
-
             market_analysis = shared_memory.get(
-                "market_analysis", {}
+                "market_analysis",
+                {}
             )
 
             competitors = shared_memory.get(
-                "competitors", {}
+                "competitors",
+                []
             )
+
+            swot_analysis = {
+
+                "market_analysis": market_analysis,
+
+                "competitors": competitors,
+
+                "system_prompt": self.system_prompt
+
+            }
 
             return {
 
@@ -56,13 +67,7 @@ class SWOTRiskAgent:
 
                 "data": {
 
-                    "startup_idea": startup_idea,
-
-                    "market_analysis": market_analysis,
-
-                    "competitors": competitors,
-
-                    "system_prompt": self.system_prompt
+                    "swot_analysis": swot_analysis
 
                 },
 

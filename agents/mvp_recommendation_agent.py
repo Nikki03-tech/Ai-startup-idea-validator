@@ -19,7 +19,6 @@ Output:
     "message":""
 }
 """
-
 from pathlib import Path
 
 
@@ -30,7 +29,9 @@ class MVPRecommendationAgent:
         prompt_path = Path("prompts/mvp_agent.md")
 
         if prompt_path.exists():
-            self.system_prompt = prompt_path.read_text(encoding="utf-8")
+            self.system_prompt = prompt_path.read_text(
+                encoding="utf-8"
+            )
         else:
             self.system_prompt = ""
 
@@ -38,7 +39,18 @@ class MVPRecommendationAgent:
 
         try:
 
-            startup_idea = shared_memory.get("startup_idea", "")
+            swot_analysis = shared_memory.get(
+                "swot_analysis",
+                {}
+            )
+
+            mvp_recommendation = {
+
+                "swot_analysis": swot_analysis,
+
+                "system_prompt": self.system_prompt
+
+            }
 
             return {
 
@@ -46,9 +58,7 @@ class MVPRecommendationAgent:
 
                 "data": {
 
-                    "startup_idea": startup_idea,
-
-                    "system_prompt": self.system_prompt
+                    "mvp_recommendation": mvp_recommendation
 
                 },
 
