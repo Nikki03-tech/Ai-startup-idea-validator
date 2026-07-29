@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net">
+  <diagram id="hld_page" name="HLD - High Level Design">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="n11" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1F2A52;gradientColor=#2F3D74;gradientDirection=east;strokeColor=#1F2A52;fontColor=#FFFFFF;fontStyle=1;fontSize=18;fontFamily=Helvetica;align=left;spacingLeft=20;" value="AI Startup Idea Validator — High-Level Design (HLD)" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="1700" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n12" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;fontColor=#DCE7FF;fontSize=11;fontFamily=Helvetica;align=left;" value="System Architecture  |  v1.0" vertex="1" parent="1">
+          <mxGeometry x="20" y="40" width="800" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="n13" style="shape=umlActor;whiteSpace=wrap;html=1;fontSize=10;fontFamily=Helvetica;strokeColor=#1F2A52;" value="Founder" vertex="1" parent="1">
+          <mxGeometry x="90" y="100" width="60" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n14" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1;fontSize=12;fontFamily=Helvetica;strokeColor=#B9C2DC;fillColor=#F7F9FF;gradientColor=#FFFFFF;gradientDirection=north;dashed=0;spacingTop=8;align=center;fontColor=#3D4B7A;" value="CLIENT LAYER" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="260" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="n15" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1;fontSize=12;fontFamily=Helvetica;strokeColor=#B9C2DC;fillColor=#F7F9FF;gradientColor=#FFFFFF;gradientDirection=north;dashed=0;spacingTop=8;align=center;fontColor=#3D4B7A;" value="APPLICATION LAYER" vertex="1" parent="1">
+          <mxGeometry x="340" y="200" width="300" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="n16" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1;fontSize=12;fontFamily=Helvetica;strokeColor=#B9C2DC;fillColor=#F7F9FF;gradientColor=#FFFFFF;gradientDirection=north;dashed=0;spacingTop=8;align=center;fontColor=#3D4B7A;" value="AGENT ORCHESTRATION LAYER (CrewAI)" vertex="1" parent="1">
+          <mxGeometry x="680" y="200" width="400" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="n17" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1;fontSize=12;fontFamily=Helvetica;strokeColor=#B9C2DC;fillColor=#F7F9FF;gradientColor=#FFFFFF;gradientDirection=north;dashed=0;spacingTop=8;align=center;fontColor=#3D4B7A;" value="EXTERNAL SERVICES" vertex="1" parent="1">
+          <mxGeometry x="1120" y="200" width="280" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="n18" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1;fontSize=12;fontFamily=Helvetica;strokeColor=#B9C2DC;fillColor=#F7F9FF;gradientColor=#FFFFFF;gradientDirection=north;dashed=0;spacingTop=8;align=center;fontColor=#3D4B7A;" value="DATA LAYER" vertex="1" parent="1">
+          <mxGeometry x="680" y="480" width="400" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="n19" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#DCE7FF;gradientColor=#FFFFFF;gradientDirection=north;strokeColor=#1F4EA1;fontSize=11;fontFamily=Helvetica;shadow=1;strokeWidth=1.3;" value="Streamlit Web App&#10;(Idea Submission +&#10;Report Viewer + Chat)" vertex="1" parent="1">
+          <mxGeometry x="60" y="250" width="220" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="n20" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#EDF0F9;gradientColor=#FFFFFF;gradientDirection=north;strokeColor=#1F2A52;fontSize=11;fontFamily=Helvetica;shadow=1;strokeWidth=1.3;" value="FastAPI Backend&#10;(REST Endpoints, Auth, Validation)" vertex="1" parent="1">
+          <mxGeometry x="360" y="250" width="260" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="n21" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#EDF0F9;gradientColor=#FFFFFF;gradientDirection=north;strokeColor=#1F2A52;fontSize=11;fontFamily=Helvetica;shadow=1;strokeWidth=1.3;" value="Celery Task Queue + Redis Broker" vertex="1" parent="1">
+          <mxGeometry x="360" y="335" width="260" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="n22" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#EDF0F9;gradientColor=#FFFFFF;gradientDirection=north;strokeColor=#1F2A52;fontSize=11;fontFamily=Helvetica;shadow=1;strokeWidth=1.3;" value="Crew Orchestrator&#10;(Sequential Pipeline)" vertex="1" parent="1">
+          <mxGeometry x="700" y="250" width="170" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="n23" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFF3D6;gradientColor=#FFFFFF;gradientDirection=north;strokeColor=#B8860B;fontSize=11;fontFamily=Helvetica;shadow=1;strokeWidth=1.3;" value="6 Specialist Agents:&#10;Web Search&#10;Market Analysis&#10;Competitor Analysis&#10;SWOT &amp; Risk&#10;MVP Recommendation&#10;Report Generator" vertex="1" parent="1">
+          <mxGeometry x="890" y="240" width="170" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="n24" style="shape=cloud;whiteSpace=wrap;html=1;fillColor=#DFF5E3;gradientColor=#FFFFFF;gradientDirection=north;strokeColor=#2E7D46;fontSize=11;fontFamily=Helvetica;shadow=1;strokeWidth=1.3;" value="LLM Provider&#10;(OpenAI GPT-4o-mini)" vertex="1" parent="1">
+          <mxGeometry x="1140" y="240" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n25" style="shape=cloud;whiteSpace=wrap;html=1;fillColor=#DFF5E3;gradientColor=#FFFFFF;gradientDirection=north;strokeColor=#2E7D46;fontSize=11;fontFamily=Helvetica;shadow=1;strokeWidth=1.3;" value="Tavily Search API&#10;(live market/competitor data)" vertex="1" parent="1">
+          <mxGeometry x="1140" y="320" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n26" style="shape=cylinder3;boundedLbl=1;whiteSpace=wrap;html=1;fillColor=#DCE7FF;gradientColor=#FFFFFF;gradientDirection=north;strokeColor=#1F4EA1;fontSize=11;fontFamily=Helvetica;shadow=1;strokeWidth=1.3;" value="PostgreSQL&#10;(ideas, agent outputs,&#10;reports, chat history)" vertex="1" parent="1">
+          <mxGeometry x="700" y="530" width="170" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="n27" style="shape=folder;tabWidth=40;tabHeight=14;tabPosition=left;whiteSpace=wrap;html=1;fillColor=#DCE7FF;gradientColor=#FFFFFF;gradientDirection=north;strokeColor=#1F4EA1;fontSize=11;fontFamily=Helvetica;shadow=1;strokeWidth=1.3;" value="File Storage&#10;(generated PDF/DOCX)" vertex="1" parent="1">
+          <mxGeometry x="920" y="530" width="150" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="n29" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;" value="" edge="1" parent="1" source="n13" target="n19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n31" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;" value="submit idea / poll status" edge="1" parent="1" source="n19" target="n20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n33" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;dashed=1;" value="chat query" edge="1" parent="1" source="n19" target="n20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n35" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;" value="enqueue job" edge="1" parent="1" source="n20" target="n21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n37" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;" value="trigger pipeline" edge="1" parent="1" source="n21" target="n22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n39" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;" value="sequential context passing" edge="1" parent="1" source="n22" target="n23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n41" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;" value="search queries" edge="1" parent="1" source="n23" target="n25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n43" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;" value="reasoning calls" edge="1" parent="1" source="n23" target="n24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n45" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;" value="persist outputs" edge="1" parent="1" source="n22" target="n26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n47" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;" value="save report" edge="1" parent="1" source="n22" target="n27">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n49" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;" value="read/write" edge="1" parent="1" source="n20" target="n26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n51" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;" value="serve download" edge="1" parent="1" source="n20" target="n27">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n52" style="rounded=1;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;" value="" vertex="1" parent="1">
+          <mxGeometry x="40" y="750" width="260" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="n53" style="rounded=0;html=1;fillColor=none;strokeColor=none;fontStyle=1;fontFamily=Helvetica;fontSize=11;fontColor=#3D4B7A;" value="LEGEND" vertex="1" parent="1">
+          <mxGeometry x="50" y="756" width="200" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="n54" style="rounded=0;html=1;fillColor=#DCE7FF;strokeColor=#1F4EA1;" value="" vertex="1" parent="1">
+          <mxGeometry x="52" y="782" width="18" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="n55" style="rounded=0;html=1;fillColor=none;strokeColor=none;fontFamily=Helvetica;fontSize=10;align=left;" value="UI / Data store" vertex="1" parent="1">
+          <mxGeometry x="76" y="778" width="210" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="n56" style="rounded=0;html=1;fillColor=#EDF0F9;strokeColor=#1F2A52;" value="" vertex="1" parent="1">
+          <mxGeometry x="52" y="806" width="18" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="n57" style="rounded=0;html=1;fillColor=none;strokeColor=none;fontFamily=Helvetica;fontSize=10;align=left;" value="Backend component" vertex="1" parent="1">
+          <mxGeometry x="76" y="802" width="210" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="n58" style="rounded=0;html=1;fillColor=#FFF3D6;strokeColor=#B8860B;" value="" vertex="1" parent="1">
+          <mxGeometry x="52" y="830" width="18" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="n59" style="rounded=0;html=1;fillColor=none;strokeColor=none;fontFamily=Helvetica;fontSize=10;align=left;" value="AI agent (LLM-powered)" vertex="1" parent="1">
+          <mxGeometry x="76" y="826" width="210" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="n60" style="rounded=0;html=1;fillColor=#DFF5E3;strokeColor=#2E7D46;" value="" vertex="1" parent="1">
+          <mxGeometry x="52" y="854" width="18" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="n61" style="rounded=0;html=1;fillColor=none;strokeColor=none;fontFamily=Helvetica;fontSize=10;align=left;" value="External 3rd-party service" vertex="1" parent="1">
+          <mxGeometry x="76" y="850" width="210" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
