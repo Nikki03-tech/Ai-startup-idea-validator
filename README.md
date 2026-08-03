@@ -63,8 +63,6 @@ The system includes:
 
 A central orchestration layer coordinates the execution of these specialized agents and manages the flow of information between them.
 
----
-
 ## Project Modules
 
 The system consists of the following modules:
@@ -112,10 +110,89 @@ The system consists of the following modules:
 ---
 
 ## Project Structure
+```text
+ai-startup-validator/
+│
+├── app/
+│   ├── __init__.py
+│   ├── main.py
+│   ├── config.py
+│   └── orchestrator.py
+│
+├── agents/
+│   ├── __init__.py
+│   ├── idea_extraction_agent.py
+│   ├── web_search_agent.py
+│   ├── market_analysis_agent.py
+│   ├── competitor_agent.py
+│   ├── swot_risk_agent.py
+│   ├── mvp_recommendation_agent.py
+│   ├── gtm_strategy_agent.py
+│   ├── report_agent.py
+│   └── conversational_advisor.py
+│
+├── tools/
+│   ├── __init__.py
+│   ├── web_search_tool.py
+│   ├── file_tools.py
+│   ├── planning_tool.py
+│   └── retrieval_utils.py
+│
+├── state/
+│   ├── __init__.py
+│   ├── schema.py
+│   └── memory.py
+│
+├── prompts/
+│   ├── system_orchestrator.md
+│   ├── idea_extraction_agent.md
+│   ├── web_search_agent.md
+│   ├── market_analysis_agent.md
+│   ├── competitor_agent.md
+│   ├── swot_risk_agent.md
+│   ├── mvp_agent.md
+│   ├── gtm_agent.md
+│   └── report_agent.md
+│
+├── pipeline/
+│   ├── __init__.py
+│   ├── graph.py
+│   └── context_passer.py
+│
+├── ui/
+│   ├── streamlit_app.py
+│   └── components/
+│       ├── idea_input.py
+│       └── report_viewer.py
+│
+├── reports/
+│   └── generated/
+│
+├── tests/
+│   ├── test_idea_extraction_agent.py
+│   ├── test_web_search_agent.py
+│   ├── test_market_agent.py
+│   ├── test_competitor_agent.py
+│   ├── test_swot_agent.py
+│   ├── test_mvp_agent.py
+│   ├── test_pipeline_e2e.py
+│   └── sample_ideas.json
+│
+├── docs/
+│   ├── architecture.md
+│   ├── agent_roles.md
+│   ├── model_comparison.md
+│   └── final_report.md
+│
+├── requirements.txt
+├── .env.example
+├── .gitignore
+├── LICENSE
+└── README.md
+```
 
 
 
----
 
 ## Development Roadmap
 
@@ -199,4 +276,3 @@ This project is licensed under the **MIT License**.
 <p align="center">
   Built with AI, Multi-Agent Intelligence, and Startup Innovation
 </p>
-```
