@@ -3,7 +3,7 @@ import streamlit as st
 def show_idea_input():
 
     st.markdown("""
-    <h1 style='text-align:center;'>💡 Submit Your Startup Idea</h1>
+    <h1 style='text-align:center;'> Submit Your Startup Idea</h1>
     <p style='text-align:center;color:gray;'>
     Tell us about your startup and let AI validate it.
     </p>
@@ -12,9 +12,9 @@ def show_idea_input():
     col1, col2 = st.columns(2)
 
     with col1:
-        startup_name = st.text_input("🚀 Startup Name")
+        startup_name = st.text_input("Startup Name")
         industry = st.selectbox(
-            "🏢 Industry",
+            "Industry",
             [
                 "AI",
                 "FinTech",
@@ -27,9 +27,9 @@ def show_idea_input():
         )
 
     with col2:
-        target_audience = st.text_input("🎯 Target Audience")
+        target_audience = st.text_input("Target Audience")
         business_model = st.selectbox(
-            "💰 Business Model",
+            " Business Model",
             [
                 "B2B",
                 "B2C",
@@ -40,18 +40,18 @@ def show_idea_input():
         )
 
     problem = st.text_area(
-        "❗ Problem Statement",
+        " Problem Statement",
         height=150
     )
 
     solution = st.text_area(
-        "💡 Proposed Solution",
+        "Proposed Solution",
         height=150
     )
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    if st.button("🤖 Analyze Startup Idea", use_container_width=True):
+    if st.button(" Analyze Startup Idea", use_container_width=True):
 
         st.session_state.idea = {
             "startup_name": startup_name,
