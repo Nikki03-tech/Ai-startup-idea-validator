@@ -4,8 +4,6 @@
 
 An AI-powered, multi-agent platform that helps entrepreneurs evaluate startup ideas through **real-time market research, competitor intelligence, business analysis, risk assessment, MVP recommendations, and go-to-market strategy generation**.
 
----
-
 ## About the Project
 
 Entrepreneurs and innovators frequently generate startup ideas but often struggle to evaluate:
@@ -18,17 +16,13 @@ Entrepreneurs and innovators frequently generate startup ideas but often struggl
 
 Traditional startup validation requires extensive research and business planning, which can be time-consuming and difficult for early-stage founders.
 
-**AI Startup Idea Validator** simplifies this process.
+**AI Startup Idea Validator**
 
 The founder submits a startup idea in **2–3 lines**, and the system automatically triggers a structured **multi-agent AI pipeline** that analyzes the idea and generates a comprehensive, data-backed validation report.
-
----
 
 ## How It Works
 
 The system follows a structured workflow that begins with startup idea submission and continues through idea extraction, web research, market analysis, competitor analysis, SWOT and risk assessment, MVP recommendations, go-to-market strategy generation, and final validation reporting.
-
----
 
 ## Key Features
 
@@ -44,7 +38,6 @@ The system follows a structured workflow that begins with startup idea submissio
 | Validation Report | Compile all analysis into a structured report |
 | AI Startup Advisor | Ask follow-up questions and explore the validation results |
 
----
 
 ## Multi-Agent Architecture
 
@@ -77,8 +70,6 @@ The system consists of the following modules:
 8. Startup Validation Report Generation Agent
 9. Conversational Startup Advisor
 
----
-
 ## Technology Stack
 
 ### Backend
@@ -106,8 +97,6 @@ The system consists of the following modules:
 - GitHub
 - GitHub Codespaces
 - Automated Dependency Management
-
----
 
 ## Project Structure
 ```text
@@ -191,9 +180,6 @@ ai-startup-validator/
 └── README.md
 ```
 
-
-
-
 ## Development Roadmap
 
 ### Milestone 1 — Foundation | Weeks 1–2
@@ -228,8 +214,6 @@ ai-startup-validator/
 * Improve agent reasoning and output accuracy
 * Prepare technical documentation and final demonstration
 
----
-
 ## Project Objectives
 
 * Build an end-to-end multi-agent startup validation pipeline
@@ -240,15 +224,11 @@ ai-startup-validator/
 * Generate go-to-market recommendations
 * Produce a comprehensive startup validation report
 
----
-
 ## Project Status
 
 > **Currently under active development**
 
 The project is being developed through a structured **four-milestone framework** covering foundation, intelligence, strategy, and final integration.
-
----
 
 ## Team Collaboration
 
@@ -265,13 +245,9 @@ The development workflow consists of:
 5. Code Review
 6. Main Branch
 
----
-
 ## License
 
 This project is licensed under the **MIT License**.
-
----
 
 <p align="center">
   Built with AI, Multi-Agent Intelligence, and Startup Innovation
