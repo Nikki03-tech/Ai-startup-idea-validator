@@ -13,22 +13,39 @@ This manual workflow often leads to bias, incomplete data, delayed time-to-marke
 ## 2. Proposed Solution
 The **AI Startup Idea Validator** automates and orchestrates the end-to-end research lifecycle into a single pipeline. Powered by the **DeepAgents** multi-agent framework and real-time search capabilities, the platform automatically decomposes complex validation tasks across specialized AI agents. In minutes, founders receive a comprehensive, data-backed feasibility report and an interactive conversational advisor to refine their pitch.
 
-## 3. Technology Stack & Rationale
+## 3. Technology Stack & Technical Rationale
 
-### Frontend: Streamlit
-* **Role:** Interactive UI and user input interface.
-* **Rationale:** Provides rapid prototyping purely in Python, seamlessly renders streaming markdown/PDF reports, and manages live session state for conversational interactions with AI agents.
+### Core Programming: Python (No JavaScript)
+* **Why we use it:** Python is selected as the primary backend programming language instead of JavaScript/Node.js to seamlessly integrate with AI frameworks, LLM environments, and data analysis tools.
+* Unifies the full application stack into a single language ecosystem, eliminating the need to maintain separate JavaScript frontend or backend codebases.
+* Provides native support for LangChain and vector database SDKs without requiring complex cross-language bindings.
+* Simplifies data transformation, asynchronous multi-agent coordination (`asyncio`), and structured JSON parsing.
 
-### Web Search Environment: DuckDuckGo (DDGS)
-* **Role:** Live web scraping and search tool provider.
-* **Rationale:** Delivers up-to-date competitive intelligence, pricing data, and market trends without API key constraints or usage costs during rapid execution cycles.
+### User Interface: Streamlit
+* **Why we use it:** Streamlit is used for the frontend user interface instead of complex JavaScript frameworks like React or Angular.
+* Enables building an interactive web application entirely in Python without needing to write custom HTML, CSS, or JavaScript code.
+* Manages reactive user session state to easily track startup inputs, display pipeline execution progress, and run chat advisor sessions.
+* Supports real-time text streaming and dynamic dashboard updates directly on the UI as agents execute in the background
 
-### Multi-Agent Framework: DeepAgents (built on LangGraph)
-* **Role:** Orchestrator for agent planning, subagent delegation, context isolation, and task pipelines.
-* **Rationale:** Manages long-horizon, multi-step research workflows. It keeps context clean by isolating intermediate search noise within specific subagents, passing only distilled insights downstream.
+### Multi-Agent Orchestration: LangChain DeepAgent Framework
+* **Why we use it:** DeepAgent is used to orchestrate autonomous task planning, sub-agent delegation, and sequential pipeline execution.
+* Isolates context windows across specialized sub-agents, preventing token bloat and preserving LLM reasoning accuracy during long tasks.
+* Provides state checkpointing to save intermediate outputs and recover smoothly if a specific pipeline step fails.
+* Facilitates context passing between sequential agents, such as sending location metrics directly into web search queries.
+
+### Live Web Search: DuckDuckGo Search (DDGS)
+* **Why we use it:** DuckDuckGo Search is integrated to supply real-time web data to the Web Search Agent.
+* Delivers live competitive intelligence, pricing data, and market trends so agents do not rely on static LLM training data.
+* Operates without strict API key management, usage quotas, or access fees during rapid execution cycles.
+* Integrates directly into search tool calls to execute location-aware and geography-filtered search queries.
+
+### LLM Reasoning & Acceleration: Groq LPU
+* **Why we use it:** Groq’s Language Processing Unit (LPU) is used as the inference engine for fast LLM reasoning.
+* Delivers high-throughput, sub-second inference speeds on open models, keeping sequential multi-agent execution times low.
+* Prevents frontend user web sessions from timing out while agents perform recursive search and analysis loops.
+* Ensures high accuracy and reliability for function calling, tool execution, and structured output formatting.
 
 ## 4. Proposed System Architecture
-```markdown
 ```text
                             +---------------------------+
                             |     Streamlit UI          |
