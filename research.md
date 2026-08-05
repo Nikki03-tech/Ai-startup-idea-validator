@@ -2,11 +2,11 @@
 
 ## 1. Problem Statement
 Traditional startup idea validation is an expensive, slow, and fragmented process. Founders and analysts typically spend weeks performing manual activities, including:
-* **Market Research & Sizing:** Scouring market reports and identifying target audience demographics manually.
-* **Competitor Analysis:** Hunting down direct and indirect competitors, feature comparisons, and pricing structures.
-* **Customer Segmentation:** Defining ideal customer profiles (ICPs) without structured validation models.
-* **Risk & SWOT Identification:** Intuitively guessing operational, financial, and market risks without exhaustive data support.
-* **Business & Strategy Planning:** Drafting go-to-market strategies and defining Minimum Viable Product (MVP) features in isolation.
+1. **Market Research & Sizing:** Scouring market reports and identifying target audience demographics manually.
+2. **Competitor Analysis:** Hunting down direct and indirect competitors, feature comparisons, and pricing structures.
+3. **Customer Segmentation:** Defining ideal customer profiles (ICPs) without structured validation models.
+4. **Risk & SWOT Identification:** Intuitively guessing operational, financial, and market risks without exhaustive data support.
+5.**Business & Strategy Planning:** Drafting go-to-market strategies and defining Minimum Viable Product (MVP) features in isolation.
 
 This manual workflow often leads to bias, incomplete data, delayed time-to-market, and high failure rates for early-stage startup concepts.
 
@@ -67,23 +67,28 @@ The **AI Startup Idea Validator** automates and orchestrates the end-to-end rese
 +---------------------------+
 | Market Analysis Agent     | ---> Customer Segmentation & Market Sizing
 +-------------+-------------+
-v
+             |                                              
+             v
 +---------------------------+
 | Competitor Analysis Agent | ---> Direct/Indirect Competitors & Feature Gaps
 +-------------+-------------+
-v
+             |                                             
+             v
 +---------------------------+
 | SWOT & Risk Agent         | ---> Internal/External Risks & Matrix
 +-------------+-------------+
-v
+             |                                              
+             v
 +---------------------------+
 | MVP Recommendation Agent  | ---> Core Features & Phased Development Scope
 +-------------+-------------+
-v
+             |                                             
+             v
 +---------------------------+
 | Go-To-Market (GTM) Agent  | ---> Channel Strategy, Positioning & User Acquisition
 +-------------+-------------+
-v
+             |                                              
+             v
 +---------------------------+
 | Report Generation Agent   | ---> Markdown/PDF Export & Dashboard Delivery
 +---------------------------+
