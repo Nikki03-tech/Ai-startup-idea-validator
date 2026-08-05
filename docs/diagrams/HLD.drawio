@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <mxfile host="app.diagrams.net">
   <diagram id="hld_page" name="HLD - High Level Design">
-    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1000" math="0" shadow="0">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1000" math="0" shadow="0" background="#000000">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -44,10 +44,10 @@
         <mxCell id="n23" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFF3D6;gradientColor=#FFFFFF;gradientDirection=north;strokeColor=#B8860B;fontSize=11;fontFamily=Helvetica;shadow=1;strokeWidth=1.3;" value="6 Specialist Agents:&#10;Web Search&#10;Market Analysis&#10;Competitor Analysis&#10;SWOT &amp; Risk&#10;MVP Recommendation&#10;Report Generator" vertex="1" parent="1">
           <mxGeometry x="890" y="240" width="170" height="165" as="geometry" />
         </mxCell>
-        <mxCell id="n24" style="shape=cloud;whiteSpace=wrap;html=1;fillColor=#DFF5E3;gradientColor=#FFFFFF;gradientDirection=north;strokeColor=#2E7D46;fontSize=11;fontFamily=Helvetica;shadow=1;strokeWidth=1.3;" value="LLM Provider&#10;(OpenAI GPT-4o-mini)" vertex="1" parent="1">
+        <mxCell id="n24" style="shape=cloud;whiteSpace=wrap;html=1;fillColor=#DFF5E3;gradientColor=#FFFFFF;gradientDirection=north;strokeColor=#2E7D46;fontSize=11;fontFamily=Helvetica;shadow=1;strokeWidth=1.3;" value="LLM Provider&#10;(Google Gemini)" vertex="1" parent="1">
           <mxGeometry x="1140" y="240" width="240" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="n25" style="shape=cloud;whiteSpace=wrap;html=1;fillColor=#DFF5E3;gradientColor=#FFFFFF;gradientDirection=north;strokeColor=#2E7D46;fontSize=11;fontFamily=Helvetica;shadow=1;strokeWidth=1.3;" value="Tavily Search API&#10;(live market/competitor data)" vertex="1" parent="1">
+        <mxCell id="n25" style="shape=cloud;whiteSpace=wrap;html=1;fillColor=#DFF5E3;gradientColor=#FFFFFF;gradientDirection=north;strokeColor=#2E7D46;fontSize=11;fontFamily=Helvetica;shadow=1;strokeWidth=1.3;" value="DuckDuckGo Search&#10;(live market/competitor data)" vertex="1" parent="1">
           <mxGeometry x="1140" y="320" width="240" height="60" as="geometry" />
         </mxCell>
         <mxCell id="n26" style="shape=cylinder3;boundedLbl=1;whiteSpace=wrap;html=1;fillColor=#DCE7FF;gradientColor=#FFFFFF;gradientDirection=north;strokeColor=#1F4EA1;fontSize=11;fontFamily=Helvetica;shadow=1;strokeWidth=1.3;" value="PostgreSQL&#10;(ideas, agent outputs,&#10;reports, chat history)" vertex="1" parent="1">
