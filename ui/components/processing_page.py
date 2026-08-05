@@ -3,19 +3,19 @@ import time
 
 def show_processing_page():
 
-    st.title("🤖 AI Agents Processing")
+    st.title("AI Agents Processing")
 
     progress = st.progress(0)
 
     agents = [
-        "🔍 Market Research Agent",
-        "🏆 Competitor Analysis Agent",
-        "⚠️ Risk Assessment Agent",
-        "📊 SWOT Analysis Agent",
-        "🛠 MVP Recommendation Agent",
-        "📈 GTM Strategy Agent",
-        "💰 Revenue Model Agent",
-        "📄 Report Generation Agent"
+        "Market Research Agent",
+        "Competitor Analysis Agent",
+        "Risk Assessment Agent",
+        "SWOT Analysis Agent",
+        "MVP Recommendation Agent",
+        "GTM Strategy Agent",
+        "Revenue Model Agent",
+        "Report Generation Agent"
     ]
 
     status_box = st.empty()
@@ -28,7 +28,7 @@ def show_processing_page():
 
         time.sleep(1)
 
-    st.success("✅ Validation Complete")
+    st.success("Validation Complete")
 
     time.sleep(2)
 
