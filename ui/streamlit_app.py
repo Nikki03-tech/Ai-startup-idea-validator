@@ -5,7 +5,6 @@ from components.processing_page import show_processing_page
 
 st.set_page_config(
     page_title="AI Startup Idea Validator",
-    page_icon="🚀",
     layout="wide"
 )
 
@@ -76,7 +75,7 @@ if st.session_state.page == "home":
 
     st.markdown("""
     <div class="main-title">
-        🚀 AI Startup Idea Validator
+        AI Startup Idea Validator
     </div>
 
     <div class="subtitle">
@@ -117,7 +116,7 @@ if st.session_state.page == "home":
     left, center, right = st.columns([1,2,1])
 
     with center:
-        if st.button("🚀 Start Validation", use_container_width=True):
+        if st.button("Start Validation", use_container_width=True):
             st.session_state.page = "submit"
             st.rerun()
 
