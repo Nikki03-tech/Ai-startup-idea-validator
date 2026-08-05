@@ -17,7 +17,7 @@
         <mxCell id="e4" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFF3D6;gradientColor=#FFFFFF;gradientDirection=north;strokeColor=#B8860B;fontSize=10;fontFamily=Helvetica;shadow=1;strokeWidth=1.3;" value="Agent 1: Idea Structuring&#10;LLM extracts problem, solution, target_user, category" vertex="1" parent="1">
           <mxGeometry x="340" y="180" width="320" height="55" as="geometry" />
         </mxCell>
-        <mxCell id="e5" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFF3D6;gradientColor=#FFFFFF;gradientDirection=north;strokeColor=#B8860B;fontSize=10;fontFamily=Helvetica;shadow=1;strokeWidth=1.3;" value="Agent 2: Web Search Agent (Tavily API)&#10;In: structured idea + category&#10;Out: articles, market stats, competitor names" vertex="1" parent="1">
+        <mxCell id="e5" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFF3D6;gradientColor=#FFFFFF;gradientDirection=north;strokeColor=#B8860B;fontSize=10;fontFamily=Helvetica;shadow=1;strokeWidth=1.3;" value="Agent 2: Web Search Agent (DuckDuckGo)&#10;In: structured idea + category&#10;Out: articles, market stats, competitor names" vertex="1" parent="1">
           <mxGeometry x="320" y="260" width="360" height="65" as="geometry" />
         </mxCell>
         <mxCell id="e6" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFF3D6;gradientColor=#FFFFFF;gradientDirection=north;strokeColor=#B8860B;fontSize=10;fontFamily=Helvetica;shadow=1;strokeWidth=1.3;" value="Agent 3: Market Analysis Agent&#10;In: search results + idea | Out: industry size, growth, segments" vertex="1" parent="1">
@@ -39,7 +39,7 @@
           <mxGeometry x="280" y="750" width="420" height="55" as="geometry" />
         </mxCell>
         <mxCell id="e12" style="shape=cylinder3;boundedLbl=1;whiteSpace=wrap;html=1;fillColor=#DCE7FF;gradientColor=#FFFFFF;gradientDirection=north;strokeColor=#1F4EA1;fontSize=10;fontFamily=Helvetica;shadow=1;strokeWidth=1.3;" value="Write each stage's JSON to&#10;agent_outputs table&#10;(idea_id, agent_name, output, ts)" vertex="1" parent="1">
-          <mxGeometry x="780" y="430" width="200" height="90" as="geometry" />
+          <mxGeometry x="800" y="260" width="180" height="520" as="geometry" />
         </mxCell>
         <mxCell id="e13" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#DCE7FF;gradientColor=#FFFFFF;gradientDirection=north;strokeColor=#1F4EA1;fontSize=10;fontFamily=Helvetica;shadow=1;strokeWidth=1.3;" value="Report saved to storage&#10;+ status = COMPLETE" vertex="1" parent="1">
           <mxGeometry x="300" y="830" width="260" height="55" as="geometry" />
@@ -77,25 +77,25 @@
         <mxCell id="e24" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;" value="follow-up Q&amp;A" edge="1" parent="1" source="e13" target="e14">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e25" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;" value="" edge="1" parent="1" source="e5" target="e12">
+        <mxCell id="e25" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.08;entryDx=0;entryDy=0;" value="" edge="1" parent="1" source="e5" target="e12">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e26" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;" value="" edge="1" parent="1" source="e6" target="e12">
+        <mxCell id="e26" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.23;entryDx=0;entryDy=0;" value="" edge="1" parent="1" source="e6" target="e12">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e27" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;" value="" edge="1" parent="1" source="e7" target="e12">
+        <mxCell id="e27" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.38;entryDx=0;entryDy=0;" value="" edge="1" parent="1" source="e7" target="e12">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e28" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;" value="" edge="1" parent="1" source="e8" target="e12">
+        <mxCell id="e28" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.53;entryDx=0;entryDy=0;" value="" edge="1" parent="1" source="e8" target="e12">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e29" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;" value="" edge="1" parent="1" source="e9" target="e12">
+        <mxCell id="e29" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.68;entryDx=0;entryDy=0;" value="" edge="1" parent="1" source="e9" target="e12">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e30" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;" value="" edge="1" parent="1" source="e10" target="e12">
+        <mxCell id="e30" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.83;entryDx=0;entryDy=0;" value="" edge="1" parent="1" source="e10" target="e12">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e31" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;" value="" edge="1" parent="1" source="e11" target="e12">
+        <mxCell id="e31" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontFamily=Helvetica;strokeColor=#5A6B8C;endArrow=classicThin;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.95;entryDx=0;entryDy=0;" value="" edge="1" parent="1" source="e11" target="e12">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="e32" style="rounded=1;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;" value="" vertex="1" parent="1">
