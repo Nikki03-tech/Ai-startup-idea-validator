@@ -4,7 +4,7 @@ def show_report():
 
     idea = st.session_state.get("idea", {})
 
-    st.title("📊 Validation Report")
+    st.title("Validation Report")
 
     st.subheader(idea.get("startup_name", "Startup"))
 
@@ -45,6 +45,6 @@ def show_report():
     Start with early adopters and digital marketing.
     """)
 
-    if st.button("🔄 Validate Another Idea"):
+    if st.button("Validate Another Idea"):
         st.session_state.page = "home"
         st.rerun()
