@@ -2,24 +2,49 @@ import streamlit as st
 
 def show_report():
 
-    st.title("📊 Startup Validation Report")
+    idea = st.session_state.get("idea", {})
+
+    st.title("📊 Validation Report")
+
+    st.subheader(idea.get("startup_name", "Startup"))
+
+    st.success("Idea Validation Completed")
 
     st.metric("Validation Score", "87/100")
 
-    st.success("""
-    Strong market opportunity with moderate competition.
-    Recommended to build MVP and validate with early users.
+    st.metric("Market Potential", "High")
+
+    st.metric("Risk Level", "Medium")
+
+    st.markdown("## SWOT Analysis")
+
+    st.write("""
+    **Strengths**
+    - Innovative concept
+    - Growing market
+
+    **Weaknesses**
+    - Requires funding
+
+    **Opportunities**
+    - Global scalability
+
+    **Threats**
+    - Existing competitors
     """)
 
-    st.subheader("📈 Market Opportunity")
-    st.write("High Growth Potential")
+    st.markdown("## MVP Recommendation")
 
-    st.subheader("🏆 Competition")
-    st.write("Moderate")
+    st.write("""
+    Build a basic prototype focusing on core features.
+    """)
 
-    st.subheader("🚀 Recommendation")
-    st.write("Proceed with MVP Development")
+    st.markdown("## Go-To-Market Strategy")
 
-    if st.button("⬅ Back Home"):
+    st.write("""
+    Start with early adopters and digital marketing.
+    """)
+
+    if st.button("🔄 Validate Another Idea"):
         st.session_state.page = "home"
         st.rerun()
