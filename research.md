@@ -27,11 +27,10 @@ The **AI Startup Idea Validator** automates and orchestrates the end-to-end rese
 * **Role:** Orchestrator for agent planning, subagent delegation, context isolation, and task pipelines.
 * **Rationale:** Manages long-horizon, multi-step research workflows. It keeps context clean by isolating intermediate search noise within specific subagents, passing only distilled insights downstream.
 
----
-
 ## 4. Proposed System Architecture
-
-+---------------------------+
+```markdown
+```text
+                            +---------------------------+
                             |     Streamlit UI          |
                             | (User Input & Pitch Idea) |
                             +-------------+-------------+
@@ -71,9 +70,7 @@ v
 +---------------------------+
 | Report Generation Agent   | ---> Markdown/PDF Export & Dashboard Delivery
 +---------------------------+
-
-
----
+```
 
 ## 5. Agent Pipeline Breakdown
 
