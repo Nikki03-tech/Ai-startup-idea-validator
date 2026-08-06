@@ -45,7 +45,22 @@ The **AI Startup Idea Validator** automates and orchestrates the end-to-end rese
 * Prevents frontend user web sessions from timing out while agents perform recursive search and analysis loops.
 * Ensures high accuracy and reliability for function calling, tool execution, and structured output formatting.
 
-## 4. Proposed System Architecture
+## 4. Comparison of Frameworks
+
+To select the optimal orchestration engine, three primary multi-agent paradigm levels were evaluated:
+
+| Feature / Criteria | Standard LangChain | LangGraph | LangChain DeepAgents |
+| :--- | :--- | :--- | :--- |
+| **Execution Architecture** | Linear / DAG Chain | Graph-Based (Cyclic State Machine) | Hierarchical & Stateful Multi-Agent Harness |
+| **State & Context Management** | Ephemeral, prompt-accumulated context | Explicit typed state schemas per graph node | Native Context Isolation per agent node |
+| **Task Planning Ability** | Static, hardcoded sequence | Programmatic conditional routing | Autonomous recursive task planning & delegation |
+| **Failure Recovery** | Low (Restart required on API error) | Medium (Requires manual checkpoint setup) | Built-in durable state checkpointing & re-entry |
+| **Implementation Complexity** | Low | High (Boilerplate code for routing/state) | Balanced (Higher-level abstractions over graphs) |
+| **Suitability for This Project** | Poor (Context bloat over 9 steps) | Moderate (Heavy graph routing logic required) | **Optimal** (Built-in subagent isolation & execution loops) |
+
+---
+
+## 5. Proposed System Architecture
 ```text
                             +---------------------------+
                             |     Streamlit UI          |
@@ -94,7 +109,7 @@ The **AI Startup Idea Validator** automates and orchestrates the end-to-end rese
 +---------------------------+
 ```
 
-## 5. Agent Pipeline Breakdown
+## 6. Agent Pipeline Breakdown
 
 1. **Web Search Agent:** Interfaces directly with DuckDuckGo to query live market intelligence, competitor landing pages, and industry news.
 2. **Market Analysis Agent:** Analyzes TAM/SAM/SOM market sizes, trends, and target customer segmentation models based on raw search feeds.
@@ -104,3 +119,13 @@ The **AI Startup Idea Validator** automates and orchestrates the end-to-end rese
 6. **Go-To-Market (GTM) Strategy Agent:** Formulates acquisition channels, positioning strategies, and early launch playbooks.
 7. **Report Generation Agent:** Synthesizes outputs from all prior pipeline stages into a unified, executive-ready validation report.
 8. **Conversational Advisor Agent:** Operates post-generation as an interactive AI consultant on Streamlit, answering specific founder queries about the report.
+
+## 8. Future Enhancements
+
+* **Vector DB Embedding Memory:** Embedding historical reports to calculate mathematical similarity scores between new pitches and existing startups.
+* **Financial Modeling Subagent:** Automated unit economics generation, burn rate estimations, and financial projection tables.
+* **Multi-Language Support:** Localizing research queries and final generated reports across multiple global languages.
+* **Automated Pitch Deck Generator:** Generating downloadable 10-slide PowerPoint presentations (`.pptx`) alongside report exports.
+
+## 9. Conclusion
+The **AI Startup Idea Validator** demonstrates how multi-agent collaboration frameworks overcome the context window limitations and output hallucinations of single-prompt systems. By pairing the **LangChain DeepAgent framework** with **Groq LPU acceleration** and **DuckDuckGo real-time search**, the platform converts weeks of manual market research into a fast, automated, and structured validation pipeline. The architecture establishes a scalable foundation for modern,    data-backed entrepreneurial strategy.
