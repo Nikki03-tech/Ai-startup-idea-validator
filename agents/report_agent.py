@@ -1,31 +1,49 @@
+"""
+Report Generation Agent
+"""
 
-def generate_validation_report(
-    startup_name,
-    market_analysis,
-    competitor_analysis,
-    swot,
-    risk,
-    mvp,
-    gtm,
-    score,
-):
+from pathlib import Path
 
-    report = {
-        "Executive Summary": f"{startup_name} has been analysed successfully.",
 
-        "Market Analysis": market_analysis,
+class ReportAgent:
 
-        "Competitor Analysis": competitor_analysis,
+    def __init__(self):
 
-        "SWOT Analysis": swot,
+        prompt_path = Path("prompts/report_agent.md")
 
-        "Risk Analysis": risk,
+        if prompt_path.exists():
+            self.system_prompt = prompt_path.read_text(
+                encoding="utf-8"
+            )
+        else:
+            self.system_prompt = ""
 
-        "MVP Recommendation": mvp,
+    def run(self, shared_memory):
 
-        "Go-To-Market Strategy": gtm,
+        try:
 
-        "Final Validation Score": score,
-    }
+            report = {
+                "startup_idea": shared_memory.get("startup_idea", ""),
+                "idea_extraction": shared_memory.get("idea_extraction", {}),
+                "web_search_results": shared_memory.get("web_search_results", {}),
+                "market_analysis": shared_memory.get("market_analysis", {}),
+                "competitor_analysis": shared_memory.get("competitor_analysis", {}),
+                "swot_analysis": shared_memory.get("swot_analysis", {}),
+                "mvp_recommendation": shared_memory.get("mvp_recommendation", {}),
+                "gtm_strategy": shared_memory.get("gtm_strategy", {}),
+                "system_prompt": self.system_prompt,
+            }
 
-    return report
+            return {
+                "status": "success",
+                "data": report,
+                "message": "Report generated successfully."
+            }
+
+        except Exception as e:
+
+            return {
+                "status": "failed",
+                "data": None,
+                "message": str(e)
+            }

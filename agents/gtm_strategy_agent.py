@@ -1,68 +1,50 @@
-def generate_gtm_strategy(startup_name, industry, target_audience):
+"""
+Go-To-Market Strategy Agent
+"""
 
-    if industry.lower() == "healthcare":
-        pricing = [
-            "Free Trial",
-            "₹499/month",
-            "₹999 Premium"
-        ]
+from pathlib import Path
 
-        channels = [
-            "LinkedIn",
-            "Hospital Partnerships",
-            "Medical Conferences"
-        ]
 
-    elif industry.lower() == "education":
-        pricing = [
-            "Free Student Plan",
-            "₹299/month",
-            "Institution License"
-        ]
+class GTMStrategyAgent:
 
-        channels = [
-            "Instagram",
-            "Campus Ambassadors",
-            "YouTube"
-        ]
+    def __init__(self):
 
-    elif industry.lower() == "fitness":
-        pricing = [
-            "7-Day Free Trial",
-            "₹599/month",
-            "₹999 Premium"
-        ]
+        prompt_path = Path("prompts/gtm_agent.md")
 
-        channels = [
-            "Instagram",
-            "Fitness Influencers",
-            "Referral Program"
-        ]
+        if prompt_path.exists():
+            self.system_prompt = prompt_path.read_text(
+                encoding="utf-8"
+            )
+        else:
+            self.system_prompt = ""
 
-    else:
-        pricing = [
-            "Free Trial",
-            "Basic Plan",
-            "Premium Plan"
-        ]
+    def run(self, shared_memory):
 
-        channels = [
-            "Google Ads",
-            "LinkedIn",
-            "Referral Program"
-        ]
+        try:
 
-    return {
-        "startup_name": startup_name,
-        "industry": industry,
-        "target_audience": target_audience,
-        "positioning": f"{startup_name} provides innovative {industry} solutions for {target_audience}.",
-        "pricing": pricing,
-        "customer_acquisition": channels,
-        "launch_strategy": [
-            "Build MVP",
-            "Invite Beta Users",
-            "Collect Feedback",
-            "Official Launch"
-        ]
-    }
+            startup_idea = shared_memory.get("startup_idea", "")
+            market_analysis = shared_memory.get("market_analysis", {})
+            mvp_recommendation = shared_memory.get("mvp_recommendation", {})
+
+            gtm_strategy = {
+                "startup_idea": startup_idea,
+                "market_analysis": market_analysis,
+                "mvp_recommendation": mvp_recommendation,
+                "system_prompt": self.system_prompt,
+            }
+
+            return {
+                "status": "success",
+                "data": {
+                    "gtm_strategy": gtm_strategy
+                },
+                "message": "Go-To-Market Strategy generated successfully."
+            }
+
+        except Exception as e:
+
+            return {
+                "status": "failed",
+                "data": None,
+                "message": str(e)
+            }
