@@ -1,26 +1,24 @@
 class MarketAnalysisAgent:
-    """
-    Market Analysis Agent
-
-    Analyzes market trends, target audience,
-    opportunities, and market potential based
-    on web search results.
-    """
 
     def run(self, shared_memory):
+        try:
+            startup_idea = shared_memory.get("startup_idea", "")
+            web_results = shared_memory.get("web_search_results", [])
 
-        startup_idea = shared_memory.get("startup_idea", "")
-        search_results = shared_memory.get("search_results", [])
+            analysis = self.analyze(
+                startup_idea,
+                web_results
+            )
 
-        analysis = {
-            "market_size": "Growing market",
-            "target_audience": "Potential users interested in the startup idea",
-            "industry_trends": "Increasing adoption of AI and digital solutions",
-            "opportunities": "Strong opportunity for innovation and automation"
-        }
+            return {
+                "status": "success",
+                "data": analysis,
+                "message": "Market analysis completed successfully"
+            }
 
-        return {
-            "status": "success",
-            "data": analysis,
-            "message": "Market analysis completed successfully."
-        }
+        except Exception as e:
+            return {
+                "status": "error",
+                "data": {},
+                "message": str(e)
+            }
