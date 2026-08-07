@@ -1,18 +1,8 @@
-from agents.web_search_agent import WebSearchAgent
-
-agent = WebSearchAgent()
+from agents.web_search_agent import run
 
 shared_memory = {
-    "startup_idea": "AI Startup Idea Validator",
-    "keywords": [
-        "AI startup validation",
-        "market research",
-        "startup competitors"
-    ]
+    "startup_idea": "AI-powered startup idea validation platform"
 }
 
-print("Running Web Search Agent...")
-
-result = agent.run(shared_memory)
-print("Running Web Search Agent...")
+result = run(shared_memory)
 print(result)

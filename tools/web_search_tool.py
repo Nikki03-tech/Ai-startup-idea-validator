@@ -1,7 +1,7 @@
 """
-DDGS Web Search Tool
+DuckDuckGo Search Tool
 
-Performs web searches using DDGS and returns
+Performs web searches using DuckDuckGo and returns
 structured search results for the Web Search Agent.
 """
 
@@ -15,15 +15,6 @@ class WebSearchTool:
         self.max_results = int(os.getenv("MAX_RESULTS", 5))
 
     def search(self, query: str):
-        """
-        Perform web search using DDGS.
-
-        Args:
-            query (str): Search query
-
-        Returns:
-            list[dict]
-        """
 
         results = []
 
@@ -32,11 +23,10 @@ class WebSearchTool:
 
                 search_results = ddgs.text(
                     query,
-                    max_results=self.max_results
+                    max_results=self.max_results,
                 )
 
                 for item in search_results:
-
                     results.append(
                         {
                             "title": item.get("title", ""),
@@ -46,6 +36,6 @@ class WebSearchTool:
                     )
 
         except Exception as e:
-            print(f"Web Search Error: {e}")
+            raise Exception(f"Search failed: {str(e)}")
 
         return results
