@@ -1,61 +1,22 @@
-"""
-Web Search Agent
-
-Input:
-    SharedMemory
-
-Output:
-{
-    "status": "success",
-    "data": {
-        "search_results": [...],
-        "references": [...]
-    },
-    "message": ""
-}
-"""
-
-from tools.web_search_tool import WebSearchTool
-
-
 class WebSearchAgent:
 
-    def __init__(self):
-        self.search_tool = WebSearchTool()
-
     def run(self, shared_memory):
-
         try:
-
             startup_idea = shared_memory.get("startup_idea", "")
-            keywords = shared_memory.get("keywords", [])
 
-            if keywords:
-                query = " ".join(keywords)
-            else:
-                query = startup_idea
-
-            results = self.search_tool.search(query)
-
-            references = [
-                result["url"]
-                for result in results
-                if result.get("url")
-            ]
+            results = self.search_web(startup_idea)
 
             return {
                 "status": "success",
                 "data": {
-                    "search_results": results,
-                    "references": references,
+                    "search_results": results
                 },
-                "message": "Web search completed successfully."
+                "message": "Web search completed successfully"
             }
 
         except Exception as e:
-
             return {
-                "status": "failed",
-                "data": None,
+                "status": "error",
+                "data": {},
                 "message": str(e)
             }
