@@ -223,16 +223,17 @@ def swot_analysis_node(state: GraphState):
     """
     Execute SWOT & Risk Agent.
     """
-
     state["current_agent"] = "swot_analysis"
 
     try:
         result = swot_agent.run(state)
 
         if result.get("status") == "success":
+            data = result.get("data") or {}
 
-            state["swot_analysis"] = (
-                result.get("data") or {}
+            state["swot_analysis"] = data.get(
+                "swot_analysis",
+                {}
             )
 
         else:
@@ -256,16 +257,17 @@ def mvp_node(state: GraphState):
     """
     Execute MVP Recommendation Agent.
     """
-
     state["current_agent"] = "mvp_recommendation"
 
     try:
         result = mvp_agent.run(state)
 
         if result.get("status") == "success":
+            data = result.get("data") or {}
 
-            state["mvp_recommendation"] = (
-                result.get("data") or {}
+            state["mvp_recommendation"] = data.get(
+                "mvp_recommendation",
+                {}
             )
 
         else:
