@@ -5,54 +5,57 @@ import json
 
 load_dotenv()
 
-def run(shared_memory):
-    try:
-        startup_idea = shared_memory.get("startup_idea", "")
-        search_results = shared_memory.get("search_results", [])
 
-        llm = ChatGoogleGenerativeAI(
+class MarketAnalysisAgent:
+    def __init__(self):
+        self.llm = ChatGoogleGenerativeAI(
             model="gemini-3.5-flash",
             google_api_key=os.getenv("GEMINI_API_KEY"),
             temperature=0.3
         )
 
-        prompt = f"""
-        Analyze the following startup idea:
+    def run(self, shared_memory):
+        try:
+            startup_idea = shared_memory.get("startup_idea", "")
+            search_results = shared_memory.get("search_results", [])
 
-        Startup Idea:
-        {startup_idea}
+            prompt = f"""
+            Analyze the following startup idea:
 
-        Search Results:
-        {search_results}
+            Startup Idea:
+            {startup_idea}
 
-        Return ONLY valid JSON:
+            Search Results:
+            {search_results}
 
-        {{
-            "market_size": "",
-            "target_audience": "",
-            "industry_trends": "",
-            "opportunities": ""
-        }}
-        """
+            Return ONLY valid JSON:
 
-        response = llm.invoke(prompt)
+            {{
+                "market_size": "",
+                "target_audience": "",
+                "industry_trends": "",
+                "opportunities": ""
+            }}
+            """
 
-        if isinstance(response.content, list):
-            json_text = response.content[0]["text"]
-        else:
-            json_text = response.content
+            response = self.llm.invoke(prompt)
 
-        analysis = json.loads(json_text)
+            if isinstance(response.content, list):
+                json_text = response.content[0]["text"]
+            else:
+                json_text = response.content
 
-        return {
-            "status": "success",
-            "data": analysis,
-            "message": "Market analysis completed successfully."
-        }
+            analysis = json.loads(json_text)
 
-    except Exception as e:
-        return {
-            "status": "error",
-            "data": {},
-            "message": str(e)
-        }
+            return {
+                "status": "success",
+                "data": analysis,
+                "message": "Market analysis completed successfully."
+            }
+
+        except Exception as e:
+            return {
+                "status": "error",
+                "data": {},
+                "message": str(e)
+            }

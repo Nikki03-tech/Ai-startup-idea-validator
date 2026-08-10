@@ -21,6 +21,11 @@ Output:
 
 import json
 import os
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from pathlib import Path
 
 from deepagents import create_deep_agent
