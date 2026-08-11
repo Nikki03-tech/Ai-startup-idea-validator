@@ -1,41 +1,20 @@
-"""
-DuckDuckGo Search Tool
+from langchain_core.tools import tool
+from langchain_community.tools.ddg_search.tool import DuckDuckGoSearchRun
 
-Performs web searches using DuckDuckGo and returns
-structured search results for the Web Search Agent.
-"""
-
-import os
-from ddgs import DDGS
-
-
+_ddg = DuckDuckGoSearchRun()
 class WebSearchTool:
-
-    def __init__(self):
-        self.max_results = int(os.getenv("MAX_RESULTS", 5))
-
+    """Wrapper class providing structured web search operations."""
     def search(self, query: str):
-
-        results = []
-
         try:
-            with DDGS() as ddgs:
-
-                search_results = ddgs.text(
-                    query,
-                    max_results=self.max_results,
-                )
-
-                for item in search_results:
-                    results.append(
-                        {
-                            "title": item.get("title", ""),
-                            "url": item.get("href", ""),
-                            "snippet": item.get("body", ""),
-                        }
-                    )
-
+            res = _ddg.run(query)
+            return [{"snippet": res, "url": "https://duckduckgo.com"}]
         except Exception as e:
-            raise Exception(f"Search failed: {str(e)}")
+            return [{"snippet": f"Search error: {str(e)}", "url": ""}]
 
-        return results
+@tool
+def execute_web_search(query: str) -> str:
+    """Performs a live web search to retrieve real-time market data, competitors, and trends."""
+    try:
+        return _ddg.run(query)
+    except Exception as e:
+        return f"Error executing search tool: {str(e)}"

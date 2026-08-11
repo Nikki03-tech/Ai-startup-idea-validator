@@ -1,55 +1,47 @@
-from langchain_google_genai import ChatGoogleGenerativeAI
-from dotenv import load_dotenv
 import os
-import json
+from typing import Dict, Any
+from deepagents import create_deep_agent
+from langchain_google_genai import ChatGoogleGenerativeAI
 
-load_dotenv()
+PROMPT_PATH = os.path.join(os.path.dirname(__file__), "../prompts/market_analysis_agent.md")
+if os.path.exists(PROMPT_PATH):
+    with open(PROMPT_PATH, "r", encoding="utf-8") as f:
+        MARKET_ANALYSIS_PROMPT = f.read()
+else:
+    MARKET_ANALYSIS_PROMPT = "You are a Market Intelligence Analyst. Synthesize market viability."
 
 
 class MarketAnalysisAgent:
-    def __init__(self):
-        self.llm = ChatGoogleGenerativeAI(
-            model="gemini-3.5-flash",
-            google_api_key=os.getenv("GEMINI_API_KEY"),
-            temperature=0.3
+    def __init__(self, model_name: str = "gemini-3.6-flash"):
+        llm = ChatGoogleGenerativeAI(
+            model=model_name,
+            google_api_key=os.environ.get("GEMINI_API_KEY")
+        )
+        self.agent = create_deep_agent(
+            model=llm,
+            tools=[],
+            system_prompt=MARKET_ANALYSIS_PROMPT
         )
 
-    def run(self, shared_memory):
+    def run(self, shared_memory: Dict[str, Any]) -> Dict[str, Any]:
         try:
             startup_idea = shared_memory.get("startup_idea", "")
-            search_results = shared_memory.get("search_results", [])
+            search_results = shared_memory.get("search_results", "")
 
-            prompt = f"""
-            Analyze the following startup idea:
+            instruction = (
+                f"Perform a market analysis for the startup idea: '{startup_idea}'.\n\n"
+                f"Base your analysis on these web search findings:\n{search_results}"
+            )
 
-            Startup Idea:
-            {startup_idea}
-
-            Search Results:
-            {search_results}
-
-            Return ONLY valid JSON:
-
-            {{
-                "market_size": "",
-                "target_audience": "",
-                "industry_trends": "",
-                "opportunities": ""
-            }}
-            """
-
-            response = self.llm.invoke(prompt)
-
-            if isinstance(response.content, list):
-                json_text = response.content[0]["text"]
-            else:
-                json_text = response.content
-
-            analysis = json.loads(json_text)
+            response = self.agent.invoke({"messages": [("user", instruction)]})
+            analysis_output = response["messages"][-1].content
 
             return {
                 "status": "success",
-                "data": analysis,
+                "data": {
+                    "market_summary": analysis_output,
+                    "target_idea": startup_idea
+                },
                 "message": "Market analysis completed successfully."
             }
 
@@ -57,5 +49,5 @@ class MarketAnalysisAgent:
             return {
                 "status": "error",
                 "data": {},
-                "message": str(e)
+                "message": f"MarketAnalysisAgent error: {str(e)}"
             }
