@@ -14,14 +14,27 @@ Output:
 }
 """
 
+import json
+import os
+
+from dotenv import load_dotenv
+from langchain_google_genai import ChatGoogleGenerativeAI
+
 from tools.web_search_tool import WebSearchTool
 from state.schema import Competitor, CompetitorAgentOutput
+
+load_dotenv()
 
 
 class CompetitorAgent:
 
     def __init__(self):
         self.search_tool = WebSearchTool()
+        self.llm = ChatGoogleGenerativeAI(
+            model="gemini-3.5-flash",
+            google_api_key=os.getenv("GEMINI_API_KEY"),
+            temperature=0.3
+        )
 
     def build_search_queries(self, startup_idea: str) -> list[str]:
         return [
@@ -42,7 +55,7 @@ class CompetitorAgent:
                 raw_results.extend(self.search_tool.search(query))
 
             seen_urls = set()
-            competitors = []
+            deduped_results = []
 
             for item in raw_results:
 
@@ -52,15 +65,61 @@ class CompetitorAgent:
                     continue
 
                 seen_urls.add(url)
+                deduped_results.append(item)
 
-                competitors.append(
-                    Competitor(
-                        name=item.get("title", "Unknown"),
-                        website=url,
-                        description=item.get("snippet", ""),
-                        source_urls=[url],
-                    )
-                )
+            prompt = f"""
+            You are analyzing competitors for this startup idea:
+
+            Startup Idea:
+            {startup_idea}
+
+            Web Search Results:
+            {deduped_results}
+
+            From these search results, identify the real companies/products
+            that compete directly or indirectly with this startup idea.
+
+            For each competitor, only include details supported by the
+            search results above. If pricing, strengths, or weaknesses
+            cannot be determined from the sources, leave that field as an
+            empty list/string rather than guessing.
+
+            Return ONLY valid JSON in this exact shape:
+
+            {{
+                "competitors": [
+                    {{
+                        "name": "",
+                        "website": "",
+                        "description": "",
+                        "strengths": [],
+                        "weaknesses": [],
+                        "source_urls": []
+                    }}
+                ]
+            }}
+            """
+
+            response = self.llm.invoke(prompt)
+
+            if isinstance(response.content, list):
+                json_text = response.content[0]["text"]
+            else:
+                json_text = response.content
+
+            json_text = json_text.strip()
+
+            if json_text.startswith("```"):
+                json_text = json_text.split("```")[1]
+                if json_text.startswith("json"):
+                    json_text = json_text[4:]
+                json_text = json_text.strip()
+
+            parsed = json.loads(json_text)
+
+            competitors = [
+                Competitor(**c) for c in parsed.get("competitors", [])
+            ]
 
             output = CompetitorAgentOutput(
                 startup_idea=startup_idea,
@@ -76,7 +135,7 @@ class CompetitorAgent:
         except Exception as e:
 
             return {
-                "status": "failed",
+                "status": "error",
                 "data": None,
                 "message": str(e)
             }
