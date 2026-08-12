@@ -7,38 +7,72 @@ from ui.components.report_viewer import show_report
 
 st.set_page_config(
     page_title="AI Startup Idea Validator",
+    page_icon="🤖",
     layout="wide"
 )
 
-# Dark theme styling override
+# Dark Black & Lavender Aesthetic Styling
 st.markdown("""
 <style>
 #MainMenu { visibility: hidden; }
 footer { visibility: hidden; }
 
+/* Deep Dark Background */
 .stApp {
-    background-color: #0d1117;
-    color: #c9d1d9;
+    background: linear-gradient(135deg, #09090b 0%, #120d1d 50%, #050508 100%) !important;
+    color: #f3e8ff !important;
 }
 
+/* Headings and Text in Soft Lavender/White */
 h1, h2, h3, h4, label, .stMarkdown p {
-    color: #f0f6fc !important;
+    color: #f3e8ff !important;
 }
 
+/* Hero Section Lavender Highlights */
 .hero-title {
     text-align: center;
     font-size: 56px;
     font-weight: 800;
-    color: #ffffff;
-    margin-top: 50px;
+    background: linear-gradient(90deg, #e9d5ff 0%, #c084fc 50%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: 40px;
 }
 
 .hero-subtitle {
     text-align: center;
     font-size: 20px;
-    color: #8b949e;
+    color: #d8b4fe !important;
     margin-bottom: 40px;
 }
+
+/* Buttons with Lavender Accents */
+.stButton > button {
+    background: linear-gradient(90deg, #7e22ce 0%, #9333ea 100%) !important;
+    color: #ffffff !important;
+    border: 1px solid #c084fc !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+}
+
+.stButton > button:hover {
+    background: linear-gradient(90deg, #9333ea 0%, #a855f7 100%) !important;
+    box-shadow: 0px 0px 15px rgba(192, 132, 252, 0.4) !important;
+}
+
+/* Input Fields - Dark Slate with Soft Lavender Borders */
+.stTextInput input, .stTextArea textarea, div[data-baseweb="select"] {
+    background-color: #18181b !important;
+    color: #f3e8ff !important;
+    border: 1px solid #581c87 !important;
+    border-radius: 8px !important;
+}
+
+.stTextInput input:focus, .stTextArea textarea:focus {
+    border-color: #c084fc !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
