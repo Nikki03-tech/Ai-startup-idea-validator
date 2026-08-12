@@ -6,7 +6,7 @@ structured search results for the Web Search Agent.
 """
 
 import os
-from duckduckgo_search import DDGS
+from ddgs import DDGS
 
 
 class WebSearchTool:
@@ -27,7 +27,7 @@ class WebSearchTool:
             with DDGS() as ddgs:
 
                 search_results = ddgs.text(
-                    keywords=query,
+                    query,
                     max_results=self.max_results,
                 )
 
