@@ -2,10 +2,12 @@ import streamlit as st
 import time
 
 def show_processing_page():
+    st.markdown("<h1 style='text-align:center;'>🤖 AI Processing</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align:center; color:#cbd5e1;'>Analyzing your startup idea using multi-agent workflow...</p>", unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
 
-    st.title("AI Agents Processing")
-
-    progress = st.progress(0)
+    progress_bar = st.progress(0)
+    status_box = st.empty()
 
     agents = [
         "Market Research Agent",
@@ -18,19 +20,13 @@ def show_processing_page():
         "Report Generation Agent"
     ]
 
-    status_box = st.empty()
-
     for i, agent in enumerate(agents):
+        status_box.info(f"⏳ **Executing:** {agent}...")
+        progress_bar.progress(int(((i + 1) / len(agents)) * 100))
+        time.sleep(0.8)
 
-        status_box.success(f"{agent} completed")
-
-        progress.progress(int(((i+1)/len(agents))*100))
-
-        time.sleep(1)
-
-    st.success("Validation Complete")
-
-    time.sleep(2)
+    status_box.success("✅ Processing complete!")
+    time.sleep(1.2)
 
     st.session_state.page = "report"
     st.rerun()

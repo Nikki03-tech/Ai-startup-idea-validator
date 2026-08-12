@@ -1,69 +1,44 @@
 import streamlit as st
-from components.idea_input import show_idea_input
-from components.report_viewer import show_report
-from components.processing_page import show_processing_page
+
+# Custom imports aligned with your ui/ directory layout
+from ui.components.idea_input import show_idea_input
+from ui.components.processing_page import show_processing_page
+from ui.components.report_viewer import show_report
 
 st.set_page_config(
     page_title="AI Startup Idea Validator",
     layout="wide"
 )
 
+# Dark theme styling override
 st.markdown("""
 <style>
+#MainMenu { visibility: hidden; }
+footer { visibility: hidden; }
 
-#MainMenu {
-    visibility: hidden;
+.stApp {
+    background-color: #0d1117;
+    color: #c9d1d9;
 }
 
-header {
-    visibility: hidden;
+h1, h2, h3, h4, label, .stMarkdown p {
+    color: #f0f6fc !important;
 }
 
-footer {
-    visibility: hidden;
+.hero-title {
+    text-align: center;
+    font-size: 56px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-top: 50px;
 }
 
-.stApp{
-    background: linear-gradient(
-        135deg,
-        #020617 0%,
-        #0f172a 50%,
-        #111827 100%
-    );
+.hero-subtitle {
+    text-align: center;
+    font-size: 20px;
+    color: #8b949e;
+    margin-bottom: 40px;
 }
-
-.main-title{
-    text-align:center;
-    font-size:90px;
-    font-weight:800;
-    color:white;
-    margin-top:80px;
-}
-
-.subtitle{
-    text-align:center;
-    font-size:30px;
-    color:#cbd5e1;
-    margin-top:20px;
-    margin-bottom:40px;
-}
-
-.metric-box{
-    text-align:center;
-    color:white;
-    padding:20px;
-}
-
-.metric-number{
-    font-size:48px;
-    font-weight:700;
-}
-
-.metric-label{
-    font-size:18px;
-    color:#94a3b8;
-}
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -72,49 +47,10 @@ if "page" not in st.session_state:
 
 # HOME PAGE
 if st.session_state.page == "home":
+    st.markdown('<div class="hero-title">🤖 AI Startup Idea Validator</div>', unsafe_allow_html=True)
+    st.markdown('<div class="hero-subtitle">Validate your startup idea using multi-agent AI workflow</div>', unsafe_allow_html=True)
 
-    st.markdown("""
-    <div class="main-title">
-        AI Startup Idea Validator
-    </div>
-
-    <div class="subtitle">
-        Validate your startup idea in minutes using AI
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    c1, c2, c3 = st.columns(3)
-
-    with c1:
-        st.markdown("""
-        <div class="metric-box">
-            <div class="metric-number">1250+</div>
-            <div class="metric-label">Ideas Validated</div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with c2:
-        st.markdown("""
-        <div class="metric-box">
-            <div class="metric-number">8</div>
-            <div class="metric-label">AI Agents</div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with c3:
-        st.markdown("""
-        <div class="metric-box">
-            <div class="metric-number">5000+</div>
-            <div class="metric-label">Reports Generated</div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    st.markdown("<br><br>", unsafe_allow_html=True)
-
-    left, center, right = st.columns([1,2,1])
-
+    left, center, right = st.columns([1, 2, 1])
     with center:
         if st.button("Start Validation", use_container_width=True):
             st.session_state.page = "submit"
