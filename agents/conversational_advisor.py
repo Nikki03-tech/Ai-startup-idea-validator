@@ -10,6 +10,7 @@ context and allows a founder to ask follow-up questions.
 
 import json
 import os
+from pathlib import Path
 
 from dotenv import load_dotenv
 
@@ -17,6 +18,18 @@ load_dotenv()
 
 from deepagents import create_deep_agent
 from langchain_google_genai import ChatGoogleGenerativeAI
+
+
+PROMPT_PATH = os.path.join(os.path.dirname(__file__), "../prompts/conversational_advisor.md")
+if os.path.exists(PROMPT_PATH):
+    with open(PROMPT_PATH, "r", encoding="utf-8") as f:
+        ADVISOR_SYSTEM_PROMPT = f.read()
+else:
+    ADVISOR_SYSTEM_PROMPT = (
+        "You are the AI Conversational Advisor for a startup validation "
+        "system. Answer founder questions using the supplied validation "
+        "report as context. Do not invent facts."
+    )
 
 
 # =========================================================
@@ -46,34 +59,7 @@ class ConversationalAdvisor:
             )
         )
 
-        self.system_prompt = """
-You are the AI Conversational Advisor for a startup
-validation system.
-
-Your job is to answer founder questions using the
-startup validation report provided as context.
-
-You can explain:
-
-- Market analysis
-- Competitors
-- SWOT
-- Risks
-- MVP recommendations
-- Go-To-Market strategy
-- Validation score
-
-Rules:
-
-1. Use the supplied report as the main source.
-2. Do not invent facts.
-3. Do not invent market statistics.
-4. Do not invent competitors.
-5. If the report does not contain enough information,
-   clearly say so.
-6. Give practical and easy-to-understand answers.
-7. Keep answers focused on the founder's question.
-"""
+        self.system_prompt = ADVISOR_SYSTEM_PROMPT
 
         if agent is not None:
             self.agent = agent
