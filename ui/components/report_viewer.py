@@ -1,39 +1,39 @@
 import streamlit as st
 
 def show_report():
+    report = st.session_state.get("report", {})
     idea = st.session_state.get("idea", {})
 
     st.markdown(f"<h1>📈 Validation Report: {idea.get('startup_name', 'Startup')}</h1>", unsafe_allow_html=True)
-    st.success("Validation completed successfully!")
-
-    st.markdown("<br>", unsafe_allow_html=True)
+    st.divider()
 
     m1, m2, m3 = st.columns(3)
     with m1:
-        st.metric("Validation Score", "87/100")
+        st.metric("Validation Score", f"{report.get('score', 'N/A')}/100")
     with m2:
-        st.metric("Market Potential", "High")
+        st.metric("Market Potential", report.get("market_potential", "N/A"))
     with m3:
-        st.metric("Risk Level", "Medium")
+        st.metric("Risk Level", report.get("risk_level", "N/A"))
 
     st.divider()
 
     st.markdown("### 📊 SWOT Analysis")
+    swot = report.get("swot", {})
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown("**Strengths**\n- High market demand\n- Scalable architecture")
-        st.markdown("**Opportunities**\n- Rapid AI adoption\n- Global expansion potential")
+        st.markdown(f"**Strengths**\n{swot.get('strengths', 'N/A')}")
+        st.markdown(f"**Opportunities**\n{swot.get('opportunities', 'N/A')}")
     with col2:
-        st.markdown("**Weaknesses**\n- Initial customer acquisition cost")
-        st.markdown("**Threats**\n- Competitors entering the space")
+        st.markdown(f"**Weaknesses**\n{swot.get('weaknesses', 'N/A')}")
+        st.markdown(f"**Threats**\n{swot.get('threats', 'N/A')}")
 
     st.divider()
 
     st.markdown("### 💡 MVP Recommendation")
-    st.write("Build a lightweight web app focusing on core validation tools before expanding the feature set.")
+    st.write(report.get("mvp_recommendation", "N/A"))
 
     st.markdown("### 🚀 Go-To-Market Strategy")
-    st.write("Target early-stage founders via developer communities, incubators, and direct outreach.")
+    st.write(report.get("gtm_strategy", "N/A"))
 
     st.markdown("<br>", unsafe_allow_html=True)
 
