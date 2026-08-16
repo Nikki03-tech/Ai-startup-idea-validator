@@ -1,6 +1,5 @@
 import streamlit as st
-from backend.main import run_analysis 
-
+from app.orchestrator import run_analysis
 
 def show_processing_page():
     st.markdown("<h1 style='text-align:center;'>🤖 AI Processing</h1>", unsafe_allow_html=True)

@@ -25,6 +25,16 @@ class IdeaExtraction(BaseModel):
     target_audience: str
     value_proposition: str
     keywords: List[str] = Field(default_factory=list)
+    
+    # Analysis & Scoring fields for dynamic output
+    validation_score: int
+    market_potential: str  # High, Medium, or Low
+    risk_level: str        # High, Medium, or Low
+    strengths: List[str] = Field(default_factory=list)
+    weaknesses: List[str] = Field(default_factory=list)
+    opportunities: List[str] = Field(default_factory=list)
+    threats: List[str] = Field(default_factory=list)
+    gtm_strategy: str = ""
 
 
 class SearchResult(BaseModel):
@@ -57,17 +67,11 @@ class CompetitorAgentOutput(BaseModel):
 
 class ValidationReport(BaseModel):
     executive_summary: str = ""
-
     market_analysis: Dict[str, Any] = Field(default_factory=dict)
-
     competitor_analysis: List[Competitor] = Field(default_factory=list)
-
     swot_analysis: Dict[str, Any] = Field(default_factory=dict)
-
     mvp_recommendation: Dict[str, Any] = Field(default_factory=dict)
-
     gtm_strategy: Dict[str, Any] = Field(default_factory=dict)
-
     references: List[str] = Field(default_factory=list)
 
 
@@ -80,34 +84,16 @@ class GraphState(TypedDict):
     Shared state flowing through the LangGraph pipeline.
     """
 
-    # User input
     startup_idea: StartupIdea
-
-    # Idea extraction
     extracted_idea: Optional[IdeaExtraction]
-
-    # Web search
     search_results: List[SearchResult]
-
-    # Agent outputs
     market_analysis: Dict[str, Any]
-
     competitor_analysis: List[Competitor]
-
     swot_analysis: Dict[str, Any]
-
     mvp_recommendation: Dict[str, Any]
-
     gtm_strategy: Dict[str, Any]
-
-    # Final report
     validation_report: Optional[ValidationReport]
-
-    # Metadata
     current_agent: str
-
     thread_id: str
-
     execution_status: str
-
     errors: List[str]

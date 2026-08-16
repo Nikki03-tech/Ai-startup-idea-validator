@@ -1,20 +1,12 @@
-"""Configuration management for API keys, model settings, and environment variables."""
-import os
-
-# Configuration settings
-"""Configuration management for API keys, model settings, and environment variables."""
-
-from pydantic_settings import BaseSettings, SettingsConfigDict
-
+from typing import Optional
+from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     GEMINI_API_KEY: str
-    TAVILY_API_KEY: str
+    TAVILY_API_KEY: Optional[str] = None
 
-    model_config = SettingsConfigDict(
-        env_file=".env",
-        extra="ignore",
-    )
+    class Config:
+        env_file = ".env"
 
-
+# Add this line at the bottom of app/config.py:
 settings = Settings()
