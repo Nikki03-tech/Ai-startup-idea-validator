@@ -7,8 +7,6 @@ Each node executes one agent, updates the shared GraphState,
 and passes the updated state to the next node.
 """
 
-from typing import TypedDict, Dict, Any, List
-
 from langgraph.graph import StateGraph, START, END
 
 from agents.web_search_agent import WebSearchAgent
@@ -18,46 +16,7 @@ from agents.swot_risk_agent import SWOTRiskAgent
 from agents.mvp_recommendation_agent import MVPRecommendationAgent
 from agents.gtm_strategy_agent import GTMStrategyAgent
 from agents.report_agent import ReportAgent
-
-
-# =========================================================
-# Shared Graph State
-# =========================================================
-
-class GraphState(TypedDict, total=False):
-    """
-    Shared state that flows through the LangGraph pipeline.
-
-    Every agent reads the information it needs from this state
-    and its node writes the resulting output back into the state.
-    """
-
-    # Original user input
-    startup_idea: str
-
-    # Idea extraction
-    idea_extraction: Dict[str, Any]
-
-    # Web search
-    web_search_results: Dict[str, Any]
-    search_results: List[Dict[str, Any]]
-    references: List[str]
-
-    # Agent outputs
-    market_analysis: Dict[str, Any]
-    competitor_analysis: Any
-    competitors: List[Any]
-    swot_analysis: Dict[str, Any]
-    mvp_recommendation: Dict[str, Any]
-    gtm_strategy: Dict[str, Any]
-
-    # Final report
-    report: Dict[str, Any]
-
-    # Execution metadata
-    current_agent: str
-    execution_status: str
-    errors: List[str]
+from state.schema import GraphState
 
 
 # =========================================================
@@ -151,8 +110,11 @@ def market_analysis_node(state: GraphState):
 
         if result.get("status") == "success":
 
-            state["market_analysis"] = (
-                result.get("data") or {}
+            data = result.get("data") or {}
+
+            state["market_analysis"] = data.get(
+                "market_analysis",
+                {}
             )
 
         else:
@@ -299,8 +261,11 @@ def gtm_node(state: GraphState):
 
         if result.get("status") == "success":
 
-            state["gtm_strategy"] = (
-                result.get("data") or {}
+            data = result.get("data") or {}
+
+            state["gtm_strategy"] = data.get(
+                "gtm_strategy",
+                {}
             )
 
         else:
@@ -332,8 +297,11 @@ def report_node(state: GraphState):
 
         if result.get("status") == "success":
 
-            state["report"] = (
-                result.get("data") or {}
+            data = result.get("data") or {}
+
+            state["report"] = data.get(
+                "validation_report",
+                {}
             )
 
         else:
