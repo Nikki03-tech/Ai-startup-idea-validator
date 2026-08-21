@@ -176,7 +176,7 @@ Do not invent unsupported business facts.
             model=self.model_name,
             google_api_key=api_key,
             temperature=0.2,
-            max_retries=2,
+            max_retries=1,
         )
 
         return create_deep_agent(
@@ -277,7 +277,7 @@ Important:
         except Exception as e:
 
             return {
-                "status": "failed",
+                "status": "error",
                 "data": None,
                 "message": str(e)
             }
