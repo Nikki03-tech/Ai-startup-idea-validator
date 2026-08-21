@@ -124,7 +124,7 @@ class GTMStrategyAgent:
             model_name
             or os.getenv(
                 "STARTUP_VALIDATOR_MODEL",
-                "gemini-flash-latest"
+                "gemini-2.5-flash"
             )
         )
 
@@ -191,7 +191,7 @@ Do not invent unsupported facts.
             model=self.model_name,
             google_api_key=api_key,
             temperature=0.2,
-            max_retries=2,
+            max_retries=1,
         )
 
         return create_deep_agent(
@@ -327,7 +327,7 @@ Important rules:
         except Exception as e:
 
             return {
-                "status": "failed",
+                "status": "error",
                 "data": None,
                 "message": str(e)
             }
