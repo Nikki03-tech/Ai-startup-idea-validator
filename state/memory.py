@@ -2,18 +2,12 @@
 
 Centralized memory object passed across agents in the pipeline.
 """
-"""Shared Memory
+from typing import Any, List, Union
 
-Centralized memory object passed across agents in the pipeline.
-"""
 from pydantic import BaseModel, Field
-from typing import List
 
 from state.schema import (
     StartupIdea,
-    SearchResult,
-    ValidationReport,
-    Competitor,
     IdeaExtraction,
 )
 
@@ -21,9 +15,16 @@ from state.schema import (
 class SharedMemory(BaseModel):
     startup_idea: StartupIdea | None = None
 
-    search_results: List[SearchResult] = Field(default_factory=list)
+    # The real pipeline (pipeline/graph.py) stores plain text/dicts
+    # here (WebSearchAgent returns a text summary, CompetitorAgent
+    # returns a list of competitor dicts, ReportAgent returns a plain
+    # dict) rather than validated SearchResult/Competitor/
+    # ValidationReport model instances, so these fields are typed
+    # loosely to match what's actually assigned - avoiding Pydantic
+    # serialization warnings on every real run.
+    search_results: Union[str, List[Any]] = ""
 
-    competitors: List[Competitor] = Field(default_factory=list)
+    competitors: List[Any] = Field(default_factory=list)
 
     market_analysis: dict = Field(default_factory=dict)
 
@@ -33,6 +34,6 @@ class SharedMemory(BaseModel):
 
     gtm_strategy: dict = Field(default_factory=dict)
 
-    report: ValidationReport | None = None
-    
+    report: dict | None = None
+
     idea_extraction: IdeaExtraction | None = None
