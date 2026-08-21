@@ -25,16 +25,6 @@ class IdeaExtraction(BaseModel):
     target_audience: str
     value_proposition: str
     keywords: List[str] = Field(default_factory=list)
-    
-    # Analysis & Scoring fields for dynamic output
-    validation_score: int
-    market_potential: str  # High, Medium, or Low
-    risk_level: str        # High, Medium, or Low
-    strengths: List[str] = Field(default_factory=list)
-    weaknesses: List[str] = Field(default_factory=list)
-    opportunities: List[str] = Field(default_factory=list)
-    threats: List[str] = Field(default_factory=list)
-    gtm_strategy: str = ""
 
 
 class SearchResult(BaseModel):
@@ -67,11 +57,17 @@ class CompetitorAgentOutput(BaseModel):
 
 class ValidationReport(BaseModel):
     executive_summary: str = ""
+
     market_analysis: Dict[str, Any] = Field(default_factory=dict)
+
     competitor_analysis: List[Competitor] = Field(default_factory=list)
+
     swot_analysis: Dict[str, Any] = Field(default_factory=dict)
+
     mvp_recommendation: Dict[str, Any] = Field(default_factory=dict)
+
     gtm_strategy: Dict[str, Any] = Field(default_factory=dict)
+
     references: List[str] = Field(default_factory=list)
 
 
@@ -79,21 +75,38 @@ class ValidationReport(BaseModel):
 # LangGraph Shared State
 # ==========================================================
 
-class GraphState(TypedDict):
+class GraphState(TypedDict, total=False):
     """
-    Shared state flowing through the LangGraph pipeline.
+    Shared state that flows through the LangGraph pipeline
+    (pipeline/graph.py). This is the single canonical definition -
+    every node reads the information it needs from this state and
+    writes its output back into it.
     """
 
-    startup_idea: StartupIdea
-    extracted_idea: Optional[IdeaExtraction]
-    search_results: List[SearchResult]
+    # Original user input
+    startup_idea: str
+
+    # Idea extraction
+    idea_extraction: Dict[str, Any]
+
+    # Web search
+    web_search_results: Dict[str, Any]
+    search_results: List[Dict[str, Any]]
+    references: List[str]
+
+    # Agent outputs
     market_analysis: Dict[str, Any]
-    competitor_analysis: List[Competitor]
+    competitor_analysis: Any
+    competitors: List[Any]
     swot_analysis: Dict[str, Any]
     mvp_recommendation: Dict[str, Any]
     gtm_strategy: Dict[str, Any]
-    validation_report: Optional[ValidationReport]
+
+    # Final report
+    report: Dict[str, Any]
+
+    # Execution metadata
     current_agent: str
-    thread_id: str
     execution_status: str
+    execution_plan: Dict[str, str]
     errors: List[str]
