@@ -5,6 +5,7 @@ from components.idea_input import show_idea_input
 from components.processing_page import show_processing_page
 from components.report_viewer import show_report
 from components.advisor_page import show_advisor
+from ui.chat_component import render_global_chat
 
 st.set_page_config(
     page_title="AI Startup Idea Validator",
@@ -179,3 +180,5 @@ elif st.session_state.page == "report":
 # CONVERSATIONAL ADVISOR PAGE
 elif st.session_state.page == "advisor":
     show_advisor()
+
+render_global_chat()
