@@ -10,6 +10,7 @@ context and allows a founder to ask follow-up questions.
 
 import json
 import os
+from pathlib import Path
 
 from dotenv import load_dotenv
 
@@ -46,39 +47,44 @@ class ConversationalAdvisor:
             )
         )
 
-        self.system_prompt = """
+        self.system_prompt = self._load_prompt()
+
+        if agent is not None:
+            self.agent = agent
+        else:
+            self.agent = self._build_agent()
+
+    # =====================================================
+    # Prompt loading
+    # =====================================================
+
+    def _load_prompt(self):
+
+        project_root = Path(__file__).resolve().parents[1]
+
+        prompt_path = (
+            project_root
+            / "prompts"
+            / "conversational_advisor.md"
+        )
+
+        if prompt_path.exists():
+            return prompt_path.read_text(encoding="utf-8")
+
+        return """
 You are the AI Conversational Advisor for a startup
 validation system.
 
 Your job is to answer founder questions using the
 startup validation report provided as context.
 
-You can explain:
-
-- Market analysis
-- Competitors
-- SWOT
-- Risks
-- MVP recommendations
-- Go-To-Market strategy
-- Validation score
-
 Rules:
 
 1. Use the supplied report as the main source.
 2. Do not invent facts.
-3. Do not invent market statistics.
-4. Do not invent competitors.
-5. If the report does not contain enough information,
+3. If the report does not contain enough information,
    clearly say so.
-6. Give practical and easy-to-understand answers.
-7. Keep answers focused on the founder's question.
 """
-
-        if agent is not None:
-            self.agent = agent
-        else:
-            self.agent = self._build_agent()
 
     # =====================================================
     # Build DeepAgent
@@ -101,7 +107,7 @@ Rules:
             model=self.model_name,
             google_api_key=api_key,
             temperature=0.3,
-            max_retries=2,
+            max_retries=1,
         )
 
         return create_deep_agent(
@@ -218,7 +224,7 @@ Do not invent unsupported facts.
         except Exception as e:
 
             return {
-                "status": "failed",
+                "status": "error",
                 "answer": "",
                 "message": str(e)
             }
