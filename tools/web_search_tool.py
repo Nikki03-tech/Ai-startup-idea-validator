@@ -1,20 +1,58 @@
 from langchain_core.tools import tool
-from langchain_community.tools.ddg_search.tool import DuckDuckGoSearchRun
+from ddgs import DDGS
 
-_ddg = DuckDuckGoSearchRun()
+
 class WebSearchTool:
     """Wrapper class providing structured web search operations."""
+
     def search(self, query: str):
         try:
-            res = _ddg.run(query)
-            return [{"snippet": res, "url": "https://duckduckgo.com"}]
+            results = []
+
+            with DDGS() as ddgs:
+                search_results = ddgs.text(
+                    query,
+                    max_results=5
+                )
+
+                for result in search_results:
+                    results.append({
+                        "title": result.get("title", ""),
+                        "snippet": result.get("body", ""),
+                        "url": result.get("href", "")
+                    })
+
+            return results
+
         except Exception as e:
-            return [{"snippet": f"Search error: {str(e)}", "url": ""}]
+            return [{
+                "title": "",
+                "snippet": f"Search error: {str(e)}",
+                "url": ""
+            }]
+
 
 @tool
 def execute_web_search(query: str) -> str:
-    """Performs a live web search to retrieve real-time market data, competitors, and trends."""
+    """Performs a live web search and returns source titles, URLs, and snippets."""
+
     try:
-        return _ddg.run(query)
+        results = []
+
+        with DDGS() as ddgs:
+            search_results = ddgs.text(
+                query,
+                max_results=5
+            )
+
+            for result in search_results:
+                results.append(
+                    f"Title: {result.get('title', '')}\n"
+                    f"URL: {result.get('href', '')}\n"
+                    f"Snippet: {result.get('body', '')}"
+                )
+
+        return "\n\n".join(results)
+
     except Exception as e:
         return f"Error executing search tool: {str(e)}"
