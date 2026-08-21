@@ -176,7 +176,7 @@ Do not invent unsupported facts.
             model=self.model_name,
             google_api_key=api_key,
             temperature=0.2,
-            max_retries=2,
+            max_retries=1,
         )
 
         return create_deep_agent(
@@ -217,7 +217,8 @@ Do not invent unsupported facts.
                 )
 
             # Only the required inputs are passed to this agent.
-            user_input = f"""
+            def build_user_input(extra_emphasis: str = "") -> str:
+                return f"""
 Analyze the startup using ONLY the following information.
 
 MARKET ANALYSIS:
@@ -239,34 +240,84 @@ Important rules:
    that are not supported by the supplied information.
 7. If evidence is limited, make conservative inferences rather than
    inventing facts.
-"""
+8. Do NOT write a todo list or delegate this to a subagent. Analyze
+   the information above yourself and answer directly. Your response
+   must contain the actual strengths, weaknesses, opportunities, and
+   threats - not a plan, and not an empty list, unless the supplied
+   evidence genuinely contains nothing relevant to that category.
+{extra_emphasis}"""
 
-            result = self.agent.invoke(
-                {
-                    "messages": [
-                        {
-                            "role": "user",
-                            "content": user_input,
-                        }
-                    ]
-                }
-            )
-
-            structured_result = result.get(
-                "structured_response"
-            )
-
-            if structured_result is None:
-                raise RuntimeError(
-                    "LLM did not return structured SWOT analysis."
+            def invoke_agent(user_input: str):
+                result = self.agent.invoke(
+                    {
+                        "messages": [
+                            {
+                                "role": "user",
+                                "content": user_input,
+                            }
+                        ]
+                    }
                 )
 
-            if isinstance(
-                structured_result,
-                BaseModel
-            ):
-                structured_result = (
-                    structured_result.model_dump()
+                structured_result = result.get(
+                    "structured_response"
+                )
+
+                if structured_result is None:
+                    raise RuntimeError(
+                        "LLM did not return structured SWOT analysis."
+                    )
+
+                if isinstance(
+                    structured_result,
+                    BaseModel
+                ):
+                    structured_result = (
+                        structured_result.model_dump()
+                    )
+
+                return structured_result
+
+            structured_result = invoke_agent(
+                build_user_input()
+            )
+
+            # ---------------------------------------------------------
+            # Defensive retry: DeepAgents can sometimes stop after only
+            # writing a plan instead of doing the actual analysis, which
+            # yields a structurally valid but substantively empty SWOT
+            # (all four categories empty) even though real market/
+            # competitor evidence was supplied. When that happens, retry
+            # once with a stronger, more explicit instruction rather than
+            # silently returning an empty analysis.
+            # ---------------------------------------------------------
+
+            core_fields = (
+                "strengths",
+                "weaknesses",
+                "opportunities",
+                "threats",
+            )
+
+            is_empty = all(
+                not structured_result.get(field)
+                for field in core_fields
+            )
+
+            if is_empty:
+
+                retry_emphasis = (
+                    "\nYour previous attempt returned an empty "
+                    "analysis even though real market and competitor "
+                    "evidence was supplied above. Re-read that "
+                    "evidence carefully and produce actual, specific "
+                    "strengths, weaknesses, opportunities, and threats "
+                    "grounded in it. Do not return empty lists again "
+                    "unless the evidence truly supports none."
+                )
+
+                structured_result = invoke_agent(
+                    build_user_input(retry_emphasis)
                 )
 
             return {
@@ -280,7 +331,7 @@ Important rules:
         except Exception as e:
 
             return {
-                "status": "failed",
+                "status": "error",
                 "data": None,
                 "message": str(e)
             }
