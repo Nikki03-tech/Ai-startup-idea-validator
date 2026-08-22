@@ -4,6 +4,8 @@ Sequential LangGraph pipeline. Each node runs one agent, reads the shared
 `GraphState`, and writes its result back into that same state before the
 next node runs.
 
+![Pipeline Flow](pipeline_flow.png)
+
 ```mermaid
 flowchart LR
     IN[/"Startup Idea\n(state.startup_idea)"/] --> START([START])
