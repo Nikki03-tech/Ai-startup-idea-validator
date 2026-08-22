@@ -4,26 +4,28 @@ Sequential LangGraph pipeline. Each node runs one agent, reads the shared
 `GraphState`, and writes its result back into that same state before the
 next node runs.
 
-```mermaid
-flowchart LR
-    IN[/"Startup Idea\n(state.startup_idea)"/] --> START([START])
-    START --> WS[Web Search Agent]
-    WS -->|"search_results, references"| MA[Market Analysis Agent]
-    MA -->|"market_analysis"| CA[Competitor Agent]
-    CA -->|"competitor_analysis, competitors"| SW["SWOT &amp; Risk Agent"]
-    SW -->|"swot_analysis"| MVP[MVP Recommendation Agent]
-    MVP -->|"mvp_recommendation"| GTM[GTM Strategy Agent]
-    GTM -->|"gtm_strategy"| RA[Report Agent]
-    RA -->|"report"| END_([END])
-    END_ --> OUT[/"Final GraphState\n(report, errors, execution_status)"/]
+![Pipeline Flow](pipeline_flow.png)
 
-    WS -.->|"on failure"| ERR[("state.errors[]")]
-    MA -.->|"on failure"| ERR
-    CA -.->|"on failure"| ERR
-    SW -.->|"on failure"| ERR
-    MVP -.->|"on failure"| ERR
-    GTM -.->|"on failure"| ERR
-    RA -.->|"on failure"| ERR
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 45, 'rankSpacing': 70, 'curve': 'basis'}, 'themeVariables': {'fontSize': '20px'}}}%%
+flowchart TD
+    IN["Startup Idea\n(state.startup_idea)"] --> START(("START"))
+    START --> WS["Web Search Agent"]
+
+    subgraph PIPELINE [" "]
+        direction TD
+        WS -->|"search_results, references"| MA["Market Analysis Agent"]
+        MA -->|"market_analysis"| CA["Competitor Agent"]
+        CA -->|"competitor_analysis, competitors"| SW["SWOT &amp; Risk Agent"]
+        SW -->|"swot_analysis"| MVP["MVP Recommendation Agent"]
+        MVP -->|"mvp_recommendation"| GTM["GTM Strategy Agent"]
+        GTM -->|"gtm_strategy"| RA["Report Agent"]
+    end
+
+    RA -->|"report"| END_(("END"))
+    END_ --> OUT["Final GraphState\n(report, errors, execution_status)"]
+
+    PIPELINE -.->|"on failure"| ERR[("state.errors[]\n(run continues)")]
 ```
 
 ## Notes
