@@ -18,7 +18,7 @@ def _bullets(items):
 
 def _idea_recap(idea: dict):
     with st.container(border=True):
-        st.markdown("#### ðŸ“ What you submitted")
+        st.markdown("####  What you submitted")
 
         st.markdown(f"**Startup Idea:** {idea.get('idea') or '_Not provided._'}")
 
@@ -45,7 +45,7 @@ def _overview_tab(report: dict, market_analysis: dict, idea: dict):
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    st.markdown("#### ðŸ“ Executive Summary")
+    st.markdown("####  Executive Summary")
     st.write(report.get("executive_summary") or "_Not available._")
 
     st.markdown("<br>", unsafe_allow_html=True)
@@ -53,7 +53,7 @@ def _overview_tab(report: dict, market_analysis: dict, idea: dict):
 
 
 def _market_and_competitors_tab(report: dict, market_analysis: dict):
-    st.markdown("#### ðŸ“ˆ Market Analysis")
+    st.markdown("####  Market Analysis")
     with st.container(border=True):
         if market_analysis:
             st.markdown(f"**Market Size:** {market_analysis.get('market_size', 'N/A')}")
@@ -66,13 +66,13 @@ def _market_and_competitors_tab(report: dict, market_analysis: dict):
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    st.markdown("#### ðŸ¢ Competitor Analysis")
+    st.markdown("####  Competitor Analysis")
     competitors = report.get("competitor_analysis") or []
     if not competitors:
         st.markdown("_No competitors found._")
     for competitor in competitors:
         name = competitor.get("name", "Unknown") if isinstance(competitor, dict) else str(competitor)
-        with st.expander(f"ðŸ³ï¸ {name}"):
+        with st.expander(f" {name}"):
             if isinstance(competitor, dict):
                 st.write(competitor.get("description", ""))
                 col1, col2 = st.columns(2)
@@ -87,19 +87,19 @@ def _market_and_competitors_tab(report: dict, market_analysis: dict):
 def _swot_tab(report: dict):
     swot = report.get("swot_analysis") or {}
 
-    st.markdown("#### ðŸ“Š SWOT Analysis")
+    st.markdown("####  SWOT Analysis")
     col1, col2 = st.columns(2)
     with col1:
         with st.container(border=True):
-            st.markdown("**ðŸ’ª Strengths**")
+            st.markdown("** Strengths**")
             _bullets(swot.get("strengths", []))
         st.markdown("<br>", unsafe_allow_html=True)
         with st.container(border=True):
-            st.markdown("**ðŸŒ± Opportunities**")
+            st.markdown("** Opportunities**")
             _bullets(swot.get("opportunities", []))
     with col2:
         with st.container(border=True):
-            st.markdown("**âš ï¸ Weaknesses**")
+            st.markdown("** Weaknesses**")
             _bullets(swot.get("weaknesses", []))
         st.markdown("<br>", unsafe_allow_html=True)
         with st.container(border=True):
@@ -109,7 +109,7 @@ def _swot_tab(report: dict):
     risks = swot.get("risks", [])
     if risks:
         st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("#### ðŸ›¡ï¸ Risks & Mitigation")
+        st.markdown("####  Risks & Mitigation")
         for risk in risks:
             severity = risk.get("severity", "N/A")
             with st.container(border=True):
@@ -121,7 +121,7 @@ def _swot_tab(report: dict):
 
 
 def _mvp_and_gtm_tab(report: dict):
-    st.markdown("#### ðŸ’¡ MVP Recommendation")
+    st.markdown("#### MVP Recommendation")
     mvp = report.get("mvp_recommendation") or {}
     with st.container(border=True):
         st.markdown("**Must Have**")
@@ -134,7 +134,7 @@ def _mvp_and_gtm_tab(report: dict):
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    st.markdown("#### ðŸš€ Go-To-Market Strategy")
+    st.markdown("#### Go-To-Market Strategy")
     gtm = report.get("gtm_strategy") or {}
     with st.container(border=True):
         if gtm.get("positioning_strategy"):
@@ -166,12 +166,12 @@ def _actions_row(report: dict):
        )
 
     with col2:
-        if st.button("ðŸ’¬ Ask a Follow-up Question", use_container_width=True):
+        if st.button(" Ask a Follow-up Question", use_container_width=True):
             st.session_state.page = "advisor"
             st.rerun()
 
     with col3:
-        if st.button("ðŸ”„ Validate Another Idea", use_container_width=True):
+        if st.button("Validate Another Idea", use_container_width=True):
             st.session_state.page = "home"
             st.session_state.pop("validation_result", None)
             st.session_state.pop("idea", None)
@@ -195,7 +195,7 @@ def show_report():
         for err in errors:
             st.markdown(f"- {err}")
         st.markdown("<br>", unsafe_allow_html=True)
-        if st.button("ðŸ”„ Try Again", use_container_width=True):
+        if st.button(" Try Again", use_container_width=True):
             st.session_state.page = "home"
             st.rerun()
         return

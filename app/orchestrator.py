@@ -71,7 +71,7 @@ class Orchestrator:
         Extract structured information from the startup idea using Gemini.
 
         Uses the same STARTUP_VALIDATOR_MODEL env var as the rest of
-        the pipeline (default gemini-2.5-flash) instead of a hardcoded
+        the pipeline (default gemini-3.6-flash) instead of a hardcoded
         model, so this step actually exercises whichever Gemini
         version the project is configured to test.
         """
@@ -96,7 +96,7 @@ Extract the following:
 Return the response as structured JSON.
 """
 
-        model_name = os.getenv("STARTUP_VALIDATOR_MODEL", "gemini-2.5-flash")
+        model_name = os.getenv("STARTUP_VALIDATOR_MODEL", "gemini-3.6-flash")
 
         response = self.client.models.generate_content(
             model=model_name,

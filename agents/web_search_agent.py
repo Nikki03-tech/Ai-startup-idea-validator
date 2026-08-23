@@ -33,7 +33,7 @@ def _extract_text(content) -> str:
     """
     Normalize a LangChain AIMessage.content value into plain text.
 
-    Older Gemini models (e.g. gemini-2.5-flash) return .content as a
+    Older Gemini models (e.g. gemini-3.6-flash) return .content as a
     plain string. Newer, agentic models (e.g. gemini-3.6-flash) can
     return .content as a list of content blocks instead - typically a
     {"type": "text", "text": "..."} block plus non-text metadata such
@@ -79,7 +79,7 @@ class WebSearchAgent:
 
         model_name = model_name or os.getenv(
             "STARTUP_VALIDATOR_MODEL",
-            "gemini-2.5-flash"
+            "gemini-3.6-flash"
         )
 
         llm = ChatGoogleGenerativeAI(

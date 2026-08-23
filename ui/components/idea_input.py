@@ -36,7 +36,7 @@ def _derive_title(idea_text: str) -> str:
 
 def show_idea_input():
     st.markdown(
-        "<h1 style='text-align:center;'>ðŸ’¡ Tell Us About Your Startup</h1>",
+        "<h1 style='text-align:center;'> Tell Us About Your Startup</h1>",
         unsafe_allow_html=True,
     )
     st.markdown(
@@ -50,7 +50,7 @@ def show_idea_input():
 
     with st.form("idea_input_form", border=False):
         with st.container(border=True):
-            st.markdown("#### ðŸš€ Startup Idea")
+            st.markdown("####Startup Idea")
             idea = st.text_area(
                 "Describe your startup idea",
                 placeholder=(
@@ -66,7 +66,7 @@ def show_idea_input():
             col1, col2 = st.columns(2)
 
             with col1:
-                st.markdown("#### ðŸŽ¯ Target Audience")
+                st.markdown("#### Target Audience")
                 target_audience = st.text_input(
                     "Target audience",
                     placeholder="e.g. College students preparing for placements",
@@ -75,7 +75,7 @@ def show_idea_input():
                 )
 
             with col2:
-                st.markdown("#### ðŸ¢ Industry")
+                st.markdown("####  Industry")
                 industry = st.selectbox(
                     "Industry",
                     INDUSTRY_OPTIONS,
@@ -86,7 +86,7 @@ def show_idea_input():
         st.markdown("<br>", unsafe_allow_html=True)
 
         with st.container(border=True):
-            st.markdown("#### â“ Problem Statement")
+            st.markdown("####  Problem Statement")
             problem = st.text_area(
                 "Problem statement",
                 placeholder="What core problem are you solving, and for whom?",
@@ -95,7 +95,7 @@ def show_idea_input():
                 help="Be specific about the pain point - this drives the market and SWOT research.",
             )
 
-            st.markdown("#### ðŸ› ï¸ Proposed Solution")
+            st.markdown("####  Proposed Solution")
             solution = st.text_area(
                 "Proposed solution",
                 placeholder="How does your product or service solve that problem?",
@@ -110,12 +110,12 @@ def show_idea_input():
 
         with col_back:
             back_clicked = st.form_submit_button(
-                "â† Back", use_container_width=True
+                " Back", use_container_width=True
             )
 
         with col_submit:
             submit_clicked = st.form_submit_button(
-                "ðŸ“Š Validate My Startup Idea", use_container_width=True, type="primary"
+                " Validate My Startup Idea", use_container_width=True, type="primary"
             )
 
     if back_clicked:

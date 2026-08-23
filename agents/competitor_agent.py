@@ -67,7 +67,7 @@ class CompetitorAgent:
             self.agent = agent
             return
 
-        model_name = model_name or os.getenv("STARTUP_VALIDATOR_MODEL", "gemini-2.5-flash")
+        model_name = model_name or os.getenv("STARTUP_VALIDATOR_MODEL", "gemini-3.6-flash")
         llm = ChatGoogleGenerativeAI(
             model=model_name,
             google_api_key=os.environ.get("GEMINI_API_KEY"),

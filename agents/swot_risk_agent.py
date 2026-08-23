@@ -102,14 +102,14 @@ class SWOTRiskAgent:
 
         model_name:
             Optional Gemini model name. Defaults to the environment
-            variable STARTUP_VALIDATOR_MODEL or gemini-2.5-flash.
+            variable STARTUP_VALIDATOR_MODEL or gemini-3.6-flash.
         """
 
         self.model_name = (
             model_name
             or os.getenv(
                 "STARTUP_VALIDATOR_MODEL",
-                "gemini-2.5-flash"
+                "gemini-3.6-flash"
             )
         )
 

@@ -43,7 +43,7 @@ class ConversationalAdvisor:
             model_name
             or os.getenv(
                 "STARTUP_VALIDATOR_MODEL",
-                "gemini-2.5-flash"
+                "gemini-3.6-flash"
             )
         )
 
