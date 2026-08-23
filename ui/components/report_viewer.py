@@ -103,7 +103,7 @@ def _swot_tab(report: dict):
             _bullets(swot.get("weaknesses", []))
         st.markdown("<br>", unsafe_allow_html=True)
         with st.container(border=True):
-            st.markdown("**ðŸš¨ Threats**")
+            st.markdown("** Threats**")
             _bullets(swot.get("threats", []))
 
     risks = swot.get("risks", [])
@@ -158,7 +158,7 @@ def _actions_row(report: dict):
         )
 
         st.download_button(
-            "ðŸ“„ Generate & Download PDF",
+            "Generate & Download PDF",
             data=pdf_bytes,
             file_name="startup_validation_report.pdf",
             mime="application/pdf",
@@ -183,7 +183,7 @@ def show_report():
     final_state = st.session_state.get("validation_result", {}) or {}
 
     st.markdown(
-        f"<h1>ðŸ“ˆ Validation Report: {idea.get('display_title', 'Your Startup')}</h1>",
+        f"<h1> Validation Report: {idea.get('display_title', 'Your Startup')}</h1>",
         unsafe_allow_html=True,
     )
 

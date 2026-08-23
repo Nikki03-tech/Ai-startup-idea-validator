@@ -175,7 +175,6 @@ elif st.session_state.page == "processing":
 elif st.session_state.page == "report":
     show_report()
 
-# CONVERSATIONAL ADVISOR PAGE
-elif st.session_state.page == "advisor":
-    show_advisor()
+# Render floating Copilot on all pages at root level
+show_advisor()
 

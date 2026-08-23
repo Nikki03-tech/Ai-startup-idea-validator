@@ -22,7 +22,7 @@ STAGES = [
 
 def _render_checklist(container, completed_nodes: set, current_node: str | None):
     """
-    Render the âœ“ / â³ / â—‹ agent checklist for the stages that have
+    Render  agent checklist for the stages that have
     actually completed (or are actively running) in the real graph
     run so far - never a simulated/fixed animation.
     """
@@ -31,11 +31,11 @@ def _render_checklist(container, completed_nodes: set, current_node: str | None)
 
     for node_name, label in STAGES:
         if node_name in completed_nodes:
-            lines.append(f"nbsp; ~~{label}~~")
+            lines.append(f"~~{label}~~")
         elif node_name == current_node:
-            lines.append(f"nbsp; **{label}** _(in progress...)_")
+            lines.append(f"**{label}** _(in progress...)_")
         else:
-            lines.append(f"nbsp; {label}")
+            lines.append(f" {label}")
 
     container.markdown(
         "<div style='font-size:18px; line-height:2.1;'>"
