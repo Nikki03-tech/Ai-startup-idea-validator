@@ -26,6 +26,32 @@ flowchart TD
     END_ --> OUT["Final GraphState\n(report, errors, execution_status)"]
 
     PIPELINE -.->|"on failure"| ERR[("state.errors[]\n(run continues)")]
+
+    classDef pink fill:#fdf2f8,stroke:#ec4899,stroke-width:2px,color:#1b1d22;
+    classDef teal fill:#f0fdfa,stroke:#14b8a6,stroke-width:2px,color:#1b1d22;
+    classDef orange fill:#fff7ed,stroke:#f97316,stroke-width:2px,color:#1b1d22;
+    classDef blue fill:#eff6ff,stroke:#3b82f6,stroke-width:2px,color:#1b1d22;
+    classDef green fill:#f0fdf4,stroke:#22c55e,stroke-width:2px,color:#1b1d22;
+    classDef purple fill:#f5f3ff,stroke:#8b5cf6,stroke-width:2px,color:#1b1d22;
+    classDef amber fill:#fefce8,stroke:#eab308,stroke-width:2px,color:#1b1d22;
+    classDef cyan fill:#ecfeff,stroke:#06b6d4,stroke-width:2px,color:#1b1d22;
+    classDef neutral fill:#f8fafc,stroke:#64748b,stroke-width:2px,color:#1b1d22;
+    classDef danger fill:#fef2f2,stroke:#ef4444,stroke-width:2px,color:#7f1d1d;
+
+    class IN pink;
+    class START neutral;
+    class WS teal;
+    class MA orange;
+    class CA blue;
+    class SW green;
+    class MVP purple;
+    class GTM amber;
+    class RA cyan;
+    class END_ neutral;
+    class OUT neutral;
+    class ERR danger;
+
+    style PIPELINE fill:none,stroke:#cbd5e1,stroke-width:1px,stroke-dasharray: 4 4
 ```
 
 ## Notes
