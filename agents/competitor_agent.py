@@ -35,7 +35,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from deepagents import create_deep_agent
-from langchain_google_genai import ChatGoogleGenerativeAI
+from app.llm import get_chat_model
 from pydantic import BaseModel, Field
 
 from tools.web_search_tool import execute_web_search
@@ -66,19 +66,16 @@ class CompetitorAgent:
         if agent is not None:
             self.agent = agent
             return
+        model_name = model_name or os.getenv(
+              "STARTUP_VALIDATOR_MODEL",
+              "gemini-2.5-flash"
+   )
 
-        model_name = model_name or os.getenv("STARTUP_VALIDATOR_MODEL", "gemini-3.6-flash")
-        llm = ChatGoogleGenerativeAI(
-            model=model_name,
-            google_api_key=os.environ.get("GEMINI_API_KEY"),
-            # max_retries defaults to 6 in langchain-google-genai, so an
-            # unset value here silently allows up to 7 real API calls
-            # for a single logical request. That multiplies quota usage
-            # badly on 429s, since retrying an already-rate-limited
-            # request doesn't help. max_retries=1 is the library's
-            # documented way to make exactly one attempt, no retries.
-            max_retries=1,
+        llm = get_chat_model(
+               model_name=model_name,
+               max_retries=1,
         )
+
         self.agent = create_deep_agent(
             model=llm,
             tools=[execute_web_search],
