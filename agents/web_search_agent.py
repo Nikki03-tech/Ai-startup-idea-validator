@@ -22,7 +22,7 @@ if os.path.exists(PROMPT_PATH):
         WEB_SEARCH_PROMPT = f.read()
 else:
     WEB_SEARCH_PROMPT = (
-        "You are a Web Search Agent. Gather facts and competitors
+        "You are a Web Search Agent. Gather facts and competitors "
         "for the given startup idea."
     )
 
