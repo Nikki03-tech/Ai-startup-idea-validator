@@ -7,7 +7,7 @@ import os
 from google import genai
 from pydantic import ValidationError
 
-from app.config import settings
+from app.llm import run_with_gemini_key_rotation
 from pipeline.graph import graph as validation_graph
 from state.memory import SharedMemory
 from state.schema import StartupIdea, IdeaExtraction
@@ -36,7 +36,6 @@ class Orchestrator:
 
     def __init__(self):
         self.memory = SharedMemory()
-        self.client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
         # Holds the execution plan *after* execute_pipeline() has run,
         # with each step's real status ("completed"/"failed") filled
@@ -71,7 +70,7 @@ class Orchestrator:
         Extract structured information from the startup idea using Gemini.
 
         Uses the same STARTUP_VALIDATOR_MODEL env var as the rest of
-        the pipeline (default gemini-3.6-flash) instead of a hardcoded
+        the pipeline (default gemini-2.5-flash) instead of a hardcoded
         model, so this step actually exercises whichever Gemini
         version the project is configured to test.
         """
@@ -96,16 +95,25 @@ Extract the following:
 Return the response as structured JSON.
 """
 
-        model_name = os.getenv("STARTUP_VALIDATOR_MODEL", "gemini-3.6-flash")
+        model_name = os.getenv("STARTUP_VALIDATOR_MODEL", "gemini-2.5-flash")
 
-        response = self.client.models.generate_content(
-            model=model_name,
-            contents=prompt,
-            config={
-                "response_mime_type": "application/json",
-                "response_schema": IdeaExtraction,
-            },
-        )
+        # Same automatic key-rotation behavior as the LangChain-based
+        # agents (see app/llm.py): a fresh genai.Client is built for
+        # whichever key is currently active, and on a quota/rate-limit/
+        # auth error this automatically retries with the next
+        # configured key instead of failing the whole validation.
+        def _call(api_key: str, _index: int):
+            client = genai.Client(api_key=api_key)
+            return client.models.generate_content(
+                model=model_name,
+                contents=prompt,
+                config={
+                    "response_mime_type": "application/json",
+                    "response_schema": IdeaExtraction,
+                },
+            )
+
+        response = run_with_gemini_key_rotation(_call)
 
         idea_extraction = response.parsed
 
