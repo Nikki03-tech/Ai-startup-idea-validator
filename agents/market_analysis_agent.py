@@ -26,7 +26,7 @@ from pathlib import Path
 from typing import Any, Dict
 
 from deepagents import create_deep_agent
-from langchain_google_genai import ChatGoogleGenerativeAI
+from app.llm import get_chat_model
 from pydantic import BaseModel, Field
 
 
@@ -75,11 +75,11 @@ class MarketAnalysisAgent:
 
         model_name:
             Optional Gemini model name. Defaults to the environment
-            variable STARTUP_VALIDATOR_MODEL or gemini-3.6-flash.
+            variable STARTUP_VALIDATOR_MODEL or gemini-2.5-flash.
         """
 
         self.model_name = model_name or os.getenv(
-            "STARTUP_VALIDATOR_MODEL", "gemini-3.6-flash"
+            "STARTUP_VALIDATOR_MODEL", "gemini-2.5-flash"
         )
 
         self.system_prompt = self._load_prompt()
@@ -111,20 +111,9 @@ class MarketAnalysisAgent:
     # -------------------------------------------------------------
 
     def _build_agent(self):
-        api_key = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
 
-        if not api_key:
-            raise RuntimeError(
-                "Gemini API key not found. Set GOOGLE_API_KEY or GEMINI_API_KEY."
-            )
-
-        model = ChatGoogleGenerativeAI(
-            model=self.model_name,
-            google_api_key=api_key,
-            # See competitor_agent.py for why this is set explicitly:
-            # the library's default (max_retries=6) silently allows up
-            # to 7 real API calls per logical request, which badly
-            # multiplies quota usage on 429s.
+        model = get_chat_model(
+            model_name=self.model_name,
             max_retries=1,
         )
 
