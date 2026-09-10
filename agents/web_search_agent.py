@@ -6,11 +6,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-os.environ["GOOGLE_API_KEY"] = os.environ["GEMINI_API_KEY"]
-
 from deepagents import create_deep_agent
 from langchain_core.messages import ToolMessage
-from langchain_google_genai import ChatGoogleGenerativeAI
+from app.llm import get_chat_model
 from tools.web_search_tool import execute_web_search, WebSearchTool
 
 
@@ -24,7 +22,7 @@ if os.path.exists(PROMPT_PATH):
         WEB_SEARCH_PROMPT = f.read()
 else:
     WEB_SEARCH_PROMPT = (
-        "You are a Web Search Agent. Gather facts and competitors "
+        "You are a Web Search Agent. Gather facts and competitors
         "for the given startup idea."
     )
 
@@ -33,7 +31,7 @@ def _extract_text(content) -> str:
     """
     Normalize a LangChain AIMessage.content value into plain text.
 
-    Older Gemini models (e.g. gemini-3.6-flash) return .content as a
+    Older Gemini models (e.g. gemini-2.5-flash) return .content as a
     plain string. Newer, agentic models (e.g. gemini-3.6-flash) can
     return .content as a list of content blocks instead - typically a
     {"type": "text", "text": "..."} block plus non-text metadata such
@@ -79,18 +77,14 @@ class WebSearchAgent:
 
         model_name = model_name or os.getenv(
             "STARTUP_VALIDATOR_MODEL",
-            "gemini-3.6-flash"
+            "gemini-2.5-flash"
         )
 
-        llm = ChatGoogleGenerativeAI(
-            model=model_name,
-            google_api_key=os.environ.get("GEMINI_API_KEY"),
-            # See competitor_agent.py for why this is set explicitly:
-            # the library's default (max_retries=6) silently allows up
-            # to 7 real API calls per logical request, which badly
-            # multiplies quota usage on 429s.
+        llm = get_chat_model(
+            model_name=model_name,
             max_retries=1,
         )
+            
 
         self.agent = create_deep_agent(
             model=llm,
