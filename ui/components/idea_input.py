@@ -36,7 +36,19 @@ def _derive_title(idea_text: str) -> str:
 
 def show_idea_input():
     st.markdown(
-        "<h1 style='text-align:center;'> Tell Us About Your Startup</h1>",
+    """
+    <style>
+    /* Hide Streamlit's form keyboard shortcut hint */
+    div[data-testid="InputInstructions"] {
+        display: none !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+    )
+    
+    st.markdown(
+        "<h1 style='text-align:center;'>ðŸ’¡ Tell Us About Your Startup</h1>",
         unsafe_allow_html=True,
     )
     st.markdown(
@@ -50,7 +62,7 @@ def show_idea_input():
 
     with st.form("idea_input_form", border=False):
         with st.container(border=True):
-            st.markdown("####Startup Idea")
+            st.markdown("#### ðŸš€ Startup Idea")
             idea = st.text_area(
                 "Describe your startup idea",
                 placeholder=(
@@ -66,7 +78,7 @@ def show_idea_input():
             col1, col2 = st.columns(2)
 
             with col1:
-                st.markdown("#### Target Audience")
+                st.markdown("#### ðŸŽ¯ Target Audience")
                 target_audience = st.text_input(
                     "Target audience",
                     placeholder="e.g. College students preparing for placements",
@@ -75,7 +87,7 @@ def show_idea_input():
                 )
 
             with col2:
-                st.markdown("####  Industry")
+                st.markdown("#### ðŸ¢ Industry")
                 industry = st.selectbox(
                     "Industry",
                     INDUSTRY_OPTIONS,
@@ -86,7 +98,7 @@ def show_idea_input():
         st.markdown("<br>", unsafe_allow_html=True)
 
         with st.container(border=True):
-            st.markdown("####  Problem Statement")
+            st.markdown("#### â“ Problem Statement")
             problem = st.text_area(
                 "Problem statement",
                 placeholder="What core problem are you solving, and for whom?",
@@ -95,7 +107,7 @@ def show_idea_input():
                 help="Be specific about the pain point - this drives the market and SWOT research.",
             )
 
-            st.markdown("####  Proposed Solution")
+            st.markdown("#### ðŸ› ï¸ Proposed Solution")
             solution = st.text_area(
                 "Proposed solution",
                 placeholder="How does your product or service solve that problem?",
@@ -106,16 +118,16 @@ def show_idea_input():
 
         st.markdown("<br>", unsafe_allow_html=True)
 
-        left, col_submit, col_back = st.columns([2, 2, 1])
+        col_back, spacer, col_submit = st.columns([1, 2, 2])
 
         with col_back:
             back_clicked = st.form_submit_button(
-                " Back", use_container_width=True
+                "â† Back", use_container_width=True
             )
 
         with col_submit:
             submit_clicked = st.form_submit_button(
-                " Validate My Startup Idea", use_container_width=True, type="primary"
+                "ðŸ“Š Validate My Startup Idea", use_container_width=True, type="primary"
             )
 
     if back_clicked:
