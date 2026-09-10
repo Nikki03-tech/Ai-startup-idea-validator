@@ -5,9 +5,12 @@ from components.idea_input import show_idea_input
 from components.processing_page import show_processing_page
 from components.report_viewer import show_report
 from components.advisor_page import show_advisor
+from components.ai_advisor_widget import show_ai_advisor_widget
+from components.deepeval_evaluation import show_deepeval_evaluation
 
 st.set_page_config(
     page_title="AI Startup Idea Validator",
+    page_icon="ðŸ¤–",
     layout="wide"
 )
 
@@ -90,6 +93,22 @@ h1, h2, h3, h4, label, .stMarkdown p {
     box-shadow: 0px 0px 15px rgba(192, 132, 252, 0.4) !important;
 }
 
+/* Download Button */
+.stDownloadButton > button {
+    background: linear-gradient(90deg, #7e22ce 0%, #9333ea 100%) !important;
+    color: #ffffff !important;
+    border: 1px solid #c084fc !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+}
+
+.stDownloadButton > button:hover {
+    background: linear-gradient(90deg, #9333ea 0%, #a855f7 100%) !important;
+    box-shadow: 0px 0px 15px rgba(192, 132, 252, 0.4) !important;
+    color: #ffffff !important;
+}
+
 .stButton > button:disabled {
     background: rgba(255, 255, 255, 0.06) !important;
     color: #a1a1aa !important;
@@ -124,7 +143,7 @@ if "page" not in st.session_state:
 
 # HOME PAGE
 if st.session_state.page == "home":
-    st.markdown('<div class="hero-title">AI Startup Idea Validator</div>', unsafe_allow_html=True)
+    st.markdown('<div class="hero-title">ðŸ¤– AI Startup Idea Validator</div>', unsafe_allow_html=True)
     st.markdown(
         '<div class="hero-subtitle">Validate your startup idea with a multi-agent AI research pipeline - '
         'market sizing, competitor research, SWOT, MVP scope, and go-to-market, in minutes.</div>',
@@ -132,17 +151,17 @@ if st.session_state.page == "home":
     )
     st.markdown(
         '<div class="hero-badges">'
-        '<span class="hero-badge">Live Market Research</span>'
-        '<span class="hero-badge">Competitor Analysis</span>'
-        '<span class="hero-badge"> SWOT & Risk</span>'
-        '<span class="hero-badge">GTM Strategy</span>'
+        '<span class="hero-badge">ðŸ”Ž Live Market Research</span>'
+        '<span class="hero-badge">ðŸ¢ Competitor Analysis</span>'
+        '<span class="hero-badge">ðŸ“Š SWOT & Risk</span>'
+        '<span class="hero-badge">ðŸš€ GTM Strategy</span>'
         '</div>',
         unsafe_allow_html=True,
     )
 
     left, center, right = st.columns([1, 2, 1])
     with center:
-        if st.button(" Validate My Startup Idea", use_container_width=True, type="primary"):
+        if st.button("âœ¨ Validate My Startup Idea", use_container_width=True, type="primary"):
             st.session_state.page = "submit"
             st.rerun()
 
@@ -150,15 +169,15 @@ if st.session_state.page == "home":
 
     f1, f2, f3, f4 = st.columns(4)
     features = [
-        ("Web Search Agent", "Gathers live market context and news for your idea."),
-        ("Competitor Agent", "Finds real, named competitors with strengths and weaknesses."),
-        ("SWOT & Risk Agent", "Surfaces strengths, weaknesses, and execution risks."),
-        ("GTM Agent", "Recommends positioning, channels, and a launch plan."),
+        ("ðŸ”Ž", "Web Search Agent", "Gathers live market context and news for your idea."),
+        ("ðŸ¢", "Competitor Agent", "Finds real, named competitors with strengths and weaknesses."),
+        ("ðŸ“Š", "SWOT & Risk Agent", "Surfaces strengths, weaknesses, and execution risks."),
+        ("ðŸš€", "GTM Agent", "Recommends positioning, channels, and a launch plan."),
     ]
-    for col, (title, desc) in zip([f1, f2, f3, f4], features):
+    for col, (icon, title, desc) in zip([f1, f2, f3, f4], features):
         with col:
             st.markdown(
-                f'<div class="feature-card"><h4>{title}</h4>'
+                f'<div class="feature-card"><h4>{icon} {title}</h4>'
                 f'<p style="color:#d8b4fe; font-size:14px;">{desc}</p></div>',
                 unsafe_allow_html=True,
             )
@@ -175,6 +194,14 @@ elif st.session_state.page == "processing":
 elif st.session_state.page == "report":
     show_report()
 
-# Render floating Copilot on all pages at root level
-show_advisor()
+# CONVERSATIONAL ADVISOR PAGE
+elif st.session_state.page == "advisor":
+    show_advisor()
 
+# DEEPEVAL EVALUATION PAGE
+elif st.session_state.page == "deepeval":
+    show_deepeval_evaluation()
+
+# Floating AI Advisor widget - rendered on every page, independent of
+# the routing above.
+show_ai_advisor_widget()
