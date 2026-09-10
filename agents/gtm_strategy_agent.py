@@ -35,7 +35,7 @@ load_dotenv()
 
 from pathlib import Path
 from deepagents import create_deep_agent
-from langchain_google_genai import ChatGoogleGenerativeAI
+from app.llm import get_chat_model
 from pydantic import BaseModel, Field
 
 
@@ -117,14 +117,14 @@ class GTMStrategyAgent:
 
         model_name:
             Optional Gemini model name.
-            Defaults to STARTUP_VALIDATOR_MODEL or gemini-3.6-flash.
+            Defaults to STARTUP_VALIDATOR_MODEL or gemini-2.5-flash.
         """
 
         self.model_name = (
             model_name
             or os.getenv(
                 "STARTUP_VALIDATOR_MODEL",
-                "gemini-3.6-flash"
+                "gemini-2.5-flash"
             )
         )
 
@@ -176,20 +176,9 @@ Do not invent unsupported facts.
 
     def _build_agent(self):
 
-        api_key = (
-            os.getenv("GOOGLE_API_KEY")
-            or os.getenv("GEMINI_API_KEY")
-        )
 
-        if not api_key:
-            raise RuntimeError(
-                "Gemini API key not found. "
-                "Set GOOGLE_API_KEY or GEMINI_API_KEY."
-            )
-
-        model = ChatGoogleGenerativeAI(
-            model=self.model_name,
-            google_api_key=api_key,
+        model = get_chat_model(
+            model_name=self.model_name,
             temperature=0.2,
             max_retries=1,
         )
