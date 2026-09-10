@@ -6,9 +6,24 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    # Required: used by every agent (ChatGoogleGenerativeAI) and the
-    # standalone Orchestrator (google.genai client).
-    GEMINI_API_KEY: str
+    # Gemini model name, used by every agent + the Orchestrator.
+    # Same env var every agent already read directly; now also
+    # surfaced here so app/llm.py has a single default to fall back to.
+    STARTUP_VALIDATOR_MODEL: str = "gemini-2.5-flash"
+
+    # Gemini API key configuration - centralized in app/llm.py, which
+    # every agent + the Orchestrator now call instead of reading these
+    # directly. Two ways to configure:
+    #   - GEMINI_API_KEY alone: single key, unchanged from before.
+    #   - GEMINI_API_KEYS (comma-separated): a pool of keys. app/llm.py
+    #     automatically rotates to the next key at runtime whenever the
+    #     active one hits a quota/rate-limit/auth error, and retries -
+    #     no manual index, no restart. GEMINI_API_KEYS takes precedence
+    #     over GEMINI_API_KEY when both are set.
+    # Optional here (rather than required) so app/llm.py can give a
+    # clear, single error message if neither is configured.
+    GEMINI_API_KEY: Optional[str] = None
+    GEMINI_API_KEYS: Optional[str] = None
 
     # Optional: not currently wired to any tool (web search runs on
     # DuckDuckGo/ddgs, not Tavily). Kept optional so Settings() doesn't
