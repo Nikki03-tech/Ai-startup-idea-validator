@@ -18,7 +18,7 @@ def _bullets(items):
 
 def _idea_recap(idea: dict):
     with st.container(border=True):
-        st.markdown("####  What you submitted")
+        st.markdown("#### ðŸ“ What you submitted")
 
         st.markdown(f"**Startup Idea:** {idea.get('idea') or '_Not provided._'}")
 
@@ -45,15 +45,15 @@ def _overview_tab(report: dict, market_analysis: dict, idea: dict):
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    st.markdown("####  Executive Summary")
+    st.markdown("#### ðŸ“ Executive Summary")
     st.write(report.get("executive_summary") or "_Not available._")
 
     st.markdown("<br>", unsafe_allow_html=True)
     _idea_recap(idea)
-
+    
 
 def _market_and_competitors_tab(report: dict, market_analysis: dict):
-    st.markdown("####  Market Analysis")
+    st.markdown("#### ðŸ“ˆ Market Analysis")
     with st.container(border=True):
         if market_analysis:
             st.markdown(f"**Market Size:** {market_analysis.get('market_size', 'N/A')}")
@@ -66,13 +66,13 @@ def _market_and_competitors_tab(report: dict, market_analysis: dict):
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    st.markdown("####  Competitor Analysis")
+    st.markdown("#### ðŸ¢ Competitor Analysis")
     competitors = report.get("competitor_analysis") or []
     if not competitors:
         st.markdown("_No competitors found._")
     for competitor in competitors:
         name = competitor.get("name", "Unknown") if isinstance(competitor, dict) else str(competitor)
-        with st.expander(f" {name}"):
+        with st.expander(f"ðŸ³ï¸ {name}"):
             if isinstance(competitor, dict):
                 st.write(competitor.get("description", ""))
                 col1, col2 = st.columns(2)
@@ -87,29 +87,29 @@ def _market_and_competitors_tab(report: dict, market_analysis: dict):
 def _swot_tab(report: dict):
     swot = report.get("swot_analysis") or {}
 
-    st.markdown("####  SWOT Analysis")
+    st.markdown("#### ðŸ“Š SWOT Analysis")
     col1, col2 = st.columns(2)
     with col1:
         with st.container(border=True):
-            st.markdown("** Strengths**")
+            st.markdown("**ðŸ’ª Strengths**")
             _bullets(swot.get("strengths", []))
         st.markdown("<br>", unsafe_allow_html=True)
         with st.container(border=True):
-            st.markdown("** Opportunities**")
+            st.markdown("**ðŸŒ± Opportunities**")
             _bullets(swot.get("opportunities", []))
     with col2:
         with st.container(border=True):
-            st.markdown("** Weaknesses**")
+            st.markdown("**âš ï¸ Weaknesses**")
             _bullets(swot.get("weaknesses", []))
         st.markdown("<br>", unsafe_allow_html=True)
         with st.container(border=True):
-            st.markdown("** Threats**")
+            st.markdown("**ðŸš¨ Threats**")
             _bullets(swot.get("threats", []))
 
     risks = swot.get("risks", [])
     if risks:
         st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("####  Risks & Mitigation")
+        st.markdown("#### ðŸ›¡ï¸ Risks & Mitigation")
         for risk in risks:
             severity = risk.get("severity", "N/A")
             with st.container(border=True):
@@ -121,7 +121,7 @@ def _swot_tab(report: dict):
 
 
 def _mvp_and_gtm_tab(report: dict):
-    st.markdown("#### MVP Recommendation")
+    st.markdown("#### ðŸ’¡ MVP Recommendation")
     mvp = report.get("mvp_recommendation") or {}
     with st.container(border=True):
         st.markdown("**Must Have**")
@@ -134,7 +134,7 @@ def _mvp_and_gtm_tab(report: dict):
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    st.markdown("#### Go-To-Market Strategy")
+    st.markdown("#### ðŸš€ Go-To-Market Strategy")
     gtm = report.get("gtm_strategy") or {}
     with st.container(border=True):
         if gtm.get("positioning_strategy"):
@@ -158,7 +158,7 @@ def _actions_row(report: dict):
         )
 
         st.download_button(
-            "Generate & Download PDF",
+            "ðŸ“„ Generate & Download PDF",
             data=pdf_bytes,
             file_name="startup_validation_report.pdf",
             mime="application/pdf",
@@ -166,12 +166,12 @@ def _actions_row(report: dict):
        )
 
     with col2:
-        if st.button(" Ask a Follow-up Question", use_container_width=True):
-            st.session_state.page = "advisor"
+        if st.button("ðŸ¤– Evaluate with DeepEval", use_container_width=True):
+            st.session_state.page = "deepeval"
             st.rerun()
 
     with col3:
-        if st.button("Validate Another Idea", use_container_width=True):
+        if st.button("ðŸ”„ Validate Another Idea", use_container_width=True):
             st.session_state.page = "home"
             st.session_state.pop("validation_result", None)
             st.session_state.pop("idea", None)
@@ -183,7 +183,7 @@ def show_report():
     final_state = st.session_state.get("validation_result", {}) or {}
 
     st.markdown(
-        f"<h1> Validation Report: {idea.get('display_title', 'Your Startup')}</h1>",
+        f"<h1>ðŸ“ˆ Validation Report: {idea.get('display_title', 'Your Startup')}</h1>",
         unsafe_allow_html=True,
     )
 
@@ -195,7 +195,7 @@ def show_report():
         for err in errors:
             st.markdown(f"- {err}")
         st.markdown("<br>", unsafe_allow_html=True)
-        if st.button(" Try Again", use_container_width=True):
+        if st.button("ðŸ”„ Try Again", use_container_width=True):
             st.session_state.page = "home"
             st.rerun()
         return
