@@ -1,4 +1,6 @@
 annotated-types==0.8.0
+sqlalchemy
+psycopg2-binary
 anthropic==0.119.0
 anyio==4.14.2
 bracex==3.0.1

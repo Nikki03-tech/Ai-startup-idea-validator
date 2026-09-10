@@ -5,6 +5,11 @@ LangGraph sequential workflow for the AI Startup Idea Validator.
 
 Each node executes one agent, updates the shared GraphState,
 and passes the updated state to the next node.
+
+Observability:
+- Tracks execution time for every agent.
+- Tracks success/failure status.
+- Records agent-level errors.
 """
 
 from langgraph.graph import StateGraph, START, END
@@ -16,7 +21,15 @@ from agents.swot_risk_agent import SWOTRiskAgent
 from agents.mvp_recommendation_agent import MVPRecommendationAgent
 from agents.gtm_strategy_agent import GTMStrategyAgent
 from agents.report_agent import ReportAgent
+
 from state.schema import GraphState
+
+from guardrails import validate_input, validate_output
+
+from observability.metrics import (
+    start_timer,
+    record_agent_metric,
+)
 
 
 # =========================================================
@@ -36,7 +49,11 @@ report_agent = ReportAgent()
 # Helper Functions
 # =========================================================
 
-def record_error(state: GraphState, agent_name: str, message: str) -> None:
+def record_error(
+    state: GraphState,
+    agent_name: str,
+    message: str
+) -> None:
     """
     Record an agent failure without crashing the entire graph.
     """
@@ -57,12 +74,28 @@ def record_error(state: GraphState, agent_name: str, message: str) -> None:
 
 def web_search_node(state: GraphState):
     """
-    Execute Web Search Agent.
+    Execute Web Search Agent with input Guardrails
+    and observability metrics.
     """
+
+    start_time = start_timer()
+    agent_name = "Web Search Agent"
+    status = "success"
+    error_message = None
 
     state["current_agent"] = "web_search"
 
     try:
+        # -------------------------------------------------
+        # Input Guardrails
+        # -------------------------------------------------
+        state["startup_idea"] = validate_input(
+            state.get("startup_idea", "")
+        )
+
+        # -------------------------------------------------
+        # Agent Execution
+        # -------------------------------------------------
         result = web_search_agent.run(state)
 
         if result.get("status") == "success":
@@ -82,17 +115,37 @@ def web_search_node(state: GraphState):
             )
 
         else:
+            status = "failed"
+
+            error_message = result.get(
+                "message",
+                "Unknown error"
+            )
+
             record_error(
                 state,
-                "Web Search Agent",
-                result.get("message", "Unknown error")
+                agent_name,
+                error_message
             )
 
     except Exception as e:
+
+        status = "failed"
+        error_message = str(e)
+
         record_error(
             state,
-            "Web Search Agent",
-            str(e)
+            agent_name,
+            error_message
+        )
+
+    finally:
+
+        record_agent_metric(
+            agent_name,
+            start_time,
+            status,
+            error_message
         )
 
     return state
@@ -100,12 +153,18 @@ def web_search_node(state: GraphState):
 
 def market_analysis_node(state: GraphState):
     """
-    Execute Market Analysis Agent.
+    Execute Market Analysis Agent with observability.
     """
+
+    start_time = start_timer()
+    agent_name = "Market Analysis Agent"
+    status = "success"
+    error_message = None
 
     state["current_agent"] = "market_analysis"
 
     try:
+
         result = market_agent.run(state)
 
         if result.get("status") == "success":
@@ -118,17 +177,38 @@ def market_analysis_node(state: GraphState):
             )
 
         else:
+
+            status = "failed"
+
+            error_message = result.get(
+                "message",
+                "Unknown error"
+            )
+
             record_error(
                 state,
-                "Market Analysis Agent",
-                result.get("message", "Unknown error")
+                agent_name,
+                error_message
             )
 
     except Exception as e:
+
+        status = "failed"
+        error_message = str(e)
+
         record_error(
             state,
-            "Market Analysis Agent",
-            str(e)
+            agent_name,
+            error_message
+        )
+
+    finally:
+
+        record_agent_metric(
+            agent_name,
+            start_time,
+            status,
+            error_message
         )
 
     return state
@@ -136,12 +216,18 @@ def market_analysis_node(state: GraphState):
 
 def competitor_analysis_node(state: GraphState):
     """
-    Execute Competitor Analysis Agent.
+    Execute Competitor Analysis Agent with observability.
     """
+
+    start_time = start_timer()
+    agent_name = "Competitor Agent"
+    status = "success"
+    error_message = None
 
     state["current_agent"] = "competitor_analysis"
 
     try:
+
         result = competitor_agent.run(state)
 
         if result.get("status") == "success":
@@ -150,13 +236,12 @@ def competitor_analysis_node(state: GraphState):
 
             state["competitor_analysis"] = data
 
-            # Support Pydantic output such as:
-            # CompetitorAgentOutput(..., competitors=[...])
+            # Support Pydantic output
             if hasattr(data, "competitors"):
 
                 state["competitors"] = data.competitors
 
-            # Support dictionary output as well
+            # Support dictionary output
             elif isinstance(data, dict):
 
                 state["competitors"] = data.get(
@@ -165,17 +250,38 @@ def competitor_analysis_node(state: GraphState):
                 )
 
         else:
+
+            status = "failed"
+
+            error_message = result.get(
+                "message",
+                "Unknown error"
+            )
+
             record_error(
                 state,
-                "Competitor Agent",
-                result.get("message", "Unknown error")
+                agent_name,
+                error_message
             )
 
     except Exception as e:
+
+        status = "failed"
+        error_message = str(e)
+
         record_error(
             state,
-            "Competitor Agent",
-            str(e)
+            agent_name,
+            error_message
+        )
+
+    finally:
+
+        record_agent_metric(
+            agent_name,
+            start_time,
+            status,
+            error_message
         )
 
     return state
@@ -183,14 +289,22 @@ def competitor_analysis_node(state: GraphState):
 
 def swot_analysis_node(state: GraphState):
     """
-    Execute SWOT & Risk Agent.
+    Execute SWOT & Risk Agent with observability.
     """
+
+    start_time = start_timer()
+    agent_name = "SWOT & Risk Agent"
+    status = "success"
+    error_message = None
+
     state["current_agent"] = "swot_analysis"
 
     try:
+
         result = swot_agent.run(state)
 
         if result.get("status") == "success":
+
             data = result.get("data") or {}
 
             state["swot_analysis"] = data.get(
@@ -199,17 +313,38 @@ def swot_analysis_node(state: GraphState):
             )
 
         else:
+
+            status = "failed"
+
+            error_message = result.get(
+                "message",
+                "Unknown error"
+            )
+
             record_error(
                 state,
-                "SWOT & Risk Agent",
-                result.get("message", "Unknown error")
+                agent_name,
+                error_message
             )
 
     except Exception as e:
+
+        status = "failed"
+        error_message = str(e)
+
         record_error(
             state,
-            "SWOT & Risk Agent",
-            str(e)
+            agent_name,
+            error_message
+        )
+
+    finally:
+
+        record_agent_metric(
+            agent_name,
+            start_time,
+            status,
+            error_message
         )
 
     return state
@@ -217,14 +352,22 @@ def swot_analysis_node(state: GraphState):
 
 def mvp_node(state: GraphState):
     """
-    Execute MVP Recommendation Agent.
+    Execute MVP Recommendation Agent with observability.
     """
+
+    start_time = start_timer()
+    agent_name = "MVP Recommendation Agent"
+    status = "success"
+    error_message = None
+
     state["current_agent"] = "mvp_recommendation"
 
     try:
+
         result = mvp_agent.run(state)
 
         if result.get("status") == "success":
+
             data = result.get("data") or {}
 
             state["mvp_recommendation"] = data.get(
@@ -233,17 +376,38 @@ def mvp_node(state: GraphState):
             )
 
         else:
+
+            status = "failed"
+
+            error_message = result.get(
+                "message",
+                "Unknown error"
+            )
+
             record_error(
                 state,
-                "MVP Recommendation Agent",
-                result.get("message", "Unknown error")
+                agent_name,
+                error_message
             )
 
     except Exception as e:
+
+        status = "failed"
+        error_message = str(e)
+
         record_error(
             state,
-            "MVP Recommendation Agent",
-            str(e)
+            agent_name,
+            error_message
+        )
+
+    finally:
+
+        record_agent_metric(
+            agent_name,
+            start_time,
+            status,
+            error_message
         )
 
     return state
@@ -251,12 +415,18 @@ def mvp_node(state: GraphState):
 
 def gtm_node(state: GraphState):
     """
-    Execute GTM Strategy Agent.
+    Execute GTM Strategy Agent with observability.
     """
+
+    start_time = start_timer()
+    agent_name = "GTM Strategy Agent"
+    status = "success"
+    error_message = None
 
     state["current_agent"] = "gtm_strategy"
 
     try:
+
         result = gtm_agent.run(state)
 
         if result.get("status") == "success":
@@ -269,17 +439,38 @@ def gtm_node(state: GraphState):
             )
 
         else:
+
+            status = "failed"
+
+            error_message = result.get(
+                "message",
+                "Unknown error"
+            )
+
             record_error(
                 state,
-                "GTM Strategy Agent",
-                result.get("message", "Unknown error")
+                agent_name,
+                error_message
             )
 
     except Exception as e:
+
+        status = "failed"
+        error_message = str(e)
+
         record_error(
             state,
-            "GTM Strategy Agent",
-            str(e)
+            agent_name,
+            error_message
+        )
+
+    finally:
+
+        record_agent_metric(
+            agent_name,
+            start_time,
+            status,
+            error_message
         )
 
     return state
@@ -287,35 +478,72 @@ def gtm_node(state: GraphState):
 
 def report_node(state: GraphState):
     """
-    Execute Report Agent.
+    Execute Report Agent with output Guardrails
+    and observability.
     """
+
+    start_time = start_timer()
+    agent_name = "Report Agent"
+    status = "success"
+    error_message = None
 
     state["current_agent"] = "report_generation"
 
     try:
+
         result = report_agent.run(state)
 
         if result.get("status") == "success":
 
             data = result.get("data") or {}
 
-            state["report"] = data.get(
+            report = data.get(
                 "validation_report",
                 {}
             )
 
+            # -------------------------------------------------
+            # Output Guardrails
+            # -------------------------------------------------
+            validate_output(
+                str(report)
+            )
+
+            state["report"] = report
+
         else:
+
+            status = "failed"
+
+            error_message = result.get(
+                "message",
+                "Unknown error"
+            )
+
             record_error(
                 state,
-                "Report Agent",
-                result.get("message", "Unknown error")
+                agent_name,
+                error_message
             )
 
     except Exception as e:
+
+        status = "failed"
+        error_message = str(e)
+
         record_error(
             state,
-            "Report Agent",
-            str(e)
+            agent_name,
+            error_message
+        )
+
+    finally:
+
+        record_agent_metric(
+            agent_name,
+            start_time,
+            status,
+            error_message
         )
 
     return state
@@ -328,7 +556,10 @@ def report_node(state: GraphState):
 graph_builder = StateGraph(GraphState)
 
 
-# Add nodes
+# =========================================================
+# Add Nodes
+# =========================================================
+
 graph_builder.add_node(
     "web_search",
     web_search_node
