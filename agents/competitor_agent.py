@@ -68,7 +68,7 @@ class CompetitorAgent:
             return
         model_name = model_name or os.getenv(
               "STARTUP_VALIDATOR_MODEL",
-              "llama3.2:1b"
+              "openai/gpt-oss-20b"
    )
 
         llm = get_chat_model(

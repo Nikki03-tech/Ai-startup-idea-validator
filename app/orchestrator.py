@@ -7,6 +7,7 @@ import time
 from pydantic import ValidationError
 
 from app.llm import get_chat_model
+from app.config import settings
 from pipeline.graph import graph as validation_graph
 from state.memory import SharedMemory
 from state.schema import StartupIdea, IdeaExtraction
@@ -58,7 +59,7 @@ class Orchestrator:
 
     def extract_startup_idea(self):
         """
-        Extract structured information from the startup idea using Gemini 3.6 Flash.
+        Extract structured information from the startup idea using Ollama.
         Includes automatic retries for transient 429 and 500 errors.
         """
 
@@ -82,7 +83,10 @@ Extract the following:
 Return the response as structured JSON.
 """
 
-        model_name = os.getenv("STARTUP_VALIDATOR_MODEL", "gemini-3.6-flash")
+        model_name = os.getenv(
+            "STARTUP_VALIDATOR_MODEL",
+            settings.GROQ_MODEL,
+        )
         model = get_chat_model(
             model_name=model_name,
             temperature=0.2,
@@ -128,12 +132,9 @@ Return the response as structured JSON.
         if self.memory.startup_idea is None:
             raise ValueError("No startup idea found. Call receive_request() first.")
 
-        # Non-fatal metadata extraction
-        try:
-            self.extract_startup_idea()
-        except Exception as e:
-            self.memory.idea_extraction = None
-            self._idea_extraction_error = str(e)
+        # Idea extraction is optional metadata and is not consumed by the
+        # validation graph, so skip the extra local-model call here.
+        self.memory.idea_extraction = None
 
         plan = self.build_execution_plan()
 

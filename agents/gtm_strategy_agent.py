@@ -117,14 +117,14 @@ class GTMStrategyAgent:
 
         model_name:
             Optional Gemini model name.
-            Defaults to STARTUP_VALIDATOR_MODEL or llama3.2:1b.
+            Defaults to STARTUP_VALIDATOR_MODEL or openai/gpt-oss-20b.
         """
 
         self.model_name = (
             model_name
             or os.getenv(
                 "STARTUP_VALIDATOR_MODEL",
-                "llama3.2:1b"
+                "openai/gpt-oss-20b"
             )
         )
 

@@ -7,9 +7,10 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    # Local Ollama model used by every agent and the Orchestrator.
-    STARTUP_VALIDATOR_MODEL: str = "llama3.2:1b"
-    OLLAMA_BASE_URL: str = "http://localhost:11434"
+    # Groq model used by every agent and the Orchestrator.
+    GROQ_MODEL: str = "openai/gpt-oss-20b"
+    STARTUP_VALIDATOR_MODEL: str = "openai/gpt-oss-20b"
+    GROQ_API_KEY: Optional[str] = None
 
     # Gemini API key configuration - centralized in app/llm.py, which
     # every agent + the Orchestrator now call instead of reading these

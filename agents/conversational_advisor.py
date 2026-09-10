@@ -43,7 +43,7 @@ class ConversationalAdvisor:
             model_name
             or os.getenv(
                 "STARTUP_VALIDATOR_MODEL",
-                "llama3.2:1b"
+                "openai/gpt-oss-20b"
             )
         )
 
@@ -111,26 +111,29 @@ Rules:
 
         try:
 
-            if not report:
-                raise ValueError(
-                    "Validation report cannot be empty."
-                )
-
             if not question or not question.strip():
                 raise ValueError(
                     "Question cannot be empty."
                 )
 
+            report_context = (
+                json.dumps(report, indent=2, default=str)
+                if report
+                else "No validation report has been generated yet."
+            )
+
             user_input = f"""
 Here is the startup validation report:
 
-{json.dumps(report, indent=2, default=str)}
+{report_context}
 
 Founder Question:
 {question}
 
-Answer the founder's question using the validation
-report as the primary source.
+Answer the founder's question using the validation report when it is
+available. If no report exists yet, answer general startup questions
+helpfully and clearly state when a report would be needed for a
+report-specific answer.
 
 Do not invent unsupported facts.
 """

@@ -111,7 +111,7 @@ class MVPRecommendationAgent:
             model_name
             or os.getenv(
                 "STARTUP_VALIDATOR_MODEL",
-                "llama3.2:1b"
+                "openai/gpt-oss-20b"
             )
         )
 
