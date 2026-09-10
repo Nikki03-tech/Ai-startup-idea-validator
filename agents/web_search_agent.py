@@ -31,8 +31,8 @@ def _extract_text(content) -> str:
     """
     Normalize a LangChain AIMessage.content value into plain text.
 
-    Older Gemini models (e.g. gemini-2.5-flash) return .content as a
-    plain string. Newer, agentic models (e.g. gemini-3.6-flash) can
+    Gemini models return .content as a
+    plain string. Newer, agentic models can
     return .content as a list of content blocks instead - typically a
     {"type": "text", "text": "..."} block plus non-text metadata such
     as an "extras": {"signature": "..."} thought-signature used to
@@ -77,7 +77,7 @@ class WebSearchAgent:
 
         model_name = model_name or os.getenv(
             "STARTUP_VALIDATOR_MODEL",
-            "gemini-2.5-flash"
+            "llama3.2:1b"
         )
 
         llm = get_chat_model(

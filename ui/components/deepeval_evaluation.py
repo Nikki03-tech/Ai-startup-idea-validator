@@ -1,14 +1,6 @@
 import json
 import streamlit as st
 
-from deepeval.test_case import LLMTestCase
-
-from tests.evaluation.deepeval_config import (
-    answer_relevancy_metric,
-    report_quality_metric,
-)
-
-
 def _build_retrieval_context(
     report: dict,
     market_analysis: dict,
@@ -62,6 +54,12 @@ def _evaluate_report(
 
     This does NOT regenerate or modify the report.
     """
+
+    from deepeval.test_case import LLMTestCase
+    from tests.Evaluation.deepeval_config import (
+        answer_relevancy_metric,
+        report_quality_metric,
+    )
 
     startup_input = (
         f"Validate a startup idea for "
@@ -158,7 +156,7 @@ def show_deepeval_evaluation():
     # ---------------------------------------------------------
 
     st.markdown(
-        "## ðŸ¤– DeepEval AI Quality Evaluation"
+        "## 🤖 DeepEval AI Quality Evaluation"
     )
 
     st.markdown(
@@ -231,7 +229,7 @@ def show_deepeval_evaluation():
         )
 
         if st.button(
-            "â† Back to Validation Report",
+            "← Back to Validation Report",
             use_container_width=True,
         ):
             st.session_state.page = "report"
@@ -244,7 +242,7 @@ def show_deepeval_evaluation():
     # ---------------------------------------------------------
 
     if st.button(
-        "ðŸ” Evaluate Report with DeepEval",
+        "🔍 Evaluate Report with DeepEval",
         key="deepeval_evaluate_button",
         use_container_width=True,
         type="primary",
@@ -292,7 +290,7 @@ def show_deepeval_evaluation():
         st.markdown("<br>", unsafe_allow_html=True)
 
         st.markdown(
-            "### ðŸ“Š Evaluation Results"
+            "### 📊 Evaluation Results"
         )
 
         answer_result = results["answer_relevancy"]
@@ -315,11 +313,11 @@ def show_deepeval_evaluation():
 
             if answer_result["passed"]:
                 st.success(
-                    "âœ… Passed Â· Threshold 70%"
+                    "✅ Passed · Threshold 70%"
                 )
             else:
                 st.warning(
-                    "âš ï¸ Below threshold Â· 70%"
+                    "⚠️ Below threshold · 70%"
                 )
 
         # -----------------------------------------------------
@@ -337,11 +335,11 @@ def show_deepeval_evaluation():
 
             if quality_result["passed"]:
                 st.success(
-                    "âœ… Passed Â· Threshold 70%"
+                    "✅ Passed · Threshold 70%"
                 )
             else:
                 st.warning(
-                    "âš ï¸ Below threshold Â· 70%"
+                    "⚠️ Below threshold · 70%"
                 )
 
         # -----------------------------------------------------
@@ -351,7 +349,7 @@ def show_deepeval_evaluation():
         st.markdown("<br>", unsafe_allow_html=True)
 
         with st.expander(
-            "ðŸ§  View DeepEval Reasoning"
+            "🧠 View DeepEval Reasoning"
         ):
 
             st.markdown(
@@ -381,7 +379,7 @@ def show_deepeval_evaluation():
     st.markdown("<br>", unsafe_allow_html=True)
 
     if st.button(
-        "â† Back to Validation Report",
+        "← Back to Validation Report",
         key="deepeval_back_to_report",
         use_container_width=True,
     ):

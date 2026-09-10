@@ -22,7 +22,7 @@ STAGES = [
 
 def _render_checklist(container, completed_nodes: set, current_node: str | None):
     """
-    Render the âœ“ / â³ / â—‹ agent checklist for the stages that have
+    Render the ✓ / ⏳ / ○ agent checklist for the stages that have
     actually completed (or are actively running) in the real graph
     run so far - never a simulated/fixed animation.
     """
@@ -31,11 +31,11 @@ def _render_checklist(container, completed_nodes: set, current_node: str | None)
 
     for node_name, label in STAGES:
         if node_name in completed_nodes:
-            lines.append(f"âœ… &nbsp; ~~{label}~~")
+            lines.append(f"✅ &nbsp; ~~{label}~~")
         elif node_name == current_node:
-            lines.append(f"â³ &nbsp; **{label}** _(in progress...)_")
+            lines.append(f"⏳ &nbsp; **{label}** _(in progress...)_")
         else:
-            lines.append(f"âšª &nbsp; {label}")
+            lines.append(f"○ &nbsp; {label}")
 
     container.markdown(
         "<div style='font-size:18px; line-height:2.1;'>"
@@ -47,7 +47,7 @@ def _render_checklist(container, completed_nodes: set, current_node: str | None)
 
 def show_processing_page():
     st.markdown(
-        "<h1 style='text-align:center;'>ðŸ¤– Analyzing Your Startup Idea</h1>",
+        "<h1 style='text-align:center;'>🤖 Analyzing Your Startup Idea</h1>",
         unsafe_allow_html=True,
     )
     st.markdown(
@@ -64,7 +64,7 @@ def show_processing_page():
 
     if not startup_idea_text:
         st.error("No startup idea found. Please go back and submit one.")
-        if st.button("â† Back to Start"):
+        if st.button("← Back to Start"):
             st.session_state.page = "submit"
             st.rerun()
         return
@@ -101,17 +101,17 @@ def show_processing_page():
         errors = final_state.get("errors", [])
         if errors:
             status_line.warning(
-                "âš ï¸ Completed with some agent errors: " + "; ".join(errors)
+                "⚠️ Completed with some agent errors: " + "; ".join(errors)
             )
             time.sleep(1.0)
         else:
-            status_line.success("âœ… Validation complete!")
+            status_line.success("✅ Validation complete!")
             time.sleep(0.8)
 
         st.session_state.validation_result = final_state
 
     except Exception as e:
-        status_line.error(f"âŒ Pipeline failed: {e}")
+        status_line.error(f"❌ Pipeline failed: {e}")
         st.session_state.validation_result = {"errors": [str(e)]}
         time.sleep(1.5)
 

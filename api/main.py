@@ -72,6 +72,16 @@ def get_advisor() -> ConversationalAdvisor:
 # ---------------------------------------------------------------
 
 
+@app.get("/")
+def root():
+    return {
+        "service": "AI Startup Validator API",
+        "status": "ok",
+        "health": "/health",
+        "docs": "/docs",
+    }
+
+
 @app.get("/health")
 def health():
     db_status = "not_configured"

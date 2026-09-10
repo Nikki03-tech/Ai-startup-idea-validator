@@ -3,11 +3,10 @@
 Deep agent planner that manages overall execution flow, task assignment, and shared state context.
 """
 import os
-
-from google import genai
+import time
 from pydantic import ValidationError
 
-from app.llm import run_with_gemini_key_rotation
+from app.llm import get_chat_model
 from pipeline.graph import graph as validation_graph
 from state.memory import SharedMemory
 from state.schema import StartupIdea, IdeaExtraction
@@ -21,9 +20,7 @@ class Orchestrator:
 
     # Maps each planning-tool task name to the exact agent-name prefix
     # that pipeline/graph.py's record_error() uses when it logs a
-    # failure for that agent (see graph.py's per-node except/else
-    # blocks). Used to attribute pipeline errors back to the specific
-    # step that produced them instead of marking every step the same.
+    # failure for that agent.
     TASK_TO_AGENT_NAME = {
         "web_search": "Web Search Agent",
         "market_analysis": "Market Analysis Agent",
@@ -37,16 +34,10 @@ class Orchestrator:
     def __init__(self):
         self.memory = SharedMemory()
 
-        # Holds the execution plan *after* execute_pipeline() has run,
-        # with each step's real status ("completed"/"failed") filled
-        # in. get_final_output() returns this (instead of rebuilding a
-        # fresh all-"pending" plan) so completed runs are reported
-        # accurately.
+        # Holds the execution plan after execute_pipeline() has run
         self.execution_plan = None
 
-        # Set if extract_startup_idea() fails inside execute_pipeline();
-        # surfaced in get_final_output() so a failure is visible instead
-        # of silently leaving idea_extraction as null with no trace.
+        # Holds non-fatal error if extract_startup_idea fails
         self._idea_extraction_error = None
 
     def receive_request(
@@ -67,12 +58,8 @@ class Orchestrator:
 
     def extract_startup_idea(self):
         """
-        Extract structured information from the startup idea using Gemini.
-
-        Uses the same STARTUP_VALIDATOR_MODEL env var as the rest of
-        the pipeline (default gemini-2.5-flash) instead of a hardcoded
-        model, so this step actually exercises whichever Gemini
-        version the project is configured to test.
+        Extract structured information from the startup idea using Gemini 3.6 Flash.
+        Includes automatic retries for transient 429 and 500 errors.
         """
 
         if self.memory.startup_idea is None:
@@ -95,55 +82,28 @@ Extract the following:
 Return the response as structured JSON.
 """
 
-        model_name = os.getenv("STARTUP_VALIDATOR_MODEL", "gemini-2.5-flash")
-
-        # Same automatic key-rotation behavior as the LangChain-based
-        # agents (see app/llm.py): a fresh genai.Client is built for
-        # whichever key is currently active, and on a quota/rate-limit/
-        # auth error this automatically retries with the next
-        # configured key instead of failing the whole validation.
-        def _call(api_key: str, _index: int):
-            client = genai.Client(api_key=api_key)
-            return client.models.generate_content(
-                model=model_name,
-                contents=prompt,
-                config={
-                    "response_mime_type": "application/json",
-                    "response_schema": IdeaExtraction,
-                },
-            )
-
-        response = run_with_gemini_key_rotation(_call)
-
-        idea_extraction = response.parsed
-
-        # Some model/SDK combinations can return valid JSON text but
-        # leave `.parsed` empty (e.g. if structured-output parsing
-        # isn't fully supported for a given model yet). Fall back to
-        # parsing `.text` ourselves rather than silently losing the
-        # extraction.
-        if idea_extraction is None and getattr(response, "text", None):
+        model_name = os.getenv("STARTUP_VALIDATOR_MODEL", "gemini-3.6-flash")
+        model = get_chat_model(
+            model_name=model_name,
+            temperature=0.2,
+            max_retries=3,
+        )
+        
+        # Retry loop for initial idea extraction
+        max_attempts = 3
+        for attempt in range(max_attempts):
             try:
-                idea_extraction = IdeaExtraction.model_validate_json(
-                    response.text
-                )
-            except (ValidationError, ValueError) as parse_error:
-                raise RuntimeError(
-                    "Gemini returned a response for idea extraction, "
-                    "but it could not be parsed as structured JSON "
-                    f"matching IdeaExtraction: {parse_error}"
-                ) from parse_error
-
-        if idea_extraction is None:
-            raise RuntimeError(
-                "Gemini did not return a usable response for idea "
-                "extraction (no parsed structured output and no "
-                "response text)."
-            )
-
-        self.memory.idea_extraction = idea_extraction
-
-        return self.memory.idea_extraction
+                idea_extraction = model.with_structured_output(IdeaExtraction).invoke(prompt)
+                self.memory.idea_extraction = idea_extraction
+                return self.memory.idea_extraction
+            except Exception as e:
+                err_str = str(e).lower()
+                if ("429" in err_str or "500" in err_str or "eof" in err_str) and attempt < max_attempts - 1:
+                    sleep_time = 12 * (attempt + 1)
+                    print(f"[Orchestrator] Idea extraction failed ({e}). Retrying in {sleep_time}s...")
+                    time.sleep(sleep_time)
+                else:
+                    raise e
 
     def build_execution_plan(self):
         """Create the workflow execution plan."""
@@ -162,26 +122,13 @@ Return the response as structured JSON.
 
     def execute_pipeline(self):
         """
-        Run the validation pipeline.
-
-        This does NOT reimplement agent execution. It builds a plan for
-        tracking/display purposes and then delegates the actual work to
-        the compiled LangGraph workflow in pipeline/graph.py, which is
-        the single source of truth for how the seven agents run and
-        hand off state to one another.
+        Run the validation pipeline with retry logic to avoid 429 and 500 crashes.
         """
 
         if self.memory.startup_idea is None:
             raise ValueError("No startup idea found. Call receive_request() first.")
 
-        # extract_startup_idea() previously existed but was never
-        # called anywhere in the app, so self.memory.idea_extraction
-        # was always None/null regardless of Gemini model. Call it
-        # here so idea_extraction is actually populated. This is
-        # supplementary metadata for the report/UI - it is not
-        # consumed by pipeline/graph.py's nodes - so a failure here
-        # must not abort the real validation pipeline; it's recorded
-        # as a non-fatal error instead.
+        # Non-fatal metadata extraction
         try:
             self.extract_startup_idea()
         except Exception as e:
@@ -194,14 +141,28 @@ Return the response as structured JSON.
             "startup_idea": self.memory.startup_idea.idea,
         }
 
-        final_state = validation_graph.invoke(initial_state)
+        # Invoke graph with retry logic for 429 and 500 status codes
+        max_attempts = 3
+        final_state = {}
+        for attempt in range(max_attempts):
+            try:
+                final_state = validation_graph.invoke(initial_state)
+                break
+            except Exception as e:
+                err_str = str(e).lower()
+                if ("429" in err_str or "500" in err_str or "eof" in err_str) and attempt < max_attempts - 1:
+                    sleep_time = 15 * (attempt + 1)
+                    print(f"[Orchestrator Pipeline] Transient error ({e}). Retrying pipeline in {sleep_time}s...")
+                    time.sleep(sleep_time)
+                else:
+                    # Provide fallback empty dictionary on absolute failure so app doesn't crash
+                    final_state = {
+                        "errors": [f"Pipeline Execution Error: {str(e)}"]
+                    }
 
         errors = final_state.get("errors", [])
 
-        # Attribute each error to the specific step that produced it
-        # (record_error() in pipeline/graph.py prefixes every error
-        # with "<Agent Name>: ..."), rather than marking every task as
-        # failed just because *some* agent in the run failed.
+        # Attribute errors to individual steps safely
         for task in plan:
             agent_name = self.TASK_TO_AGENT_NAME.get(task["task"])
 
@@ -216,13 +177,9 @@ Return the response as structured JSON.
             else:
                 task["status"] = "completed"
 
-        # Keep the fully-updated plan around so get_final_output()
-        # reflects the real outcome of this run instead of rebuilding
-        # a fresh, all-"pending" plan.
         self.execution_plan = plan
 
-        # Store the graph's outputs back into shared memory so
-        # get_final_output()/get_memory() reflect the real pipeline run.
+        # Safely populate shared memory outputs with empty defaults if keys are missing
         self.memory.search_results = final_state.get("search_results", [])
         self.memory.competitors = final_state.get("competitors", [])
         self.memory.market_analysis = final_state.get("market_analysis", {})
@@ -234,15 +191,7 @@ Return the response as structured JSON.
         return plan
 
     def get_final_output(self):
-        """
-        Return the complete orchestration output.
-
-        If execute_pipeline() has already run, this returns the plan
-        with each step's real status ("completed"/"failed") as
-        determined by the actual LangGraph run - not a freshly built
-        plan, which would incorrectly show every step as "pending"
-        even after a successful run.
-        """
+        """Return the complete orchestration output."""
 
         execution_plan = (
             self.execution_plan

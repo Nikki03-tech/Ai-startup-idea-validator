@@ -75,11 +75,11 @@ class MarketAnalysisAgent:
 
         model_name:
             Optional Gemini model name. Defaults to the environment
-            variable STARTUP_VALIDATOR_MODEL or gemini-2.5-flash.
+            variable STARTUP_VALIDATOR_MODEL or llama3.2:1b.
         """
 
         self.model_name = model_name or os.getenv(
-            "STARTUP_VALIDATOR_MODEL", "gemini-2.5-flash"
+            "STARTUP_VALIDATOR_MODEL", "llama3.2:1b"
         )
 
         self.system_prompt = self._load_prompt()

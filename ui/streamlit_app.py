@@ -1,4 +1,11 @@
+import sys
+from pathlib import Path
+
 import streamlit as st
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 # Custom imports aligned with your ui/ directory layout
 from components.idea_input import show_idea_input
@@ -10,7 +17,7 @@ from components.deepeval_evaluation import show_deepeval_evaluation
 
 st.set_page_config(
     page_title="AI Startup Idea Validator",
-    page_icon="ðŸ¤–",
+    page_icon="🤖",
     layout="wide"
 )
 
@@ -143,7 +150,7 @@ if "page" not in st.session_state:
 
 # HOME PAGE
 if st.session_state.page == "home":
-    st.markdown('<div class="hero-title">ðŸ¤– AI Startup Idea Validator</div>', unsafe_allow_html=True)
+    st.markdown('<div class="hero-title">🤖 AI Startup Idea Validator</div>', unsafe_allow_html=True)
     st.markdown(
         '<div class="hero-subtitle">Validate your startup idea with a multi-agent AI research pipeline - '
         'market sizing, competitor research, SWOT, MVP scope, and go-to-market, in minutes.</div>',
@@ -151,17 +158,17 @@ if st.session_state.page == "home":
     )
     st.markdown(
         '<div class="hero-badges">'
-        '<span class="hero-badge">ðŸ”Ž Live Market Research</span>'
-        '<span class="hero-badge">ðŸ¢ Competitor Analysis</span>'
-        '<span class="hero-badge">ðŸ“Š SWOT & Risk</span>'
-        '<span class="hero-badge">ðŸš€ GTM Strategy</span>'
+        '<span class="hero-badge">🔎 Live Market Research</span>'
+        '<span class="hero-badge">🏢 Competitor Analysis</span>'
+        '<span class="hero-badge">📊 SWOT & Risk</span>'
+        '<span class="hero-badge">🚀 GTM Strategy</span>'
         '</div>',
         unsafe_allow_html=True,
     )
 
     left, center, right = st.columns([1, 2, 1])
     with center:
-        if st.button("âœ¨ Validate My Startup Idea", use_container_width=True, type="primary"):
+        if st.button("✨ Validate My Startup Idea", use_container_width=True, type="primary"):
             st.session_state.page = "submit"
             st.rerun()
 
@@ -169,10 +176,10 @@ if st.session_state.page == "home":
 
     f1, f2, f3, f4 = st.columns(4)
     features = [
-        ("ðŸ”Ž", "Web Search Agent", "Gathers live market context and news for your idea."),
-        ("ðŸ¢", "Competitor Agent", "Finds real, named competitors with strengths and weaknesses."),
-        ("ðŸ“Š", "SWOT & Risk Agent", "Surfaces strengths, weaknesses, and execution risks."),
-        ("ðŸš€", "GTM Agent", "Recommends positioning, channels, and a launch plan."),
+        ("🔎", "Web Search Agent", "Gathers live market context and news for your idea."),
+        ("🏢", "Competitor Agent", "Finds real, named competitors with strengths and weaknesses."),
+        ("📊", "SWOT & Risk Agent", "Surfaces strengths, weaknesses, and execution risks."),
+        ("🚀", "GTM Agent", "Recommends positioning, channels, and a launch plan."),
     ]
     for col, (icon, title, desc) in zip([f1, f2, f3, f4], features):
         with col:

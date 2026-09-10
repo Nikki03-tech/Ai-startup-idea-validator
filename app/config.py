@@ -1,15 +1,15 @@
 """ Configuration management for API keys, model settings, and environment variables."""
 
+from pathlib import Path
 from typing import Optional
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    # Gemini model name, used by every agent + the Orchestrator.
-    # Same env var every agent already read directly; now also
-    # surfaced here so app/llm.py has a single default to fall back to.
-    STARTUP_VALIDATOR_MODEL: str = "gemini-2.5-flash"
+    # Local Ollama model used by every agent and the Orchestrator.
+    STARTUP_VALIDATOR_MODEL: str = "llama3.2:1b"
+    OLLAMA_BASE_URL: str = "http://localhost:11434"
 
     # Gemini API key configuration - centralized in app/llm.py, which
     # every agent + the Orchestrator now call instead of reading these
@@ -37,7 +37,7 @@ class Settings(BaseSettings):
     LOG_LEVEL: str = "INFO"
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=Path(__file__).resolve().parents[1] / ".env",
         extra="ignore",
     )
 

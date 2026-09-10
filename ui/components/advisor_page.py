@@ -19,7 +19,7 @@ def _get_advisor() -> ConversationalAdvisor:
 
 def show_advisor():
     st.markdown(
-        "<h1 style='text-align:center;'>ðŸ’¬ Ask About Your Report</h1>",
+        "<h1 style='text-align:center;'>💬 Ask About Your Report</h1>",
         unsafe_allow_html=True,
     )
     st.markdown(
@@ -36,7 +36,7 @@ def show_advisor():
 
     if not report:
         st.warning("No validation report available yet. Run a validation first.")
-        if st.button("â† Back to Report"):
+        if st.button("← Back to Report"):
             st.session_state.page = "report"
             st.rerun()
         return
@@ -75,6 +75,6 @@ def show_advisor():
                     st.error(error_message)
 
         st.markdown("<br>", unsafe_allow_html=True)
-        if st.button("â† Back to Report", use_container_width=True):
+        if st.button("← Back to Report", use_container_width=True):
             st.session_state.page = "report"
             st.rerun()

@@ -52,7 +52,7 @@ class ReportAgent:
             model_name
             or os.getenv(
                 "STARTUP_VALIDATOR_MODEL",
-                "gemini-2.5-flash"
+                "llama3.2:1b"
             )
         )
 

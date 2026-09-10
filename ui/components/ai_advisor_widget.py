@@ -261,7 +261,7 @@ def _inject_widget_css():
 
         .st-key-advisor_widget_button_wrap .stButton > button::after {
 
-            content: "âœ¦" !important;
+            content: "🤖" !important;
 
             position: absolute !important;
 
@@ -963,7 +963,7 @@ def _inject_widget_css():
 def _message_row_html(role: str, content: str) -> str:
 
     avatar = (
-        '<div class="advisor-avatar assistant">âœ¦</div>'
+        '<div class="advisor-avatar assistant">🤖</div>'
         if role == "assistant"
         else '<div class="advisor-avatar user">You</div>'
     )
@@ -993,7 +993,7 @@ def _typing_indicator_html() -> str:
 
     return (
         '<div class="advisor-msg-row assistant">'
-        '<div class="advisor-avatar assistant">âœ¦</div>'
+        '<div class="advisor-avatar assistant">🤖</div>'
         '<div class="advisor-msg-bubble assistant">'
         '<span class="advisor-typing-dots">'
         '<span class="dot"></span>'
@@ -1049,7 +1049,7 @@ def _render_messages():
 
             st.markdown(
                 '<div class="advisor-empty-state">'
-                '<div class="advisor-empty-avatar">âœ¦</div>'
+                '<div class="advisor-empty-avatar">🤖</div>'
                 '<p class="advisor-empty-text">'
                 "Hi! I'm your AI Advisor.<br>"
                 "Ask me anything about your startup idea, "
@@ -1112,7 +1112,7 @@ def show_ai_advisor_widget():
             st.markdown(
                 '<div class="advisor-widget-header">'
                 '<div class="advisor-widget-header-left">'
-                '<div class="advisor-widget-avatar-ring">âœ¦</div>'
+                '<div class="advisor-widget-avatar-ring">🤖</div>'
                 '<div class="advisor-widget-title-block">'
                 '<span class="advisor-widget-title">'
                 "AI Advisor"
@@ -1129,7 +1129,7 @@ def show_ai_advisor_widget():
 
 
             if st.button(
-                "Ã—",
+                "×",
                 key="advisor_widget_minimize_btn",
                 help="Close AI Advisor",
             ):
@@ -1176,7 +1176,7 @@ def show_ai_advisor_widget():
         ):
 
             if st.button(
-                "âœ¦",
+                "🤖",
                 key="advisor_widget_toggle_btn",
                 help="Open AI Advisor",
             ):

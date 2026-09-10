@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from deepagents import create_deep_agent
-from langchain_google_genai import ChatGoogleGenerativeAI
+from app.llm import get_chat_model
 
 
 # =========================================================
@@ -43,7 +43,7 @@ class ConversationalAdvisor:
             model_name
             or os.getenv(
                 "STARTUP_VALIDATOR_MODEL",
-                "gemini-3.6-flash"
+                "llama3.2:1b"
             )
         )
 
@@ -92,20 +92,8 @@ Rules:
 
     def _build_agent(self):
 
-        api_key = (
-            os.getenv("GOOGLE_API_KEY")
-            or os.getenv("GEMINI_API_KEY")
-        )
-
-        if not api_key:
-            raise RuntimeError(
-                "Gemini API key not found. "
-                "Set GOOGLE_API_KEY or GEMINI_API_KEY."
-            )
-
-        model = ChatGoogleGenerativeAI(
-            model=self.model_name,
-            google_api_key=api_key,
+        model = get_chat_model(
+            model_name=self.model_name,
             temperature=0.3,
             max_retries=1,
         )

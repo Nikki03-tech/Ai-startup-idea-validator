@@ -1,7 +1,7 @@
 def run(self, shared_memory):
     try:
         llm = ChatGoogleGenerativeAI(
-            model="gemini-3.6-flash-lite",
+            model="llama3.2:1b",
             google_api_key=os.getenv("GEMINI_API_KEY")
         )
 
