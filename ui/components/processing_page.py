@@ -2,6 +2,7 @@ import time
 
 import streamlit as st
 
+from observability import get_observability_snapshot
 from pipeline.graph import graph
 
 
@@ -108,11 +109,15 @@ def show_processing_page():
             status_line.success("✅ Validation complete!")
             time.sleep(0.8)
 
+        final_state["observability"] = get_observability_snapshot()
         st.session_state.validation_result = final_state
 
     except Exception as e:
         status_line.error(f"❌ Pipeline failed: {e}")
-        st.session_state.validation_result = {"errors": [str(e)]}
+        st.session_state.validation_result = {
+            "errors": [str(e)],
+            "observability": get_observability_snapshot(),
+        }
         time.sleep(1.5)
 
     st.session_state.page = "report"

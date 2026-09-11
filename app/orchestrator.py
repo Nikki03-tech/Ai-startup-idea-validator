@@ -8,6 +8,7 @@ from pydantic import ValidationError
 
 from app.llm import get_chat_model
 from app.config import settings
+from observability import get_observability_snapshot
 from pipeline.graph import graph as validation_graph
 from state.memory import SharedMemory
 from state.schema import StartupIdea, IdeaExtraction
@@ -210,6 +211,7 @@ Return the response as structured JSON.
             "idea_extraction_error": self._idea_extraction_error,
             "execution_plan": execution_plan,
             "memory": self.memory.model_dump(),
+            "observability": get_observability_snapshot(),
         }
 
     def get_memory(self):

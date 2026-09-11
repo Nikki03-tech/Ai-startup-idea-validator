@@ -145,6 +145,31 @@ def _mvp_and_gtm_tab(report: dict):
         _bullets(gtm.get("launch_strategy", []))
 
 
+def _agent_timing_panel():
+    metrics = st.session_state.get("validation_result", {}).get("observability", {}).get("agent_metrics", [])
+    if not metrics:
+        return
+
+    st.markdown("#### ⚙️ Agent completion times")
+    timing_items = []
+    for item in metrics:
+        name = item.get("agent_name", "Unknown Agent")
+        duration = float(item.get("duration_seconds", 0.0) or 0.0)
+        status = (item.get("status") or "unknown").lower()
+        icon = "✅" if status == "success" else "⚠️" if status == "failed" else "ℹ️"
+        timing_items.append(f"{icon} {name} [{duration:.4f}s]")
+
+    st.markdown(
+        "<div style='display:flex; flex-wrap:wrap; gap:12px; margin-top:8px; margin-bottom:16px;'>"
+        + "".join(
+            f"<span style='background: rgba(255,255,255,0.04); border: 1px solid rgba(168, 85, 247, 0.45); border-radius: 999px; padding: 8px 12px; color: #f3e8ff; font-size: 14px;'>{text}</span>"
+            for text in timing_items
+        )
+        + "</div>",
+        unsafe_allow_html=True,
+    )
+
+
 def _actions_row(report: dict):
     st.markdown("<br>", unsafe_allow_html=True)
     st.divider()
@@ -205,6 +230,7 @@ def show_report():
     else:
         st.success("Validation completed successfully!")
 
+    _agent_timing_panel()
     st.markdown("<br>", unsafe_allow_html=True)
 
     market_analysis = final_state.get("market_analysis") or {}

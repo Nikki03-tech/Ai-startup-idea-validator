@@ -166,22 +166,13 @@ def show_deepeval_evaluation():
         """
     )
 
-    st.markdown("<br>", unsafe_allow_html=True)
-
     # ---------------------------------------------------------
-    # Explanation
+    # Hidden Explanation (Included in DOM, hidden from UI view)
     # ---------------------------------------------------------
 
     st.markdown(
         """
-        <div style="
-            background: rgba(168, 85, 247, 0.06);
-            border: 1px solid #2e1065;
-            border-radius: 14px;
-            padding: 18px;
-            margin-bottom: 18px;
-        ">
-
+        <div style="display: none;">
             <div style="
                 color: #e9d5ff;
                 font-size: 15px;
@@ -212,7 +203,6 @@ def show_deepeval_evaluation():
                 Both metrics use a <b>70% threshold</b>.
                 The evaluation runs only when you click the button below.
             </div>
-
         </div>
         """,
         unsafe_allow_html=True,

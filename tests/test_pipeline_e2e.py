@@ -24,6 +24,7 @@ if PROJECT_ROOT not in sys.path:
 # and we mock those below).
 os.environ.setdefault("GEMINI_API_KEY", "dummy_key_for_tests")
 
+from app.orchestrator import Orchestrator
 from pipeline import graph as graph_module
 
 
@@ -156,3 +157,14 @@ def test_report_is_not_double_nested():
     assert "executive_summary" in report
     assert report["final_validation_score"] == 72
     assert "validation_report" not in report
+
+
+def test_orchestrator_exposes_observability_metrics():
+    orchestrator = Orchestrator()
+    orchestrator.receive_request("An AI startup validator")
+
+    output = orchestrator.get_final_output()
+
+    assert "observability" in output
+    assert "agent_metrics" in output["observability"]
+    assert "summary" in output["observability"]
