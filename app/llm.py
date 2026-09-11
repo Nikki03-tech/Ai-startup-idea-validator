@@ -1,32 +1,49 @@
-"""Shared Groq model factory for the validation agents."""
+"""Shared Gemini model factory with optional API-key rotation."""
 
-import os
-from langchain_groq import ChatGroq
+import threading
+
+from langchain_google_genai import ChatGoogleGenerativeAI
 from app.config import settings
 
+_key_index = 0
+_key_lock = threading.Lock()
 
-def get_chat_model(model_name: str | None = None, **kwargs) -> ChatGroq:
-    """Build a ChatGroq model used by every validation agent."""
 
-    # 1. Clean up response_format to prevent 400 errors with tool calling
-    if "response_format" in kwargs:
-        kwargs.pop("response_format")
-    
-    model_kwargs = kwargs.get("model_kwargs", {})
-    if isinstance(model_kwargs, dict) and "response_format" in model_kwargs:
-        model_kwargs.pop("response_format", None)
+def _configured_keys() -> list[str]:
+    """Return configured keys, preferring the comma-separated key pool."""
 
-    # 2. Force model to llama-3.1-8b-instant to stay under TPM limits
-    resolved_model_name = "llama-3.1-8b-instant"
+    if settings.GEMINI_API_KEYS:
+        keys = [key.strip() for key in settings.GEMINI_API_KEYS.split(",") if key.strip()]
+        if keys:
+            return keys
 
-    if not settings.GROQ_API_KEY or settings.GROQ_API_KEY == "your_groq_api_key_here":
+    if settings.GEMINI_API_KEY and settings.GEMINI_API_KEY != "your_gemini_api_key_here":
+        return [settings.GEMINI_API_KEY]
+
+    return []
+
+
+def _next_api_key() -> str:
+    global _key_index
+    keys = _configured_keys()
+    if not keys:
         raise RuntimeError(
-            "No Groq API key configured. Set GROQ_API_KEY in your .env file."
+            "No Gemini API key configured. Set GEMINI_API_KEY or "
+            "GEMINI_API_KEYS in your .env file."
         )
 
-    return ChatGroq(
-        model=resolved_model_name,
-        groq_api_key=settings.GROQ_API_KEY,
+    with _key_lock:
+        api_key = keys[_key_index % len(keys)]
+        _key_index += 1
+    return api_key
+
+
+def get_chat_model(model_name: str | None = None, **kwargs) -> ChatGoogleGenerativeAI:
+    """Build the Gemini model used by every validation agent."""
+
+    return ChatGoogleGenerativeAI(
+        model=model_name or settings.GEMINI_MODEL,
+        google_api_key=_next_api_key(),
         max_retries=kwargs.pop("max_retries", 3),
         **kwargs,
     )

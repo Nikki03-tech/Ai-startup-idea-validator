@@ -85,7 +85,7 @@ Return the response as structured JSON.
 
         model_name = os.getenv(
             "STARTUP_VALIDATOR_MODEL",
-            settings.GROQ_MODEL,
+            settings.GEMINI_MODEL,
         )
         model = get_chat_model(
             model_name=model_name,

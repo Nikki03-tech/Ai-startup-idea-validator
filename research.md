@@ -39,9 +39,9 @@ The **AI Startup Idea Validator** automates and orchestrates the end-to-end rese
 * Operates without strict API key management, usage quotas, or access fees during rapid execution cycles.
 * Integrates directly into search tool calls to execute location-aware and geography-filtered search queries.
 
-### LLM Reasoning & Acceleration: Groq LPU
-* **Why we use it:** Groq’s Language Processing Unit (LPU) is used as the inference engine for fast LLM reasoning.
-* Delivers high-throughput, sub-second inference speeds on open models, keeping sequential multi-agent execution times low.
+### LLM Reasoning & Acceleration: Google Gemini
+* **Why we use it:** Google Gemini is used as the inference engine for LLM reasoning across the validation agents.
+* Provides a shared model interface for sequential multi-agent execution and structured output generation.
 * Prevents frontend user web sessions from timing out while agents perform recursive search and analysis loops.
 * Ensures high accuracy and reliability for function calling, tool execution, and structured output formatting.
 
@@ -128,4 +128,4 @@ To select the optimal orchestration engine, three primary multi-agent paradigm l
 * **Automated Pitch Deck Generator:** Generating downloadable 10-slide PowerPoint presentations (`.pptx`) alongside report exports.
 
 ## 9. Conclusion
-The **AI Startup Idea Validator** demonstrates how multi-agent collaboration frameworks overcome the context window limitations and output hallucinations of single-prompt systems. By pairing the **LangChain DeepAgent framework** with **Groq LPU acceleration** and **DuckDuckGo real-time search**, the platform converts weeks of manual market research into a fast, automated, and structured validation pipeline. The architecture establishes a scalable foundation for modern,    data-backed entrepreneurial strategy.
+The **AI Startup Idea Validator** demonstrates how multi-agent collaboration frameworks overcome the context window limitations and output hallucinations of single-prompt systems. By pairing the **LangChain DeepAgent framework** with **Google Gemini** and **DuckDuckGo real-time search**, the platform converts weeks of manual market research into a fast, automated, and structured validation pipeline. The architecture establishes a scalable foundation for modern,    data-backed entrepreneurial strategy.
