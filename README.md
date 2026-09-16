@@ -8,11 +8,6 @@ An AI-powered, multi-agent platform that helps entrepreneurs evaluate startup id
 
 Entrepreneurs and innovators frequently generate startup ideas but often struggle to evaluate:
 
-- Market demand
-- Competitive landscape
-- Business viability
-- Execution risks
-- Product development priorities
 
 Traditional startup validation requires extensive research and business planning, which can be time-consuming and difficult for early-stage founders.
 
@@ -20,6 +15,18 @@ Traditional startup validation requires extensive research and business planning
 
 The founder submits a startup idea in **2–3 lines**, and the system automatically triggers a structured **multi-agent AI pipeline** that analyzes the idea and generates a comprehensive, data-backed validation report.
 
+
+## Run The App
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Nikki03-tech/Ai-startup-idea-validator?quickstart=1)
+
+Click the button to open the project in a configured GitHub Codespace. It
+installs the dependencies, starts the API and Streamlit app, and opens the
+Streamlit interface automatically. Add `GEMINI_API_KEY` to the Codespace
+secrets before using AI features.
+
+The app is available on port `8501`; the API and interactive API documentation
+are available on ports `8000` and `8000/docs`.
 ## How It Works
 
 The system follows a structured workflow that begins with startup idea submission and continues through idea extraction, web research, market analysis, competitor analysis, SWOT and risk assessment, MVP recommendations, go-to-market strategy generation, and final validation reporting.
