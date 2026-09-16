@@ -64,3 +64,6 @@ langchain-community
 duckduckgo-search
 streamlit
 reportlab
+pytest-mock
+fastapi
+uvicorn

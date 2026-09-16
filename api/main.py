@@ -154,8 +154,12 @@ def chat(payload: ChatRequest, db: Session = Depends(get_db)):
     # New conversation
     # -----------------------------------------------------------
     else:
-        # Report is optional for a new conversation.
-        # This allows general chat before validation.
+        if not payload.report:
+            raise HTTPException(
+                status_code=400,
+                detail="report is required to start a new conversation",
+            )
+
         conversation = Conversation(
             session_id=payload.session_id,
             report=payload.report,

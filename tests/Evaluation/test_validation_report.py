@@ -22,11 +22,11 @@ from deepeval.test_case import LLMTestCase
 
 from app.orchestrator import Orchestrator
 
-from tests.evaluation.deepeval_config import (
+from tests.Evaluation.deepeval_config import (
     FINAL_REPORT_METRICS,
 )
 
-from tests.evaluation.evaluation_dataset import (
+from tests.Evaluation.evaluation_dataset import (
     EVALUATION_GOLDENS,
 )
 
