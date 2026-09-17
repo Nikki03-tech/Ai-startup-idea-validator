@@ -67,3 +67,4 @@ reportlab
 pytest-mock
 fastapi
 uvicorn
+deepeval
