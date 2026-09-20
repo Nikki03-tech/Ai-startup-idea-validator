@@ -20,6 +20,8 @@ The founder submits a startup idea in **2–3 lines**, and the system automatica
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Nikki03-tech/Ai-startup-idea-validator?quickstart=1)
 
+[[AI Startup Idea Validator](https://fictional-invention-pjpgqvvgvr7xf4xx-8501.app.github.dev/)]
+
 Click the button to open the project in a configured GitHub Codespace. It
 installs the dependencies, starts the API and Streamlit app, and opens the
 Streamlit interface automatically. Add `GEMINI_API_KEY` to the Codespace
@@ -27,8 +29,6 @@ secrets before using AI features.
 
 The app is available on port `8501`; the API and interactive API documentation
 are available on ports `8000` and `8000/docs`.
-
-https://fictional-invention-pjpgqvvgvr7xf4xx-8501.app.github.dev/
 
 ## How It Works
 
