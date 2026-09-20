@@ -27,6 +27,9 @@ secrets before using AI features.
 
 The app is available on port `8501`; the API and interactive API documentation
 are available on ports `8000` and `8000/docs`.
+
+https://fictional-invention-pjpgqvvgvr7xf4xx-8501.app.github.dev/
+
 ## How It Works
 
 The system follows a structured workflow that begins with startup idea submission and continues through idea extraction, web research, market analysis, competitor analysis, SWOT and risk assessment, MVP recommendations, go-to-market strategy generation, and final validation reporting.
