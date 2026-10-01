@@ -111,7 +111,7 @@ class MVPRecommendationAgent:
             model_name
             or os.getenv(
                 "STARTUP_VALIDATOR_MODEL",
-                "openai/gpt-oss-20b"
+                "gemini-3.8-flash"
             )
         )
 

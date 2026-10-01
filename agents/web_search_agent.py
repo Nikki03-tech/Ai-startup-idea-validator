@@ -77,7 +77,7 @@ class WebSearchAgent:
 
         model_name = model_name or os.getenv(
             "STARTUP_VALIDATOR_MODEL",
-            "openai/gpt-oss-20b"
+            "gemini-3.8-flash"
         )
 
         llm = get_chat_model(
