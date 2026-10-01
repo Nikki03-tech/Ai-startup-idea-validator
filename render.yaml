@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: ai-startup-idea-validator-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    autoDeploy: true
+
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
