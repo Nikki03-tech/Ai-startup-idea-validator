@@ -2,7 +2,7 @@ import time
 
 import streamlit as st
 
-from observability import get_observability_snapshot
+from observability import get_observability_snapshot, metrics_collector
 from pipeline.graph import graph
 
 
@@ -83,6 +83,8 @@ def show_processing_page():
     initial_state = {"startup_idea": startup_idea_text}
     final_state = initial_state
     completed_nodes: set = set()
+    # Clear metrics from any previous validation run
+    metrics_collector.clear()
 
     # graph.stream() yields one update per node as the real pipeline
     # executes it, so the checklist reflects genuine agent progress
