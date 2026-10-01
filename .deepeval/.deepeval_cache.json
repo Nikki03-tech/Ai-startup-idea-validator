@@ -9,14 +9,14 @@
             "success": false,
             "strictMode": false,
             "flaky": false,
-            "evaluationModel": "gemini-3.5-flash-lite (Gemini)",
+            "evaluationModel": "gemini-3.5-flash (Gemini)",
             "evaluationCost": 0,
             "inputTokenCount": 0,
             "outputTokenCount": 0
           },
           "metric_configuration": {
             "threshold": 0.7,
-            "evaluation_model": "gemini-3.5-flash-lite (Gemini)",
+            "evaluation_model": "gemini-3.5-flash (Gemini)",
             "strict_mode": false,
             "include_reason": true
           }
@@ -28,14 +28,14 @@
             "success": false,
             "strictMode": false,
             "flaky": false,
-            "evaluationModel": "gemini-3.5-flash-lite (Gemini)",
+            "evaluationModel": "gemini-3.5-flash (Gemini)",
             "evaluationCost": 0,
             "inputTokenCount": 198,
             "outputTokenCount": 116
           },
           "metric_configuration": {
             "threshold": 0.7,
-            "evaluation_model": "gemini-3.5-flash-lite (Gemini)",
+            "evaluation_model": "gemini-3.5-flash (Gemini)",
             "strict_mode": false,
             "criteria": "\nEvaluate whether the final startup validation report is:\n\n1. Relevant to the startup idea.\n2. Grounded in the information provided by the system.\n3. Clear and understandable to a startup founder.\n4. Useful for making a startup validation decision.\n5. Free from unsupported or invented claims.\n6. Consistent with the supplied market, competitor, SWOT,\n   MVP, and GTM analysis.\n",
             "include_reason": false,
@@ -64,7 +64,7 @@
             "reason": "The score is 1.00 because the actual output directly and comprehensively addresses the startup validation request without any irrelevant statements.",
             "strictMode": false,
             "flaky": false,
-            "evaluationModel": "gemini-3.5-flash-lite (Gemini)",
+            "evaluationModel": "gemini-3.5-flash (Gemini)",
             "evaluationCost": 0,
             "inputTokenCount": 5572,
             "outputTokenCount": 1630,
@@ -72,7 +72,7 @@
           },
           "metric_configuration": {
             "threshold": 0.7,
-            "evaluation_model": "gemini-3.5-flash-lite (Gemini)",
+            "evaluation_model": "gemini-3.5-flash (Gemini)",
             "strict_mode": false,
             "include_reason": true
           }
@@ -86,7 +86,7 @@
             "reason": "The startup validation report demonstrates strong alignment with all evaluation steps. The executive summary, market analysis, competitor data, SWOT, MVP, and GTM strategy are directly relevant to the AI-powered resume and job application assistant idea for students and fresh graduates. Furthermore, all claims are strictly grounded in the supplied context, and the language is clear, understandable, and actionable for a founder making validation decisions.",
             "strictMode": false,
             "flaky": false,
-            "evaluationModel": "gemini-3.5-flash-lite (Gemini)",
+            "evaluationModel": "gemini-3.5-flash (Gemini)",
             "evaluationCost": 0,
             "inputTokenCount": 4361,
             "outputTokenCount": 203,
@@ -94,7 +94,7 @@
           },
           "metric_configuration": {
             "threshold": 0.7,
-            "evaluation_model": "gemini-3.5-flash-lite (Gemini)",
+            "evaluation_model": "gemini-3.5-flash (Gemini)",
             "strict_mode": false,
             "criteria": "\nEvaluate whether the final startup validation report is:\n\n1. Relevant to the startup idea.\n2. Grounded in the information provided by the system.\n3. Clear and understandable to a startup founder.\n4. Useful for making a startup validation decision.\n5. Free from unsupported or invented claims.\n6. Consistent with the supplied market, competitor, SWOT,\n   MVP, and GTM analysis.\n",
             "include_reason": false,
